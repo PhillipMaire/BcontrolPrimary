@@ -8,7 +8,7 @@
 % the rpbox window.
 % Is something weird still happening? 
 
-cd('C:\SoloMaster\ExperPortHLabTrainingBoxes')
+cd('C:\Users\User\Documents\GitHub\BControl_Primary\ExperPortHLabTrainingBoxes')
 
 % Exper's repository of all variables:
 global exper;
@@ -71,11 +71,11 @@ switch hostname
     
     case 's7256'
         disp(['live; fake_rp_box = ' num2str(fake_rp_box)]);
-        state_machine_properties.server = '68.181.114.133';%% Edited for Hires RTL1 RTLinux box 10/1/14
+        state_machine_properties.server = '68.181.114.126';%% Edited for Hires RTL1 RTLinux box 10/1/14
         %state_machine_properties.server = '10.102.32.36';
       %  state_machine_properties.server = '10.102.30.56';
-        state_machine_properties.sm_number = 0;
-        state_machine_properties.output_routing = {struct('type', 'dout','data', '24-31'); struct('type', 'noop','data', '31')}; % Breakout box ports 1-4, '0-9' changed from '10-19' by JS
+        state_machine_properties.sm_number = 1;
+        state_machine_properties.output_routing = {struct('type', 'dout','data', '0-7'); struct('type', 'noop','data', '7')}; % Breakout box ports 1-4, '0-9' changed from '10-19' by JS
         %state_machine_properties.input_events = [5 -5 ]; % Get beam break input from breakout box port 1
         state_machine_properties.input_events = [1 -1 2 -2]; % Get beam break input from breakout box port 1
        

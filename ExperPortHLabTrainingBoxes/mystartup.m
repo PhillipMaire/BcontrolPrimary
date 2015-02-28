@@ -76,7 +76,7 @@ switch hostname
       %  state_machine_properties.server = '10.102.30.56';
         state_machine_properties.sm_number = 1;
         state_machine_properties.output_routing = {struct('type', 'dout','data', '0-7'); struct('type', 'noop','data', '7')}; % Breakout box ports 1-4, '0-9' changed from '10-19' by JS
-        state_machine_properties.input_events = [1 -1]; % Get beam break input from breakout box port 1
+        state_machine_properties.input_events = [2 -2]; % Get beam break input from breakout box port 1
        % state_machine_properties.input_events = [1 -1 16 -16]; % Get beam break input from breakout box port 1
        
        %motors_properties.type = '@FakeZaberTCD1000';

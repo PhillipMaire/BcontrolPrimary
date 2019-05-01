@@ -63,7 +63,7 @@ for i=1:nreg_states-1,
 
     for j=1:nlegal_states-1 % The regular-sized legal poke-out states
         pokeback = start + (j-1)*(nlegal_states+1) + (i-1)*(nlegal_states+1);
-        if pokeback <= start + (nreg_states-1)*(nlegal_states-1) % take care of timelength constraint
+        if pokeback <= start + (nreg_states-1)*(nlegal_states-1) % take care of timelength constrAInt
             stm = [stm ;
                 pokeback  b+j   ps  ps    ps  ps    b+j+1    granularity  0  0];
         else % We're done here-- but must end with poke back in!

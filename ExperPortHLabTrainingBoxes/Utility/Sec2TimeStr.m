@@ -1,5 +1,5 @@
 function timestr = Sec2TimeStr(sec)
-% TIMESTR = SEC2TIMESTR(SEC)
+% TIMESTR = Sec2TimeStr(SEC)
 % convert time in seconds to a pretty format in hours, minutes
 
    hours = floor(sec/3600);

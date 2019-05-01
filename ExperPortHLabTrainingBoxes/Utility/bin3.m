@@ -1,18 +1,18 @@
 function y = bin3(x,s)
-% BIN3  Bin pixels in an image stack by averaging neighborhoods
+% bin3  Bin pixels in an image stack by averaging neighborhoods
 %
-%	Y = BIN3(X,[N M L]) averages pixels in NxMxL neighborhoods of X,
+%	Y = bin3(X,[N M L]) averages pixels in NxMxL neighborhoods of X,
 %  forming a new 3D array with dimensions reduced by a factor on N, M, L
 %  X must be a 3 dimensional array and should have length and
 %  width divisible by the integers N & M & L respectively.
 % 
 %  NOTE: works with 
 % 
-%	Y = BIN3(X,N) assumes M=N=L, a cubic neighborhood
+%	Y = bin3(X,N) assumes M=N=L, a cubic neighborhood
 %
-%  Y = BIN3(X) assumes neighborhood of 2x2x2
+%  Y = bin3(X) assumes neighborhood of 2x2x2
 % 
-%  Z. Mainen
+%  Z. MAInen
 %  Cold Spring Harbor Lab
 %  Jan, 2000
 %
@@ -30,7 +30,7 @@ else
 end
 
 if sum(mod(size(x),[n m l]))
-   error('BIN2: Array size must be a multiple of bin sizes')
+   error('bin2: Array size must be a multiple of bin sizes')
 end
 
 w = size(x,1)/n;

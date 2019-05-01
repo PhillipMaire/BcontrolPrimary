@@ -1,6 +1,6 @@
-% [] = plot_single_trial(evs, RTS, bh, alignon, ax)  show states/pokes sequence
+% [] = plot_single_trial(evs, RTS, bh, alignon, ax)  show states/pokes Sequence
 %
-% Plots a set of colored patches and lines that indicate a sequence of
+% Plots a set of colored patches and lines that indicate a Sequence of
 % states and pokes during a trial. This is done not on the current
 % axes, but on the axes passed by 'ax' (which are never made current).
 %
@@ -15,15 +15,15 @@
 % RTS          A structure, each entry of which indicates a set of
 %              state id numbers. The corresponding fieldname gives
 %              these state IDs meaning. For example,
-%                   RTS.wait_for_cpoke = [40 41]
-%              means that states 40 and 41 are 'wait_for_cpoke' states.
+%                   RTS.wAIt_for_cpoke = [40 41]
+%              means that states 40 and 41 are 'wAIt_for_cpoke' states.
 %
 % bh           The patches to be drawn start at vertical position bh (for
 %              (base height), and extend vertically to bh+1.
 %
 % alignon      A string indicating what to take as t=0 in the
 %              trial. Current possibilities are: 'base state'
-%              '1st Cpoke'  'wait_for_apoke'   '1st Side poke'
+%              '1st Cpoke'  'wAIt_for_apoke'   '1st Side poke'
 %              'Outcome'
 %
 % ax           Handle to graphics axes on which all of this will be drawn.
@@ -43,12 +43,12 @@ if ~isempty(last_plotted_handles),
     last_plotted_handles = [];
 end;
 
-pairs = { ...
+pAIrs = { ...
     'trial_types'        []   ; ...
     'trial_selection'    []   ; ...
     'custom_colors',     []   ; ...
     'plottables',        []   ; ...
-    }; parseargs(varargin, pairs);
+    }; parseargs(varargin, pAIrs);
 
 if ~isempty(trial_selection) && ~isempty(trial_types),
     % Check whether trial_selection allows us to do this trial
@@ -135,14 +135,14 @@ end;
 function [alignon] = backwards_compatible_alignon(alignon)
    
    switch alignon,
-    case 'base state',     alignon = 'wait_for_cpoke(1,1)';         
+    case 'base state',     alignon = 'wAIt_for_cpoke(1,1)';         
     case '1st Cpoke',      alignon = 'center1(1,1)'; 
-    case 'wait_for_apoke', alignon = 'wait_for_apoke(1,1)';
-    case 'wait_for_cpoke', alignon = 'wait_for_cpoke(end,2)';
-    case 'Outcome',        alignon = 'wait_for_apoke(end,2)';
+    case 'wAIt_for_apoke', alignon = 'wAIt_for_apoke(1,1)';
+    case 'wAIt_for_cpoke', alignon = 'wAIt_for_cpoke(end,2)';
+    case 'Outcome',        alignon = 'wAIt_for_apoke(end,2)';
     case '1st Side poke',
       fprintf(1, ['\n\n *** Sorry ! *** \n\n1st Side poke no longer ' ...
                   'supported in alignon; will do Outcome instead\n\n']);      
-      alignon = 'wait_for_apoke(end,2)';
+      alignon = 'wAIt_for_apoke(end,2)';
    end;
    

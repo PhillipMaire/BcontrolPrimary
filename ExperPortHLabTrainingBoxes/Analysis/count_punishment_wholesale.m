@@ -3,7 +3,7 @@ function [count_list, salvage] = count_punishment_wholesale()
 ratname = 'chanakya';
 task = 'dual_discobj';
 
-dates = available_dates(ratname,task);
+dates = avAIlable_dates(ratname,task);
 if strcmpi(ratname, 'cuauhtemoc') || strcmpi(ratname, 'moctezuma')
     i = find(strcmp(dates, '051018a')); % Date when BadBoySPL and WN_SPL had been implemented + 1
     dates = dates(i:end);

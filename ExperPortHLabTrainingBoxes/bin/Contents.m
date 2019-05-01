@@ -1,4 +1,4 @@
-% This directory contains verious miscellany functions that are useful
+% This directory contAIns verious miscellany functions that are useful
 % in general, not just for protocol writing. They don't depend on the
 % Solo system at all.
 %

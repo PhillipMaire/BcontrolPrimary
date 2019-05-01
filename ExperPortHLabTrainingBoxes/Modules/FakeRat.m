@@ -1,5 +1,5 @@
 function out = FakeRat(varargin)
-% FAKERATE
+% FakeRatE
 % 
 % Send signals through AO to test
 % RP2 as if there were a rat in the box
@@ -20,8 +20,8 @@ switch action
         
         fig = ModuleFigure(me,'visible','off');	
         
-        SetParam(me,'priority','value',GetParam('rpbox','priority')+1);
-        ModuleNeeds(me,{'ao'});
+        SetParam(me,'priority','value',GetParam('RPbox','priority')+1);
+        ModuleNeeds(me,{'AO'});
         
         hs = 60;
         h = 5;
@@ -38,38 +38,38 @@ switch action
         InitParam(me,'AOData','value',0);
         InitParam(me,'LastPokeState','value',0);
         
-        % message box
-        uicontrol('parent',fig,'tag','message','style','edit',...
+        % Message box
+        uiControl('parent',fig,'tag','Message','style','edit',...
             'enable','inact','horiz','left','pos',[h n*vs hs*2.5 vs]); n=n+1;
         
         set(fig,'pos',[142 480-n*vs 160 n*vs],'visible','on');
-        a=daqhwinfo(exper.ai.daq);
+        a=daqhwinfo(exper.AI.daq);
         if strcmp(a.DeviceName,'PCI-6014')
-            set(exper.ai.daq,'Transfermode','Interrupts');
+            set(exper.AI.daq,'Transfermode','Interrupts');
         end
-        SetParam('ao','send',1);
+        SetParam('AO','send',1);
         set_data;
         
     case 'slice'
         
     case 'trigger'
-        message(me,'Ok');
+        Message(me,'Ok');
         
         
     case 'trialend'
         SaveParamsTrial(me);
-        fakerat('compare',GetParam('control','trial'));
+        FakeRat('compare',GetParam('Control','trial'));
         set_data;  
         
     case 'close'
-        a=daqhwinfo(exper.ai.daq);
+        a=daqhwinfo(exper.AI.daq);
         if strcmp(a.DeviceName,'PCI-6014')
-            set(exper.ai.daq,'Transfermode','SingleDMA');
+            set(exper.AI.daq,'Transfermode','SingleDMA');
         end    
-        SetParam('ao','send',0);
+        SetParam('AO','send',0);
         
     case 'reset'
-        message(me,'Ok');
+        Message(me,'Ok');
         set_data;  
 
         ClearParamTrials(me);
@@ -80,14 +80,14 @@ switch action
         % handle UI parameter callbacks
         
     case {'lambda','min','on'}
-        if ~GetParam('control','run')
+        if ~GetParam('Control','run')
             set_data;
         end
          
         
     case 'compare'
         if nargin < 2
-            trial = GetParam('control','trial')-1;
+            trial = GetParam('Control','trial')-1;
         else
             trial = varargin{2};
         end
@@ -111,13 +111,13 @@ function set_data
 global exper
 
 if GetParam(me,'On') == 0
-    % need to clear ao
+    % need to clear AO
     return;
 end
 
 %samprate = 8000; % sample rate in Hz
-samprate = GetParam('ao','samplerate');
-L = ao('samples');
+samprate = GetParam('AO','samplerate');
+L = AO('samples');
 
 % mean rate in Hz
 mu = GetParam(me,'lambda');
@@ -138,7 +138,7 @@ times = times(find(times < L/samprate));
 % end
 
 %try to set the state according to the last trial
-trial = GetParam('control','trial');
+trial = GetParam('Control','trial');
 state = GetParam(me,'LastPokeState');
 
 y = zeros(round(L),1);
@@ -156,7 +156,7 @@ y(last_ind:end) = state;
 
 volts = 5;  % set output range
 y = y*volts; 
-ao('setdata',[y y]);
+AO('setdata',[y y]);
 
 SetParam(me,'times',times);
 SetParam(me,'pokes',pokes);
@@ -176,19 +176,19 @@ if GetParam(me,'On') == 0
     return;
 end
 
-trialtime = etime(GetParamTrial('control','trialstart',trial),GetParam('control','start'));
+trialtime = etime(GetParamTrial('Control','trialstart',trial),GetParam('Control','start'));
 
 my_times = GetParamTrial(me,'times',trial);
 my_pokes = GetParamTrial(me,'pokes',trial);
 
-rp2_field = GetParamTrial('rpbox','trial_events',trial);
+rp2_field = GetParamTrial('RPbox','trial_events',trial);
 for i=1:length(rp2_field)
     rp2_times(i) = rp2_field(i).time -trialtime;
     rp2_chan(i) = rp2_field(i).chan;
 end
 
 if isempty(rp2_field) | isempty(rp2_times) | isempty(my_times)
-    message(me,'Problem: no data','error');
+    Message(me,'Problem: no data','error');
     return;
 end
 
@@ -216,9 +216,9 @@ diff_times = my_times-rp2_match_times;
 
 missed = length(rp2_err_times);
 if missed > 0
-    message(me,sprintf('Trial %d: missed %d/%d events',trial,missed,length(rp2_times)),'error');
+    Message(me,sprintf('Trial %d: missed %d/%d events',trial,missed,length(rp2_times)),'error');
 else
-    message(me,sprintf('Trial %d: Found %d matching events',trial,length(rp2_times)));
+    Message(me,sprintf('Trial %d: Found %d matching events',trial,length(rp2_times)));
 end
 
 if GetParam(me,'ShowFig')
@@ -227,17 +227,17 @@ if GetParam(me,'ShowFig')
         plot(rp2_err_times,zeros(1,missed),'r*'); 
     end
     
-    AOData=getparam(me,'AOData');
-    time_base = (1:length(AOData))/GetParam('ao','samplerate');
+    AOData=GetParam(me,'AOData');
+    time_base = (1:length(AOData))/GetParam('AO','samplerate');
     
     g = axis;
-    axis([0 GetParam('control','trialdur') -1 2]); hold on;
+    axis([0 GetParam('Control','trialdur') -1 2]); hold on;
     cla
     xlabel('Event times (s)');
     ylabel('Event');
     set(gca,'YTick',[0 1],'YTickLabel',{'Out','In'});
     mm = sqrt(mean(diff_times.^2))*1000;
-    title(sprintf('Trial %d: Fakerat RMS time err: %3.3g ms',trial,mm));
+    title(sprintf('Trial %d: FakeRat RMS time err: %3.3g ms',trial,mm));
     %plot(rp2_times,ones(1,length(rp2_times)),'x');  hold on;
     plot(my_times,mod(my_pokes+1,2),'bo');  
     plot(time_base,AOData/5,'b');  hold on;

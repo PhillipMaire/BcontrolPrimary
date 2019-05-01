@@ -4,24 +4,24 @@
 % Finds those SoloParamHandles that regexp match the indicated owner
 % (default: all owners), and that have the indicated name (default: all
 % names), and indicated fullname (default: all) and permanently deletes
-% them. An optional cell list of handles can also be passed; in that
+% them. An Optional cell list of handles can also be passed; in that
 % case the search and destroy will be limited to those handles listed. 
 %
 % RETURNS:   n,  the number of handles deleted
 % --------
 %
-% OPTIONAL PARAMS:
+% OptIONAL PARAMS:
 % ----------------
 %
 % 'owner'       A string expression, default '.*' that will be matched
-%               against the 'owner' tag of a SoloParamHandle.
+%               agAInst the 'owner' tag of a SoloParamHandle.
 %
 % 'name'        A string expression, default '.*' that will be matched
-%               against the 'name' tag of a SoloParamHandle. This
+%               agAInst the 'name' tag of a SoloParamHandle. This
 %               generally matches the ordinary name of the variable.
 %
 % 'fullname'    A string expression, default '.*' that will be matched
-%               against the 'fullname' tag of a SoloParamHandle. This tag
+%               agAInst the 'fullname' tag of a SoloParamHandle. This tag
 %               includes the name of the function within which the
 %               variable lives, as well as the name of the variable
 %               itself. 
@@ -47,12 +47,12 @@ function [n] = delete_sphandle(varargin)
    global private_soloparam_list;
    psl = private_soloparam_list;
 
-   pairs = { ...
+   pAIrs = { ...
        'owner'        '.*'   ; ...
        'name'         '.*'   ; ...
        'fullname'     '.*'   ; ...
        'handlelist'    psl   ; ...
-   }; parseargs(varargin, pairs);
+   }; parseargs(varargin, pAIrs);
 
    if isempty(handlelist), return; end;
    if isa(handlelist{1}, 'SoloParamHandle'), full_splist_fg = 0;

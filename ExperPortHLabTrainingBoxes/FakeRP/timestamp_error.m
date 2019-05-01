@@ -1,4 +1,4 @@
-function [] = timestamp_error(time, message)
+function [] = timestamp_error(time, Message)
    
    return;
    
@@ -6,6 +6,6 @@ function [] = timestamp_error(time, message)
    callername = st(2).file;
    
    fp = fopen('debug_out.txt', 'a');
-   fprintf(fp, '%g : %s : %s\n', time, callername, message);
+   fprintf(fp, '%g : %s : %s\n', time, callername, Message);
    fclose(fp);
    

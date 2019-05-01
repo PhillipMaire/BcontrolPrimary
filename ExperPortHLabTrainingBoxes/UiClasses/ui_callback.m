@@ -13,7 +13,7 @@ function [] = ui_callback(obj, eventdata, uph)
            
        case 'popupmenu',
            string = get(obj, 'String');
-           val    = get(obj, 'Value');
+           val    = get(obj, 'value');
            numval = str2num(string{val});
            if isempty(numval), uph.value = string{val};
            else                uph.value = numval;

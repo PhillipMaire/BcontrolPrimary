@@ -1,9 +1,9 @@
 function out = Control(varargin)
-% CONTROL(ACTION,[NAME])
+% Control(ACTION,[NAME])
 % Call them all or just one called NAME.
 % ACTION is 'init', 'sweep', 'trial', 'close'.
 % 'init' must be called with module NAME and
-% optionally with it's priority.
+% Optionally with it's priority.
 %
 % ZFM
 %
@@ -43,8 +43,8 @@ case 'init'
 
 	InitParam(me,'user','value',user,'ui','edit','tooltip','Used to keep track of prefs and window layout');
     InitParam(me,'expid','value','z001a','ui','edit');
-	InitParam(me,'sequence','list',{});
-	InitParam(me,'priority','value',0);		% control is not called like a normal module!
+	InitParam(me,'Sequence','list',{});
+	InitParam(me,'priority','value',0);		% Control is not called like a normal module!
 	
 	InitParam(me,'TrialDur','ui','edit','value',20,'pref',1,'save',1,'pos',[h n*vs hs vs]); n=n+1;
 	InitParam(me,'SliceRate','ui','edit','format','%d','value',0,'pref',1,'pos',[h n*vs hs vs]); n=n+1;
@@ -68,15 +68,15 @@ case 'init'
 	SetParamUI(me,'Run','string','Run','label',''); 
     
     % reset
-	uicontrol(fig,'string','Reset','tag','reset','style','pushbutton',...
+	uiControl(fig,'string','Reset','tag','reset','style','pushbutton',...
 		'callback',[me '(''sure_reset'');'],'foregroundcolor',[.9 0 0],'pos',[h+hs n*vs hs vs]); 
     n=n+1;
 
     
-%    uicontrol(fig,'tag','save_matfile_button','callback',[me ';'],'string','Save','pos',[h+hs n*vs hs vs]); n=n+1;
+%    uiControl(fig,'tag','save_matfile_button','callback',[me ';'],'string','Save','pos',[h+hs n*vs hs vs]); n=n+1;
 	
-	% message box
-	uicontrol(fig,'tag','message','style','edit',...
+	% Message box
+	uiControl(fig,'tag','Message','style','edit',...
 		'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n = n+1;
 
  	InitParam(me,'matfile','value','');
@@ -105,9 +105,9 @@ case 'init'
 
 	set(fig,'pos',[5 768-n*vs-40 128 n*vs]);
 
-	out = sequence;
+	out = Sequence;
 	
-	CallModules(GetParam(me,'sequence','list'),'trialready');
+	CallModules(GetParam(me,'Sequence','list'),'trialready');
     
     
     
@@ -130,13 +130,13 @@ case 'reinit'
 %	InitParam(me,'ExpTime','pref',0,'ui','disp','format','clock','save',1,'pos',[h n*vs hs vs]); n=n+1;
 	InitParam(me,'TrialStart','value',clock,'format','clock','save',1);
     
-    InitParam(me,'sequence','list',{});
-    InitParam(me,'priority','value',0);		% control is not called like a normal module!
+    InitParam(me,'Sequence','list',{});
+    InitParam(me,'priority','value',0);		% Control is not called like a normal module!
     
     InitParam(me,'Trial','pref',0,'ui','edit','format','%d','value',0,'range',[0 0],'pos',[h n*vs hs vs]);
-    SetParamUI(me,'trial','callback','control(''trialreview'');');
-    uicontrol(fig,'tag','trial_plus','string','+','pos',[115 n*vs+2 15 15],'callback',[me ';']); 
-    uicontrol(fig,'tag','trial_minus','string','-','pos',[100 n*vs+2 15 15],'callback',[me ';']); n=n+1;
+    SetParamUI(me,'trial','callback','Control(''trialreview'');');
+    uiControl(fig,'tag','trial_plus','string','+','pos',[115 n*vs+2 15 15],'callback',[me ';']); 
+    uiControl(fig,'tag','trial_minus','string','-','pos',[100 n*vs+2 15 15],'callback',[me ';']); n=n+1;
     
 	InitParam(me,'ExpTime','pref',0,'ui','disp','format','clock','pos',[h n*vs hs vs]); n=n+1;
 
@@ -144,8 +144,8 @@ case 'reinit'
     InitParam(me,'user','pref',0,'ui','edit','value',user,'pos',[h n*vs hs vs]); n=n+1;
 
     
-	% message box
-	uicontrol(fig,'tag','message','style','edit',...
+	% Message box
+	uiControl(fig,'tag','Message','style','edit',...
 		'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n = n+1;
 	InitParam(me,'matfile','value','');
 
@@ -172,7 +172,7 @@ case 'reinit'
 
 	set(fig,'pos',[5 768-n*vs-40 128 n*vs]);
     
-   	out = sequence;
+   	out = Sequence;
 
 	
 	
@@ -180,7 +180,7 @@ case 'slice'
 	if GetParam(me,'slice') == 0
 		CallModule(me,'trial');
     else
-		CallModules(GetParam(me,'sequence','list'),'slice');
+		CallModules(GetParam(me,'Sequence','list'),'slice');
 		
 		% call once per sec
 		if ~mod(GetParam(me,'slice'),GetParam(me,'slicerate'))
@@ -189,8 +189,8 @@ case 'slice'
 		SetParam(me,'trialtime',slice2time(GetParam(me,'slice')));
         
 		if GetParam(me,'endtrial') | GetParam(me,'slice') >= GetParam(me,'SlicePerTrial')
-            if ExistParam('ai','open') & Getparam('ai','open')  % Modified by Lung-Hao Tai, 05/01/2003
-                stop(exper.ai.daq);                             % important for slice mode, prevent AI trigger extra slice causing AI to stop; 10/13/2003 Lung-Hao Tai
+            if ExistParam('AI','open') & GetParam('AI','open')  % Modified by Lung-HAO TAI, 05/01/2003
+                stop(exper.AI.daq);                             % important for slice mode, prevent AI trigger extra slice causing AI to stop; 10/13/2003 Lung-HAO TAI
             end            
             CallModule(me,'trial');
         else
@@ -205,27 +205,27 @@ case 'trial'
     SetParam(me,'exptime',etime(clock,GetParam(me,'start')));	
     
   	SaveParamsTrial(me);
-	CallModules(GetParam(me,'sequence','list'),'trialend');
+	CallModules(GetParam(me,'Sequence','list'),'trialend');
 	
 	% deal with the ending of the last trial
 	SetParam(me,'endtrial',0);
 	
 	% now get ready for the next trial
-	if ExistParam('ao')
-		ao('pause')
+	if ExistParam('AO')
+		AO('pause')
 	end
 
 
 	
 	if GetParam(me,'run') & GetParam(me,'advance')
-		message(me,'Inter-trial pause...');
+		Message(me,'Inter-trial pause...');
 		
 		elapsed = etime(clock,GetParam(me,'trialstart'));	
 		
 		n = ceil(GetParam(me,'iti')-elapsed);
 		
 		while n>0 & GetParam(me,'run')
-			message(me,sprintf('Inter-trial pause %d',n));
+			Message(me,sprintf('Inter-trial pause %d',n));
 			pause(1);
 			n=n-1
 		end
@@ -238,7 +238,7 @@ case 'trial'
 
 	AddParam(me,'trial',1);
 
-	CallModules(GetParam(me,'sequence','list'),'trialready');
+	CallModules(GetParam(me,'Sequence','list'),'trialready');
 
 	% we may start another trial
 	if GetParam(me,'endexp') | ~GetParam(me,'advance')
@@ -253,12 +253,12 @@ case 'trial'
 
 	
 case 'close'
-%	CallModules(GetParam(me,'sequence','list'),'close');
+%	CallModules(GetParam(me,'Sequence','list'),'close');
 % called in ModuleClose instead
 
 
 case 'preload'
-    CallModules(GetParam(me,'sequence','list'),'preload');
+    CallModules(GetParam(me,'Sequence','list'),'preload');
     
     
 case 'load'
@@ -268,8 +268,8 @@ case 'load'
 case 'trialreview'
 %    update_review_params(GetParam(me,'trial'));
     if GetParam(me,'trial') > 0
-%        UpdateReviewParams('control',GetParam(me,'trial'));
-        CallModules(GetParam(me,'sequence','list'),'trialreview');
+%        UpdateReviewParams('Control',GetParam(me,'trial'));
+        CallModules(GetParam(me,'Sequence','list'),'trialreview');
     end
 
 
@@ -303,7 +303,7 @@ case 'new_analyze'
 	SetParam(me,'trialtime',0);
 	Message(me);
     
-	CallModules(GetParam(me,'sequence','list'),'reset');
+	CallModules(GetParam(me,'Sequence','list'),'reset');
     
 
     
@@ -318,9 +318,9 @@ case 'new_acquire' % used to be called 'reset'
     end
     
 	SetParam(me,'run',0);
-	CallModules(GetParam(me,'sequence','list'),'reset');
+	CallModules(GetParam(me,'Sequence','list'),'reset');
     
-    CallModules(GetParam(me,'sequence','list'),'slicerate')
+    CallModules(GetParam(me,'Sequence','list'),'slicerate')
 	
 %	trigger now will turn things off
 	trigger;
@@ -338,25 +338,25 @@ case 'new_acquire' % used to be called 'reset'
 
     set(findobj(gcf,'tag','save_matfile_button'),'background',get(gcf,'color'),'enable','on');
    
-	CallModules(GetParam(me,'sequence','list'),'trialready');
+	CallModules(GetParam(me,'Sequence','list'),'trialready');
 
-% from M Wehr & L Tai 9/15/01    
+% from M Wehr & L TAI 9/15/01    
 case 'sure_reset'
     name = questdlg('Would you like to save Exper?');
     if strcmp(name,'Yes')
-        control('save_as_matfile');   
+        Control('save_as_matfile');   
     end
 	 name = questdlg('Are you sure you want to reset all data and create a new Exper?');
     if strcmp(name,'Yes')
-        control('reset');   
+        Control('reset');   
     end    
     
     
 case 'reset'
 	SetParam(me,'run',0);
-	CallModules(GetParam(me,'sequence','list'),'reset');
+	CallModules(GetParam(me,'Sequence','list'),'reset');
     
-    CallModules(GetParam(me,'sequence','list'),'slicerate')
+    CallModules(GetParam(me,'Sequence','list'),'slicerate')
 	
 %	trigger now will turn things off
 	trigger;
@@ -372,7 +372,7 @@ case 'reset'
     
     check_paths;
 
-	CallModules(GetParam(me,'sequence','list'),'trialready');
+	CallModules(GetParam(me,'Sequence','list'),'trialready');
 
 	
 	
@@ -383,16 +383,16 @@ case 'run'
 	
 case 'trialdur'
 	AI('samplerate');
-	if existparam('ao','board') % LHT
+	if ExistParam('AO','board') % LHT
 		AO('reset');
 	end
-	CallModules(GetParam(me,'sequence','list'),'slicerate');
+	CallModules(GetParam(me,'Sequence','list'),'slicerate');
 	
 case 'slicerate'
 	if GetParam(me,'SliceRate') == 0
 		SetParam(me,'SlicePerTrial',1);
 	end
-	CallModules(GetParam(me,'sequence','list'),'slicerate');
+	CallModules(GetParam(me,'Sequence','list'),'slicerate');
     
 case 'save_matfile_button'
     save_matfile;
@@ -411,10 +411,10 @@ case 'open_matfile'
     % called when reviewing data
     ok = open_exper;
     if ok
-        SetParam(me,'trial','range',[1 length(exper.control.param.trialstart.trial)],'value',1);
-        message(me,'Opened matfile');
+        SetParam(me,'trial','range',[1 length(exper.Control.param.trialstart.trial)],'value',1);
+        Message(me,'Opened matfile');
     else
-        message(me,'Problem opening experiment','error');
+        Message(me,'Problem opening experiment','error');
     end
 
     
@@ -422,10 +422,10 @@ case 'restore_matfile'
     % called when acquiring data
     ok = open_exper;  
     if ok
-    	CallModules(GetParam(me,'sequence','list'),'trialready');
-        message(me,'Restored matfile');
+    	CallModules(GetParam(me,'Sequence','list'),'trialready');
+        Message(me,'Restored matfile');
     else
-        message(me,'Problem opening experiment','error');
+        Message(me,'Problem opening experiment','error');
     end
     
     
@@ -438,23 +438,23 @@ case 'autosave'
     end
     
 case 'restore_prefs'
-    message(me,sprintf('Restoring %s prefs...',GetParam(me,'user')));
+    Message(me,sprintf('Restoring %s prefs...',GetParam(me,'user')));
 	RestorePrefs(GetParam(me,'user'));
     restore_layout;
-    message(me,'');
+    Message(me,'');
     
     
 case 'save_prefs'
-    message(me,sprintf('Saving %s prefs...',GetParam(me,'user')));
+    Message(me,sprintf('Saving %s prefs...',GetParam(me,'user')));
 	SavePrefs(GetParam(me,'user'));
     save_layout;
-    message(me,'');
+    Message(me,'');
     
 case 'clear_prefs'
 	if ispref(GetParam(me,'user'))
         rmpref(GetParam(me,'user'));
     end
-    message(me,sprintf('Cleared %s prefs',GetParam(me,'user')));
+    Message(me,sprintf('Cleared %s prefs',GetParam(me,'user')));
 
 
 	
@@ -503,14 +503,14 @@ case 'modreload'
     
 case 'save_layout'
     save_layout;
-    message(me,'Saved layout');
+    Message(me,'Saved layout');
     
 case 'restore_layout'
     restore_layout;
-    message(me,'Restored layout');
+    Message(me,'Restored layout');
     
-case 'sequence'
-	out = sequence;
+case 'Sequence'
+	out = Sequence;
 	
 	
 case 'slice2time'
@@ -534,7 +534,7 @@ function out = callback
 	out = [lower(mfilename) ';'];
 
 	
-function out = sequence
+function out = Sequence
 global exper
 
 	seq = {};
@@ -553,7 +553,7 @@ global exper
 			n=n+1;
 		end
 	end
-	SetParam(me,'sequence','list',seq,'value',1);
+	SetParam(me,'Sequence','list',seq,'value',1);
 	SetParam(me,'dependents','list',seq,'value',1);
 	out = seq;
 
@@ -568,9 +568,9 @@ global exper
 	[filename, pathname] = uiputfile(filterspec, prompt);
 	if filename == 0 return; end
 	
-	message(me, sprintf('Saving %s...',filename));
+	Message(me, sprintf('Saving %s...',filename));
     save([pathname filename], 'exper');
-    message(me,'');
+    Message(me,'');
 	SetParam(me,'matfile',filename);
 	SetParam(me,'datapath',pathname);
     
@@ -584,9 +584,9 @@ global exper
     end
     pathname = GetParam(me,'datapath');
     if size(dir([pathname filename ]),1) |size(dir([pathname filename '.mat']),1)
-        name = questdlg(['Data file ' pathname filename  ' exists. Do you want to overwrite?']); %ask user to be sure to overwrite data file; 02/08/2004 Lung-Hao Tai
+        name = questdlg(['Data file ' pathname filename  ' exists. Do you want to overwrite?']); %ask user to be sure to overwrite data file; 02/08/2004 Lung-HAO TAI
         if strcmp(name,'Yes')
-            message(me, sprintf('Saving %s...',filename));
+            Message(me, sprintf('Saving %s...',filename));
             save([pathname filename], 'exper');
         elseif strcmp(name,'No')   
             save_as_matfile;
@@ -594,10 +594,10 @@ global exper
             return;
         end
     else
-        message(me, sprintf('Saving %s...',filename));
+        Message(me, sprintf('Saving %s...',filename));
         save([pathname filename], 'exper');
     end
-    message(me,'');
+    Message(me,'');
     
 
 function ok = open_exper
@@ -615,34 +615,34 @@ global exper
 	SetParam(me,'datapath',pathname);
 
     % get the module list before loading the structure
-    modules = GetParam(me,'sequence','list');
+    modules = GetParam(me,'Sequence','list');
     
-    message(me,sprintf('Loading %s...',filename));
-    control('preload');
+    Message(me,sprintf('Loading %s...',filename));
+    Control('preload');
     try
         load([pathname filename], 'exper');
     catch
     end
-    message(me,'');
+    Message(me,'');
 	
-    control('load');
+    Control('load');
     CallModules(modules,'load');
 
 
 function time = slice2time(slice,sample)
-time = slice * GetParam('ai','SamplesPerSlice')/GetParam('ai','SampleRate');
+time = slice * GetParam('AI','SamplesPerSlice')/GetParam('AI','SampleRate');
 if nargin > 1
-	time = time + sample/GetParam('ai','SampleRate');
+	time = time + sample/GetParam('AI','SampleRate');
 end
 
 function slice = time2slice(time)
-slice = floor(time * GetParam('ai','SampleRate')/GetParam('ai','SamplesPerSlice'));
+slice = floor(time * GetParam('AI','SampleRate')/GetParam('AI','SamplesPerSlice'));
 
 
 function trigger
 global exper
 
-	message(me,'');
+	Message(me,'');
 
 	SetParam(me,'trialstart',clock);
 
@@ -651,44 +651,44 @@ global exper
         SetParamUI(me,'slicerate','disable');
         SetParamUI(me,'trialdur','disable');
         
-        if ExistParam('ai','open')           % 		Modified by Lung-Hao Tai, 05/01/2003
+        if ExistParam('AI','open')           % 		Modified by Lung-HAO TAI, 05/01/2003
             AI('slicerate');
 		end
         
-        % first start ao, which either waits for trigger or 
+        % first start AO, which either wAIts for trigger or 
 		% starts immediately
-		if ExistParam('ao','samplerate') & GetParam('ao','open')    % LHT
-            ao('trigger');
+		if ExistParam('AO','samplerate') & GetParam('AO','open')    % LHT
+            AO('trigger');
 		end
-        if ExistParam('till','on')
-            till('trigger');
+        if ExistParam('Till','on')
+            Till('trigger');
         end
-        if ExistParam('ai','open')           % 		Modified by Lung-Hao Tai, 05/01/2003
-            ai('trigger');
+        if ExistParam('AI','open')           % 		Modified by Lung-HAO TAI, 05/01/2003
+            AI('trigger');
         end
-        if ExistParam('rpbox','open')       % 		Modified by Lung-Hao Tai, 05/01/2003
-            rpbox('trigger');
+        if ExistParam('RPbox','open')       % 		Modified by Lung-HAO TAI, 05/01/2003
+            RPbox('trigger');
         end
-        if ExistParam('dio','open')          % 		Modified by Lung-Hao Tai, 05/01/2003
-            dio('trigger');
+        if ExistParam('Dio','open')          % 		Modified by Lung-HAO TAI, 05/01/2003
+            Dio('trigger');
         end
-		message(me,sprintf('Acquiring %d sec trial...',GetParam(me,'trialdur')));
-        if ExistParam('orca','open')         % 		Modified by Lung-Hao Tai, 05/01/2003
+		Message(me,sprintf('Acquiring %d sec trial...',GetParam(me,'trialdur')));
+        if ExistParam('Orca','open')         % 		Modified by Lung-HAO TAI, 05/01/2003
             Orca('focus',0);
-            orca('trigger');
+            Orca('trigger');
         end
     else
-        if ExistParam('ai')
-            ai('pause');
+        if ExistParam('AI')
+            AI('pause');
         end
-		if ExistParam('ao')
-			ao('pause');
+		if ExistParam('AO')
+			AO('pause');
 		end
-	     if ExistParam('rpbox','open')       % 		Modified by Lung-Hao Tai, 05/01/2003
-            rpbox('pause');
+	     if ExistParam('RPbox','open')       % 		Modified by Lung-HAO TAI, 05/01/2003
+            RPbox('pause');
         end
-% 		SetParam('control','run',0);    % unnecessary  
-% 		Modified by Lung-Hao Tai, 05/01/2003
+% 		SetParam('Control','run',0);    % unnecessary  
+% 		Modified by Lung-HAO TAI, 05/01/2003
 
 	%	SetParamUI(me,'run','BackgroundColor',get(gcf,'Color'));
     
@@ -717,7 +717,7 @@ uimenu(men,'tag','restore_layout','label','Restore layout','callback',callback);
 		if ~w(p).isdir
 			name = lower(m(1:end-2));
 			switch name
-			case {'control', 'exper', 'rexper'}
+			case {'Control', 'exper', 'RExper'}
 				% ignore these
 			otherwise
 				op = 0;
@@ -757,7 +757,7 @@ global exper
 	SetParam(me,name,path);
 	
 	prefstr = sprintf('%s_%s',me,name);
-	setpref(GetParam(me,'user'),prefstr,path);
+	SetPref(GetParam(me,'user'),prefstr,path);
 
 		
     
@@ -773,7 +773,7 @@ global exper
 		CallModule(me,'init');
 	end
     
-    CallModules(GetParam(me,'sequence','list'),'check_paths');
+    CallModules(GetParam(me,'Sequence','list'),'check_paths');
     
     
     
@@ -781,8 +781,8 @@ function save_layout
 global exper
 
     user = GetParam(me,'user');
-    modules = GetParam(me,'sequence','list');
-    modules{end+1} = 'control';
+    modules = GetParam(me,'Sequence','list');
+    modules{end+1} = 'Control';
     for n=1:length(modules)
         evalc(sprintf('SavePos(''%s'',''%s'');',user,modules{n}));
     end        
@@ -792,8 +792,8 @@ function restore_layout
 global exper
 
     user = GetParam(me,'user');
-    modules = GetParam(me,'sequence','list');
-    modules{end+1} = 'control';
+    modules = GetParam(me,'Sequence','list');
+    modules{end+1} = 'Control';
     for n=1:length(modules)
         if ExistParam(modules{n})
             evalc(sprintf('RestorePos(''%s'',''%s'');',user,modules{n}));
@@ -811,8 +811,8 @@ global exper
         return
     end
 
-    modules = GetParam(me,'sequence','list');
-    modules{end+1} = 'control';
+    modules = GetParam(me,'Sequence','list');
+    modules{end+1} = 'Control';
 
     exper_autosave = [];
     for n=1:length(modules)

@@ -9,7 +9,7 @@
 %
 % ratname     This will determine which directory the file goes into.
 %
-% OPTIONAL PARAMETERS:
+% OptIONAL PARAMETERS:
 % --------------------
 %
 % child_protocol     by default, empty. If non-empty, should be an SPH
@@ -32,13 +32,13 @@
 
 function [] = save_solouiparamvalues(ratname, varargin)
 
-pairs = { ...
+pAIrs = { ...
     'child_protocol', [] ; ...
     'asv', 0; ...
     'interactive'      1 ; ...
     'commit'           0 ; ...
     };
-parseargs(varargin, pairs);
+parseargs(varargin, pAIrs);
 
 if isempty(child_protocol),
     owner = determine_owner;

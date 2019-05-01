@@ -1,7 +1,7 @@
 function [inds] = find_intersection_points(binned, thres)
 % Helper function for analyze_bouts.m (in the same directory)
 % Used to determine bout length, this script finds points in the bout
-% sequence that cross the 'good' threshold. These points are then used by
+% Sequence that cross the 'good' threshold. These points are then used by
 % analyze_bouts.m to identify 'good bouts'.
 
 inds = [];

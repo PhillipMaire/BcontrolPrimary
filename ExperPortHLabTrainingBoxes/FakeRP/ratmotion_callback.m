@@ -33,7 +33,7 @@ function [] = ratmotion_callback(myobj, event, leftpos, centerpos, rightpos, out
     udata{find(strcmp('pos', udata(:,1))), 2} = newpos;
     set(myobj, 'UserData', udata);
 
-    % Now the callbacks to the lunghao1 machine
+    % Now the callbacks to the lunghAO1 machine
     if strcmp(oldpos, 'Out'), 
         direction = 'In'; port = newpos;
     else 

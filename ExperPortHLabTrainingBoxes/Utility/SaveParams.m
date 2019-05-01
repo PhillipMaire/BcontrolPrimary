@@ -1,9 +1,9 @@
 function out = SaveParams(module,trial)
 global exper
-% SAVEPARAMS
+% SaveParams
 % Keep track of parameter values by saving a copy in a vector
-% (field name 'trial'). Can be retrieved using GETPARAMTRIAL.
-% SAVEPARAMS(MODULE,TRIAL)
+% (field name 'trial'). Can be retrieved using GetParamTrial.
+% SaveParams(MODULE,TRIAL)
 %
 % ZF MAINEN, CSHL, 10/00
 %
@@ -19,16 +19,16 @@ fields = fieldnames(s);
 for i=1:length(fields)
 	sfs = sprintf('%s.%s',sf,fields{i});
 	% save only the ones that need to be saved
-	save = getp(sfs,'save');
+	save = GetP(sfs,'save');
 	if save
-		trial_vals = getp(sfs,'trial');
-		val = getp(sfs,'value');
+		trial_vals = GetP(sfs,'trial');
+		val = GetP(sfs,'value');
 		% if it's a list, we save the item, not the index
 		list = GetP(sfs,'list');
 		if ~isempty(list)
 			 val = list{val};
 		end
 		trial_vals{trial} = val;
-		setp(sfs,'trial',trial_vals);
+		SetP(sfs,'trial',trial_vals);
 	end
 end

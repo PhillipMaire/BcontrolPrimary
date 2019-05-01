@@ -2,7 +2,7 @@ function [outflag] = load_data(protocol, ratname)
 
     global exper;
 
-    datapath = exper.control.param.datapath.value;
+    datapath = exper.Control.param.datapath.value;
     if datapath(end) ~= filesep, datapath = [datapath filesep]; end;
     
     u = dir([datapath ratname '*data*.mat']);

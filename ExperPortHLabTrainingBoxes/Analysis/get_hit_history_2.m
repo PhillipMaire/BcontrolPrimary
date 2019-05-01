@@ -7,11 +7,11 @@ function [hh] = get_hit_history_2(ratname, task, date, varargin)
 % 'a'.
 %
 
-pairs = { ...
+pAIrs = { ...
     'f_ver', 'a'; ...
     };
 
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 load_datafile(ratname, task, date, f_ver);
 hh = eval(['saved.' task '_hit_history;']);

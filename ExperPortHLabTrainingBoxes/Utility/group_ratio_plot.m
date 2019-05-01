@@ -1,4 +1,4 @@
-function [mix_pred, mix_resp, res_cat] = group_ratio_plot(blob,trial_range)
+function [mix_pred, mix_resp, res_cat] = group_ratio_plot(Blob,trial_range)
 
 % 1    
 % 2   mix100_0
@@ -24,17 +24,17 @@ function [mix_pred, mix_resp, res_cat] = group_ratio_plot(blob,trial_range)
 global exper
 
 if nargin == 0
-    errordlg('Please enter blob number')
+    errordlg('Please enter Blob number')
 end
 
 grm = [2 3 4 5 6 7];
 grc = [16 8 9 10 11 7];
 grh = [16 15 14 13 12 2];
 
-g_list = exper.group.param.group.list;
+g_list = exper.Group.param.Group.list;
 % g_list = g_list([16 8 9 10 11 2 3 4 5 6 7 12 13 14 15]);
-g_trial = exper.sequence.param.group.trial;
-trial_length = length(exper.blob.roi(1).ratio);
+g_trial = exper.Sequence.param.Group.trial;
+trial_length = length(exper.Blob.roi(1).ratio);
 
 if nargin < 2
     trial_range = 1:trial_length;
@@ -51,7 +51,7 @@ for i = 1:length(g_list)
     for t = trial_range
         if strcmp(g,g_trial{t})
             x = [x i];
-            y = [y exper.blob.roi(blob).ratio(t)];
+            y = [y exper.Blob.roi(Blob).ratio(t)];
             
             xx(t) = i;
         end
@@ -60,7 +60,7 @@ end
 
 xx(find(xx==0)) = max(xx)+1;
 figure;
-plot(xx,exper.blob.roi(blob).ratio*(-1),'o'); hold on
+plot(xx,exper.Blob.roi(Blob).ratio*(-1),'o'); hold on
 ax = axis;
 plot([ax(1) ax(2)],[0 0],':')
 
@@ -71,9 +71,9 @@ plot([ax(1) ax(2)],[0 0],':')
 % 7   mix0_100
 % 16   blank
 
-res_A = exper.blob.roi(blob).ratio(find(xx == 2));
-res_B = exper.blob.roi(blob).ratio(find(xx == 7));
-res_blank = exper.blob.roi(blob).ratio(find(xx == 16));
+res_A = exper.Blob.roi(Blob).ratio(find(xx == 2));
+res_B = exper.Blob.roi(Blob).ratio(find(xx == 7));
+res_blank = exper.Blob.roi(Blob).ratio(find(xx == 16));
 
 res_cat = 0;
 if kstest2(res_A,res_blank,0.01, 1)
@@ -88,7 +88,7 @@ for i = 1:length(xx)
     c = colormap;
     ind = round(8+(48/(length(xx)-1)*(i-1)));
     color = c(ind,:);
-    plot(xx(i),exper.blob.roi(blob).ratio(i)*(-1),'o','color',color); hold on
+    plot(xx(i),exper.Blob.roi(Blob).ratio(i)*(-1),'o','color',color); hold on
     drawnow
 end
 plot([2 18],[0 0],'k')
@@ -103,8 +103,8 @@ M = [];
 SE = [];
 for i = 1:length(g_list)
     t = find(xx == i);
-    m = mean(exper.blob.roi(blob).ratio(t)*(-1));
-    se = std(exper.blob.roi(blob).ratio(t)*(-1))/sqrt(length(t));
+    m = mean(exper.Blob.roi(Blob).ratio(t)*(-1));
+    se = std(exper.Blob.roi(Blob).ratio(t)*(-1))/sqrt(length(t));
     M = [M m];
     SE = [SE se];
 end
@@ -161,7 +161,7 @@ plot([-10 110],[0 0],'k:')
 axis(ax)
 
 axi = axes('parent',fig,'pos',[0 0 1 1],'tag','r_title','visible','off');
-title_str = ['glomerulus ' num2str(blob) '   ( trial : ' num2str(trial_range(1)) ' - ' num2str(trial_range(end)) ' )'];
+title_str = ['glomerulus ' num2str(Blob) '   ( trial : ' num2str(trial_range(1)) ' - ' num2str(trial_range(end)) ' )'];
 h = text(0.5,1,title_str,'horiz','center','vertical','top','parent',axi,'tag','ratio_title');
 
 % fig2 = figure;
@@ -179,5 +179,5 @@ h = text(0.5,1,title_str,'horiz','center','vertical','top','parent',axi,'tag','r
 % axis(ax)
 % 
 % axi = axes('parent',fig2,'pos',[0 0 1 1],'tag','r_title','visible','off');
-% title_str = ['glomerulus ' num2str(blob)];
+% title_str = ['glomerulus ' num2str(Blob)];
 % h = text(0.5,1,title_str,'horiz','center','vertical','top','parent',axi,'tag','ratio_title');

@@ -7,14 +7,14 @@ ratname = 'moctezuma';
 task = 'duration_discobj';
 date_prefix = '0510';
 
-h = findobj('Tag', 'duration_main');
+h = findobj('Tag', 'duration_mAIn');
 if ~isempty(h)
     delete(h);
 end;
 
 h = figure;
 set(h, 'Position', [70    19   845   658]);
-set(h,'Tag', 'duration_main');
+set(h,'Tag', 'duration_mAIn');
 
 h2 = findobj('Tag', 'duration_hist');
 if ~isempty(h2)

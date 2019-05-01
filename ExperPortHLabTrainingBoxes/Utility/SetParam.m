@@ -1,17 +1,17 @@
 function out = SetParam(module,param,varargin)
-% SETPARAM
+% SetParam
 % Set PARAM values of an exper module.
 % 
-% OUT = SETPARAM(MODULE,PARAM,VALUE)
-% 		Sets the field 'value' to VALUE
+% OUT = SetParam(MODULE,PARAM,value)
+% 		Sets the field 'value' to value
 % 	
-% OUT = SETPARAM(MODULE,PARAM,FIELD,VALUE)
-% 		Sets the field FIELD to VALUE
+% OUT = SetParam(MODULE,PARAM,FIELD,value)
+% 		Sets the field FIELD to value
 % 
-% OUT = SETPARAM(MODULE,PARAM,FIELD1,VALUE1,FIELD2,VALUE2,...,FIELDN,VALUEN)
-% 		Sets numerous fields using FIELD-VALUE pairs
+% OUT = SetParam(MODULE,PARAM,FIELD1,value1,FIELD2,value2,...,FIELDN,valueN)
+% 		Sets numerous fields using FIELD-value pAIrs
 %
-% Returns 1 for success and 0 for failure.
+% Returns 1 for success and 0 for fAIlure.
 %
 % MODULE and PARAM are strings. 
 % FIELD can be a cell array of field names, FIELD = {'f1','f2'},
@@ -93,7 +93,7 @@ if evalin('base',sfp)
                 % make sure the range is passed in correct order
                 out = SetP(sf,'range',sort(val));
                 
-            case {uifields{:}, 'pos'}   % 09/22/2002 modified by Lung-Hao Tai
+            case {uifields{:}, 'pos'}   % 09/22/2002 modified by Lung-HAO TAI
                 % do not set values that are being passed to the ui
                 if ishandle(pr.h)
                     SetParamUI(module,param,field,val);
@@ -123,7 +123,7 @@ global exper
 for n=1:length(param.h)
     h = param.h;
     if ishandle(h)
-        if strcmp(get(h(n),'type'),'uicontrol')
+        if strcmp(get(h(n),'type'),'uiControl')
             switch get(h(n),'style')
             case {'edit','disp'}
                 if ~isempty(param.format)
@@ -143,7 +143,7 @@ for n=1:length(param.h)
                         set(h(n),'string',sprintf('%g', param.value));
                     end
                 end
-            case {'checkbox','slider','listbox','popupmenu','radiobutton'}
+            case {'checkbox','slider','listbox','popupmenu','raDiobutton'}
                 set(h(n),'value',param.value);
             case 'togglebutton'
                 set(h(n),'value',param.value);

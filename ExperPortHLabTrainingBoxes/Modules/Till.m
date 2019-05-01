@@ -1,6 +1,6 @@
 function out = Till(varargin)
-% TILL
-% RS232 communication with TILL Polychrome
+% Till
+% RS232 communication with Till Polychrome
 % to select wavelength
 %
 
@@ -32,8 +32,8 @@ case 'init'
     
     InitParam(me,'lambda','ui','edit','value',630,'save',1,'pos',[h n*vs hs vs]); n=n+1;
     
-    % message box
-    uicontrol('parent',fig,'tag','message','style','edit',...
+    % Message box
+    uiControl('parent',fig,'tag','Message','style','edit',...
         'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1;
     
 	set(fig,'pos',[142 480-n*vs 128 n*vs],'visible','on');
@@ -56,7 +56,7 @@ case 'lambda'
     set_lambda(GetParam(me,'lambda'));	
    
 case 'com'
-    c = instrfind('tag','till');
+    c = instrfind('tag','Till');
     if ~isempty(c)
         fclose(c);
         delete(c);
@@ -79,14 +79,14 @@ function out = callback
     
 function set_lambda(x)
    	com = get_com(GetParamList(me,'com'));
-    till_str = sprintf('wl,%d;',x);
-	fprintf(com,till_str);	
+    Till_str = sprintf('wl,%d;',x);
+	fprintf(com,Till_str);	
     resp = fscanf(com);
     [t,r]= strtok(resp,'!');
     if isempty(t)
-        message(me,'Till did not respond','error');
+        Message(me,'Till did not respond','error');
     else
-        message(me,t);
+        Message(me,t);
         lambda = str2num(t(4:end));
         if lambda > 0
             SetParam(me,'lambda',lambda);
@@ -96,15 +96,15 @@ function set_lambda(x)
 
 function com = get_com(port)
 	com = [];
-	c = instrfind('tag','till');
+	c = instrfind('tag','Till');
 	for n=1:length(c)
 		if strcmp(get(c(n),'status'),'open')
 			com = c(n);
 		end
 	end
 	if isempty(com)
-%		com = serial(port,'tag','till','terminator','cr','baudrate',19200);	
-		com = serial(port,'tag','till','baudrate',19200);	
+%		com = serial(port,'tag','Till','terminator','cr','baudrate',19200);	
+		com = serial(port,'tag','Till','baudrate',19200);	
 		fopen(com);
 	end
 	

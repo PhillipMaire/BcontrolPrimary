@@ -1,4 +1,4 @@
-% REXPER
+% RExper
 % Review exper
 
 global exper
@@ -8,14 +8,14 @@ addpath([pwd '\utility']);
 addpath([pwd '\modules']);
 
 
-ModuleInit('control','reinit');
-if ExistParam('control','sequence') % this is an abitrary parameter just to check that control has been initialized
-    ModuleInit('group');
-    ModuleInit('sequence');
-   % Control('modreload','orca');
-    Control('modreload','opt');
-    Control('modreload','group');
-    Control('modreload','blob');
+ModuleInit('Control','reinit');
+if ExistParam('Control','Sequence') % this is an abitrary parameter just to check that Control has been initialized
+    ModuleInit('Group');
+    ModuleInit('Sequence');
+   % Control('modreload','Orca');
+    Control('modreload','Opt');
+    Control('modreload','Group');
+    Control('modreload','Blob');
 end
 
 

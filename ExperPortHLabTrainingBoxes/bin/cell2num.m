@@ -1,7 +1,7 @@
 %cell2num   [M] = cell2num(C)   Turn cell of nums into matrix
 %
 % Assumes each element of C is a single number, or
-% empty. Transforms C into a matrix M containing those
+% empty. Transforms C into a matrix M contAIning those
 % numbers. (NaN for empty).
 %
 % BUG: works only for up to 2-d cells at present.

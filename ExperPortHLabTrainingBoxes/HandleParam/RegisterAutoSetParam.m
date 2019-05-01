@@ -7,7 +7,7 @@
 % which SPHs have autoset strings that must be called when
 % ComputeAutoSet.m is called.
 %
-% Internally, the list groups SPHs into groups with the same owner and
+% Internally, the list Groups SPHs into Groups with the same owner and
 % belonging to the same function. These two attributes (owner and
 % function) are derived from the SPH's param_owner and param_fullname
 % properties.

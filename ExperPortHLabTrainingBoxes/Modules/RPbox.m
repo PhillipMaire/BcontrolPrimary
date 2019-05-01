@@ -18,8 +18,8 @@ switch action
     
     case 'init'
         
-        message('control','Initializing RPBox');
-        disp('rpbox initialized'); %Added by AS 6/9/14
+        Message('Control','Initializing RPbox');
+        disp('RPbox initialized'); %Added by AS 6/9/14
         fig = ModuleFigure(me,'visible','off');	
         
         hs = 100;
@@ -30,14 +30,14 @@ switch action
         n=n+.5;
         InitParam(me,'protocol_path','value',[pwd filesep 'Protocols']);
         InitParam(me,'LastTrialEventCounter','value',0);
-        Initparam(me,'Trial_Events','value',[],'save',1);
+        InitParam(me,'Trial_Events','value',[],'save',1);
         InitParam(me,'NewEvent','value',0);
         
         %% THIS USED TO BE 350 'value' (SP):
         InitParam(me,'UpdatePeriod','ui','edit','value',100,'pref',0,'pos',[h n*vs hs*.7 vs]); n=n+1;
         
         SetParamUI(me,'UpdatePeriod','label','Update (ms)');
-        % rpTimer=timer('TimerFcn','rpbox(''update'');','StopFcn','rpbox(''update'');','Period',GetParam(me,'UpdatePeriod')/1000,'ExecutionMode','fixedDelay','TasksToExecute',Inf);
+        % rpTimer=timer('TimerFcn','RPbox(''update'');','StopFcn','RPbox(''update'');','Period',GetParam(me,'UpdatePeriod')/1000,'ExecutionMode','fixedDelay','TasksToExecute',Inf);
         % InitParam(me,'rpTimer','value',rpTimer);
         InitParam(me, 'last_flush_time', 'value', clock);
         InitParam(me, 'last_update_time', 'value', clock);
@@ -51,7 +51,7 @@ switch action
         SetParamUI(me,'Event','label','State/Chan');        
         InitParam(me,'EventCounter','ui','disp','value',0,'pref',0,'pos',[h n*vs hs*.7 vs]); n=n+1;    
         SetParamUI(me,'EventCounter','label','Event Counter');
-        InitParam(me,'LastEventCounter','Value',0);
+        InitParam(me,'LastEventCounter','value',0);
         InitParam(me,'Clock','ui','disp','value',0,'pref',0,'pos',[h n*vs hs*.7 vs]); n=n+1;    
         SetParamUI(me,'Clock','label','Clock');    
         InitParam(me,'State','ui','disp','value',0,'pref',0,'pos',[h n*vs hs*.7 vs]); n=n+1;
@@ -72,19 +72,19 @@ switch action
         InitParam(me,'Protocols','ui','popupmenu','list',{' '},'value',1,'user',1,'pos',[h n*vs hs*1.5 vs]); n=n+1;
         pMenu;    % setup menu for protocols
         
-        % message box
-        uicontrol(fig,'tag','message','style','edit',...
+        % Message box
+        uiControl(fig,'tag','Message','style','edit',...
             'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n = n+1;
         
         set(fig,'pos',[65 461-n*vs hs*2+10 n*vs],'visible','on');
-        message('control','');
+        Message('Control','');
         
         
     case 'trialready'
-        message(me,'');
+        Message(me,'');
         
     case 'update'
-        if existparam(me, 'RP')
+        if ExistParam(me, 'RP')
             RP=GetParam(me, 'RP');
             SetParam(me,'NewEvent',0);
             LastEventCounter=GetParam(me,'LastEventCounter');
@@ -132,7 +132,7 @@ switch action
                         end;
                     end;
                     if length(chan_chk)>1
-                        message(me,'more than one input at the same time');
+                        Message(me,'more than one input at the same time');
                         for j=1:length(chan_chk)
                             state(event_n)=floor(Event(i)/(2^7));
                             chan(event_n)=chan_chk(j);
@@ -143,7 +143,7 @@ switch action
                         chan(event_n)=chan_chk(1);
                         event_n=event_n+1;
                     else
-                        % message(me,'event too fast to be detected','error');
+                        % Message(me,'event too fast to be detected','error');
                         chan(event_n)=0;
                         event_n=event_n+1;
                     end
@@ -154,15 +154,15 @@ switch action
             else
                 SetParam(me,'Event','user',[]);
             end
-            list=getparam(me,'protocols','list');
-            CallModules(list(getparam(me,'protocols')),'update');
+            list=GetParam(me,'protocols','list');
+            CallModules(list(GetParam(me,'protocols')),'update');
 
             RefreshedEventCounter=   invokeWrapper(RP,'GetTagVal','EventCounter');
             if localFoundState35Flag
                 if localProcessingState35==0, 
                     SetParam(me, 'ProcessingState35', 1); 
                     localProcessingState35 = 1;
-                    rpbox('state35'); 
+                    RPbox('state35'); 
                 else
                 end;
             elseif State == 0
@@ -195,7 +195,7 @@ switch action
 
             event_chan=find(bitget(TrialEvent(i),1:7));
             if length(event_chan)>1
-                message(me,'more than one input at the same time');
+                Message(me,'more than one input at the same time');
                 for j=1:length(event_chan)
                     tevent(event_n,1)=Trial;      %trial
                     tevent(event_n,2)=TrialEventTimer(i);               %event time
@@ -207,7 +207,7 @@ switch action
                 tevent(event_n,4)=event_chan(1);                   %chan
                 event_n=event_n+1;
             else
-                % message(me,'event too fast to be detected','error');
+                % Message(me,'event too fast to be detected','error');
                 tevent(event_n,4)=0;                    %chan
                 event_n=event_n+1;
             end            
@@ -215,8 +215,8 @@ switch action
         SetParam(me,'Trial_Events',[Trial_Events ;tevent]);
         
 %         SaveParamsTrial(me);
-        protocols=GetParam('rpbox','protocols','list');
-        CallModule(protocols{GetParam('rpbox','protocols')},'state35'); 
+        protocols=GetParam('RPbox','protocols','list');
+        CallModule(protocols{GetParam('RPbox','protocols')},'state35'); 
         invokeWrapper(RP,'SoftTrg',10);    % Trigger to generate a timeup event to go back to state 0
         SetParam(me,'Trial',Trial+1);
 
@@ -238,7 +238,7 @@ switch action
     case 'reset'
         set(GetParam(me,'RunRpx','h'),'enable','inactive');
         Message(me,'RP reseting');
-        Message('control','wait for RP (RP2/RM1) reseting');
+        Message('Control','wAIt for RP (RP2/RM1) reseting');
         InitRP;
         UpdateBits;
         SetParam(me,'Trial',0);
@@ -252,16 +252,16 @@ switch action
         SetParam(me,'Trial_Events',[]);
         set(GetParam(me,'RunRPx','h'),'enable','on');
         Message(me,'RP reseted');
-        Message('control','');
+        Message('Control','');
         
         ClearParamTrials(me);
         
     case 'trigger'
-        if existparam(me, 'RP')
+        if ExistParam(me, 'RP')
             RP=GetParam(me, 'RP');
             State   =    invokeWrapper(RP,'GetTagVal','State');
             invokeWrapper(RP,'SoftTrg',3);
-            if Getparam('control','trial')==1 & Getparam('control','slice')==1
+            if GetParam('Control','trial')==1 & GetParam('Control','slice')==1
                 invokeWrapper(RP,'SoftTrg',1);    % Trigger to generate a timeup event to go back to state 0
             end
         end
@@ -274,47 +274,47 @@ switch action
         if GetParam(me,'RunRPx') & GetParam(me, 'RunStartEnabled')
             SetParamUI(me,'RunRPx','backgroundcolor',[0.9 0 0],'string','Running...');
             SetParam(me,'Run','value',1);
-            rpbox('trigger');            
-            rpbox('manual_rpbox_timer');
+            RPbox('trigger');            
+            RPbox('manual_RPbox_timer');
         else
             SetParamUI(me,'RunRPx','backgroundcolor',[0 0.9 0],'string','RunRPx');
-            rpbox('pause');
+            RPbox('pause');
             SetParam(me,'Run','value',0);
         end
 
-    case 'manual_rpbox_timer',
+    case 'manual_RPbox_timer',
      global fake_rp_box;
      if ismember(fake_rp_box, [3 4]),
         SetParam(me, 'last_flush_time', clock); 
-        invokeWrapper(GetParam(me, 'RP'), 'FlushQueue');
+        invokeWrapper(GetParam(me, 'RP'), 'flushQueue');
      end;
 
      SetParam(me, 'last_update_time', clock); 
-     rpbox('update');
+     RPbox('update');
 
      while( GetParam(me, 'Run') ),
         if ismember(fake_rp_box, [3 4]), % We drive state machine AND 'update'
            elapsed = etime(clock, GetParam(me, 'last_flush_time'));
            pause_time = 0.08 - elapsed;
            pause(pause_time); drawnow;
-           invokeWrapper(GetParam(me, 'RP'), 'FlushQueue');
+           invokeWrapper(GetParam(me, 'RP'), 'flushQueue');
 
            elapsed = etime(clock, GetParam(me, 'last_update_time'));
-           if elapsed > GetParam('rpbox', 'UpdatePeriod')/1000,
-              SetParam(me,'last_update_time',clock); rpbox('update');
+           if elapsed > GetParam('RPbox', 'UpdatePeriod')/1000,
+              SetParam(me,'last_update_time',clock); RPbox('update');
            end;
         
         else % state mach drives itself; we just worry about 'update'
            elapsed = etime(clock, GetParam(me, 'last_update_time'));
-           pause_time = GetParam('rpbox', 'UpdatePeriod')/1000 - elapsed;
+           pause_time = GetParam('RPbox', 'UpdatePeriod')/1000 - elapsed;
            pause(pause_time);
-           SetParam(me,'last_update_time',clock); rpbox('update');
+           SetParam(me,'last_update_time',clock); RPbox('update');
         end;
      end;
 
         
     case {'halt_RP','pause'}
-        if existparam(me, 'RP')
+        if ExistParam(me, 'RP')
             RP=GetParam(me, 'RP');
             invokeWrapper(RP,'SoftTrg',4);
         end
@@ -364,11 +364,11 @@ switch action
         
     case 'bit'
         % handle callback from the status panel or called with syntax:
-        % rpbox('bit',value);       % 	value is 0 or 1        
-        % rpbox('bit',bits,value);  % 	bit is from 0 to 7
+        % RPbox('bit',value);       % 	value is 0 or 1        
+        % RPbox('bit',bits,value);  % 	bit is from 0 to 7
         if nargin <2 
             % called from the object
-            val = get(gcbo,'Value');
+            val = get(gcbo,'value');
             h = gcbo;
             bit = get(h,'user');
         else
@@ -376,11 +376,11 @@ switch action
             if nargin < 3
                 val = varargin{2};
                 bit = find(ones(size(val)))-1;
-                h   = exper.rpbox.bit_h(bit+1);
+                h   = exper.RPbox.bit_h(bit+1);
             else
                 bit = varargin{2};
                 val = varargin{3};
-                h   = exper.rpbox.bit_h(bit+1);                
+                h   = exper.RPbox.bit_h(bit+1);                
             end
         end
         
@@ -397,8 +397,8 @@ switch action
                 end
                 % set the bit
                 Bits_HighVal=bin2dec(sprintf('%d%d%d%d%d%d%d%d',RPBitsOut(8:-1:1).*RPBitsOut(8:-1:1)>0));
-                if existparam('rpbox', 'RP')
-                    RP=GetParam('rpbox', 'RP');
+                if ExistParam('RPbox', 'RP')
+                    RP=GetParam('RPbox', 'RP');
                     invokeWrapper(RP,'SetTagVal','Bits_HighVal',Bits_HighVal);
                     invokeWrapper(RP,'SoftTrg',6);            
                 end
@@ -406,13 +406,13 @@ switch action
         end
         SetParam(me,'RPBitsOut',RPBitsOut);
         
-    case 'ao_out'
+    case 'AO_out'
         % handle callback from the status panel or called with syntax:
-        % rpbox('ao_out',value);       % 	value is 0 or 1        
-        % rpbox('ao_out',bits,value);  % 	bit is from 1 to 3
+        % RPbox('AO_out',value);       % 	value is 0 or 1        
+        % RPbox('AO_out',bits,value);  % 	bit is from 1 to 3
         if nargin <2 
             % called from the object
-            val = get(gcbo,'Value'); h = gcbo; AO = get(h,'user');
+            val = get(gcbo,'value'); h = gcbo; AO = get(h,'user');
         else
             % called from a function
             if nargin < 3 val = varargin{2}; AO  = find(ones(size(val))); 
@@ -422,7 +422,7 @@ switch action
         
         RP_AO_Out=GetParam(me,'RP_AO_Out'); RP_AO_Out(AO) = val; 
         if RP_AO_Out(1), RP_AO_Out(3) = 0; end; % sounds 1 and 3 share the same analog channel
-        h = exper.rpbox.AO_h;
+        h = exper.RPbox.AO_h;
         
         for i=1:3
             if RP_AO_Out(i),  set(h(i),'BackgroundColor',[0 1 0],'value',1);
@@ -431,8 +431,8 @@ switch action
         end;
         % set the AO_Out
         AOBits_HighVal=bin2dec(sprintf('%d%d%d',RP_AO_Out(3:-1:1).*RP_AO_Out(3:-1:1)>0));
-        if existparam('rpbox', 'RP')
-           RP=GetParam('rpbox', 'RP');
+        if ExistParam('RPbox', 'RP')
+           RP=GetParam('RPbox', 'RP');
            invokeWrapper(RP,'SetTagVal','AOBits_HighVal',AOBits_HighVal);
            invokeWrapper(RP,'SoftTrg',8); 
         end
@@ -440,7 +440,7 @@ switch action
 
     case 'soft_trg'
         % handle callback from the status panel or called with syntax:
-        % rpbox('soft_trg',value);       % 	value is 1 to 4
+        % RPbox('soft_trg',value);       % 	value is 1 to 4
         % soft_trg1 : time up, next state
         % soft_trg2 : reset counter
         % soft_trg3 : running
@@ -457,8 +457,8 @@ switch action
         
         
         % set the SoftTrg
-        if existparam('rpbox', 'RP')
-            RP=GetParam('rpbox', 'RP');
+        if ExistParam('RPbox', 'RP')
+            RP=GetParam('RPbox', 'RP');
             for i=1:length(val)
                 invokeWrapper(RP,'SoftTrg',val);
             end
@@ -470,7 +470,7 @@ switch action
    
     case 'protocols'
         pID         = GetParam(me,'protocols');
-        pList       = GetParam('rpbox','protocols','list');
+        pList       = GetParam('RPbox','protocols','list');
 
         % Sometimes the saved preferences muck with this thing, and it
         % has the wrong value on startup-- let's make sure that it is
@@ -502,7 +502,7 @@ switch action
         end
         SetParam(me, 'ProcessingState35', 0);
         SetParam(me,'protocols','value',pID,'user',pID);
-        message(me,'load protocol');
+        Message(me,'load protocol');
         
     case 'initrpsound'
         InitRPSound;
@@ -554,22 +554,22 @@ function send_statenames(theStruct)
       mapping{i, 1} = fields{i};
       mapping{i, 2} = eval(sprintf('theStruct.%s', fields{i}));
     end;
-    invokeWrapper(RP, 'SetStateNames', mapping);
+    invokeWrapper(RP, 'Setstatenames', mapping);
 return;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function send_matrix(m, flag)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% m is the state matrix including timer, dio and ao values
+% m is the state matrix including timer, Dio and AO values
 % each row has:
-%  Cin Cout Lin Lout Rin Rout TimeUp Timer DIO AO  
+%  Cin Cout Lin Lout Rin Rout TimeUp Timer Dio AO  
 % there can be 1 to 35 rows, the 36th row is end of trial, added here
 if size(m,1) > 35
-    % message(me,'Warning: state 35 will be overwritten!','error');
+    % Message(me,'Warning: state 35 will be overwritten!','error');
 end
 
 if nargin<2, flag=0; end;
-nrows = rpbox('get_state_matrix_nrows');
+nrows = RPbox('get_state_matrix_nrows');
 
 %DHO_07may07: Comment out following, which forces 10 col matrix.  Don't need.
 M = m;
@@ -581,15 +581,15 @@ M(1:rows,1:columns)=m;
 
 if flag==0,
     M(36,:)= [ ...
-     %  Cin Cout Lin Lout Rin Rout TimeUp Timer DIO AO  
+     %  Cin Cout Lin Lout Rin Rout TimeUp Timer Dio AO  
         35  35   35  35   35   35    0    999   0  0]; % State 35 "End Of Trial"
     % Send AO2 after handling parameters ==>Next trial"
 else
      % M(36,:)= [ ...
-     %  Cin Cout Lin Lout Rin Rout TimeUp Timer DIO AO  
+     %  Cin Cout Lin Lout Rin Rout TimeUp Timer Dio AO  
      %     1   1    1   1    1   1     0    999   0  0]; % State 35 "End Of Trial"
     % Send AO2 after handling parameters ==>Next trial"
-    % message(me, 'Remember to define and return to state 35 in your matrix!', 'error');
+    % Message(me, 'Remember to define and return to state 35 in your matrix!', 'error');
 end;
 %} 
 %END DHO_07may07
@@ -602,8 +602,8 @@ if fake_rp_box == 0 %DHO_07may07: added if statement bc state_to_state_addr brea
 end
 
 timedur = M(:,end-2)';
-dio_out = M(:,end-1)';
-ao_out = M(:,end)';
+Dio_out = M(:,end-1)';
+AO_out = M(:,end)';
 
 RP=GetParam(me, 'RP');
 
@@ -613,8 +613,8 @@ if fake_rp_box >= 2,
 else
    invokeWrapper(RP,'WriteTagV','StateMatrix',0,state_addr);
    invokeWrapper(RP,'WriteTagV','TimDurMatrix',0,timedur);
-   invokeWrapper(RP,'WriteTagVEX','DIO_Out',0,'I32',dio_out); % 'I32' uses Word(32bit) format for DIO-Out to Word-Out
-   invokeWrapper(RP,'WriteTagVEX','AO_Out',0,'I32',ao_out); % 'I32' uses Word(32bit) format for AO-Out to Word-Out
+   invokeWrapper(RP,'WriteTagVEX','Dio_Out',0,'I32',Dio_out); % 'I32' uses Word(32bit) format for Dio-Out to Word-Out
+   invokeWrapper(RP,'WriteTagVEX','AO_Out',0,'I32',AO_out); % 'I32' uses Word(32bit) format for AO-Out to Word-Out
 end;
 
 
@@ -678,29 +678,29 @@ SetParam(me,'Protocols','value',1,'list',wpn);
 % % Set AI trigger Function and Trigger repeat
 % global exper
 % 
-% if isfield(exper.ai,'daq')
-%     ai = exper.ai.daq;
-%     if strcmp(ai.running,'On')
-%         stop(ai);
+% if isfield(exper.AI,'daq')
+%     AI = exper.AI.daq;
+%     if strcmp(AI.running,'On')
+%         stop(AI);
 %     end
-%     set(ai,'TriggerRepeat',Inf);
-%     set(ai,'TriggerFcn',{'RPbox'});
-%     start(ai);
+%     set(AI,'TriggerRepeat',Inf);
+%     set(AI,'TriggerFcn',{'RPbox'});
+%     start(AI);
 % end
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
-% function StopTrigger
+% function StOptrigger
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 % % Set AI trigger Function and Trigger repeat
 % global exper
 % 
-% if isfield(exper.ai,'daq')
-%     ai = exper.ai.daq;
-%     if strcmp(ai.running,'On')
-%         stop(ai);
+% if isfield(exper.AI,'daq')
+%     AI = exper.AI.daq;
+%     if strcmp(AI.running,'On')
+%         stop(AI);
 %     end
-%     set(ai,'TriggerRepeat',0);
-%     set(ai,'TriggerFcn',{'ai_trig_handler'});
+%     set(AI,'TriggerRepeat',0);
+%     set(AI,'TriggerFcn',{'ai_trig_handler'});
 % end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
@@ -710,13 +710,13 @@ function InitRP
 %	Initialize RP and load the finite state machine
 %   If an RP object already exists; make sure it's done playing & def writing
 global exper
-if existparam(me, 'RP')
+if ExistParam(me, 'RP')
     RP=GetParam(me, 'RP');
     if ~isempty(RP)
-        if existparam(me, 'DefID')
+        if ExistParam(me, 'DefID')
             DefID=GetParam(me, 'DefID');
-            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wait for def write 
-                Message(me, sprintf('waiting for def write...'));
+            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wAIt for def write 
+                Message(me, sprintf('wAIting for def write...'));
                 pause( .1 );
             end
         end
@@ -727,7 +727,7 @@ end
 
 %create activex object and hidden figure
 RPh=figure('visible','off');
-RP=actxcontrolWrapper('RPco.x',[20 20 60 60],RPh);
+RP=actxControlWrapper('RPco.x',[20 20 60 60],RPh);
 
 %store these in params
 InitParam(me,'RP','value',RP); %param to hold the RP activex object
@@ -736,32 +736,32 @@ InitParam(me,'RPh','value',RPh); %hidden figure for the RP activex object
 invokeWrapper(RP,'Halt');
 invokeWrapper(RP,'ClearCOF');
 if invokeWrapper(RP,'ConnectRP2','GB',1)         %default use RP2
-    if ~invokeWrapper(RP,'LoadCOF',[GetParam('rpbox','protocol_path') filesep 'RP2Box.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RP,'LoadCOF',[GetParam('RPbox','protocol_path') filesep 'RP2Box.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         SetParam(me,'RPDevice','value','RP2','user',1);
         SetParam(me,'RPBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RP,'ConnectRP2','USB',1)     % connect to RP2 using 'USB' method
-    if ~invokeWrapper(RP,'LoadCOF',[GetParam('rpbox','protocol_path') filesep 'RP2Box.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RP,'LoadCOF',[GetParam('RPbox','protocol_path') filesep 'RP2Box.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         SetParam(me,'RPDevice','value','RP2','user',1);
         SetParam(me,'RPBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RP,'ConnectRM1','USB',1)     % connect to RM1 using 'USB' method
-    if ~invokeWrapper(RP,'LoadCOF',[GetParam('rpbox','protocol_path') filesep 'RM1Box.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RM1 control object file. Power cycle RM1 and try again.')
+    if ~invokeWrapper(RP,'LoadCOF',[GetParam('RPbox','protocol_path') filesep 'RM1Box.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RM1 Control object file. Power cycle RM1 and try agAIn.')
     else
         SetParam(me,'RPDevice','value','RM1','user',1);
         SetParam(me,'RPBitsOut',[0 0 0 0 0 -1 -1 -1]);
     end
 else
-    Message(me, 'Connection Failure');
-    error('failed to establish RP2/RM1 connection. Power cycle RP2/RM1 and try again.')
+    Message(me, 'Connection FAIlure');
+    error('fAIled to establish RP2/RM1 connection. Power cycle RP2/RM1 and try agAIn.')
     return;
 end
 invokeWrapper(RP,'Run');
@@ -771,79 +771,79 @@ invokeWrapper(RP,'SoftTrg',2);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function InitBits
-%setup corresponding DIO out GUI buttons according to RPDevice
+%setup corresponding Dio out GUI buttons according to RPDevice
 global exper
 
 RPDevice=GetParam(me,'RPDevice');
-fig=findobj('type','figure','tag','rpbox');
+fig=findobj('type','figure','tag','RPbox');
 if ~isempty(fig)
     for i=1:8 % Max # of Dio outs
         name = sprintf('%d', i-1);
         % status panel
-        h = uicontrol(fig,'string',name,'style','toggle','pos',[((i-1)*16)+5 155 16 16], ...
+        h = uiControl(fig,'string',name,'style','toggle','pos',[((i-1)*16)+5 155 16 16], ...
             'value', 0, 'tag', 'Bit', 'user', i-1, 'callback', callback, ...
             'BackgroundColor', get(fig,'color'));
         
         % save a set of handles to the toggles, which in turn
         % reference the bits
-        exper.rpbox.bit_h(i) = h;
+        exper.RPbox.bit_h(i) = h;
     end
-    uicontrol(fig,'string',[RPDevice ' BitsOut'],'style','text','tag','RPDeviceBits',...
+    uiControl(fig,'string',[RPDevice ' BitsOut'],'style','text','tag','RPDeviceBits',...
         'pos',[((i)*16)+15 155 60 16],'BackgroundColor', get(fig,'color'));
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function UpdateBits
-%Update corresponding DIO out GUI buttons according to RPDevice
+%Update corresponding Dio out GUI buttons according to RPDevice
 global exper
 
 RPDevice=GetParam(me,'RPDevice');
-BitsAvailable=ones(1,8);
-BitsAvailable(find(GetParam(me,'RPBitsOut')==-1))=0;
+BitsAvAIlable=ones(1,8);
+BitsAvAIlable(find(GetParam(me,'RPBitsOut')==-1))=0;
 enable_str={'off','on'};
-fig=findobj('type','figure','tag','rpbox');
+fig=findobj('type','figure','tag','RPbox');
 if ~isempty(fig)
     for i=1:8 % Max # of Dio outs
-        set(exper.rpbox.bit_h(i),'enable',enable_str{BitsAvailable(i)+1});
+        set(exper.RPbox.bit_h(i),'enable',enable_str{BitsAvAIlable(i)+1});
     end
     set(findobj(fig,'tag','RPDeviceBits'),'string',[RPDevice ' BitsOut'])
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function InitAO
-%setup corresponding DIO out GUI buttons according to RPDevice
+%setup corresponding Dio out GUI buttons according to RPDevice
 global exper
 
 RPDevice=GetParam(me,'RPDevice');
-fig=findobj('type','figure','tag','rpbox');
+fig=findobj('type','figure','tag','RPbox');
 if ~isempty(fig)
-    uicontrol(fig,'string','AO Out','style','text','tag','RPDeviceAO',...
+    uiControl(fig,'string','AO Out','style','text','tag','RPDeviceAO',...
         'pos',[172 135 60 16],'BackgroundColor', get(fig,'color'));
     for i=1:3 % Max # of AO outs
         name = sprintf('%d', i);
         % status panel
-        h = uicontrol(fig,'string',name,'style','toggle','pos',[((i-1)*16)+132 135 16 16], ...
+        h = uiControl(fig,'string',name,'style','toggle','pos',[((i-1)*16)+132 135 16 16], ...
             'value', 0, 'tag', 'AO_out', 'user', i, 'callback', callback, ...
             'BackgroundColor', get(fig,'color'));
         
         % save a set of handles to the toggles, which in turn
         % reference the bits
-        exper.rpbox.AO_h(i) = h;
+        exper.RPbox.AO_h(i) = h;
     end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function InitSoftTrg
-%setup corresponding DIO out GUI buttons according to RPDevice
+%setup corresponding Dio out GUI buttons according to RPDevice
 global exper
 
 RPDevice=GetParam(me,'RPDevice');
-fig=findobj('type','figure','tag','rpbox');
+fig=findobj('type','figure','tag','RPbox');
 if ~isempty(fig)
-    uicontrol(fig,'string','Soft_Trg','style','text','tag','RPDeviceAO',...
+    uiControl(fig,'string','Soft_Trg','style','text','tag','RPDeviceAO',...
         'pos',[156 119 60 16],'BackgroundColor', get(fig,'color'));
     % status panel
-    h = uicontrol(fig,'string','1','style','push','pos',[132 119 16 16], ...
+    h = uiControl(fig,'string','1','style','push','pos',[132 119 16 16], ...
         'value', 0, 'tag', 'Soft_Trg', 'user', 1, 'callback', callback, ...
         'BackgroundColor', get(fig,'color'));
     
@@ -858,13 +858,13 @@ function InitRPSound
 %	Initialize RP and load the finite state machine
 %   If an RP object already exists; make sure it's done playing & def writing
 global exper
-if existparam(me, 'RPSound')
+if ExistParam(me, 'RPSound')
     RPS=GetParam(me, 'RPSound');
     if ~isempty(RPS)
-        if existparam(me, 'DefID')
+        if ExistParam(me, 'DefID')
             DefID=GetParam(me, 'DefID');
-            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wait for def write 
-                Message(me, sprintf('waiting for def write...'));
+            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wAIt for def write 
+                Message(me, sprintf('wAIting for def write...'));
                 pause( .1 );
             end
         end
@@ -875,7 +875,7 @@ end
 
 %create activex object and hidden figure
 RPSh=figure('visible','off');
-RPS=actxcontrolWrapper('RPco.x',[20 20 60 60],RPSh);
+RPS=actxControlWrapper('RPco.x',[20 20 60 60],RPSh);
 
 %store these in params
 InitParam(me,'RPSound','value',RPS); %param to hold the RP activex object
@@ -884,32 +884,32 @@ InitParam(me,'RPSh','value',RPSh); %hidden figure for the RP activex object
 % invokeWrapper(RPS,'Halt');
 % invokeWrapper(RPS,'ClearCOF');
 if invokeWrapper(RPS,'ConnectRP2','GB',2)         %default use second RP2
-    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep '2SoundRP2_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep '2SoundRP2_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         InitParam(me,'RPSDevice','value','RP2','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RPS,'ConnectRP2','USB',2)     %connect to RP2 using 'USB' method
-    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep '2SoundRP2_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep '2SoundRP2_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         InitParam(me,'RPSDevice','value','RP2','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RPS,'ConnectRM1','USB',2)     %connect to RM1 using 'USB' method
-    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep '2SoundRM1_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RM1 control object file. Power cycle RM1 and try again.')
+    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep '2SoundRM1_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RM1 Control object file. Power cycle RM1 and try agAIn.')
     else
         InitParam(me,'RPSDevice','value','RM1','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 else
-    Message(me, 'Connection Failure');
-    error('failed to establish RP2/RM1 connection. Power cycle RP2/RM1 and try again.')
+    Message(me, 'Connection FAIlure');
+    error('fAIled to establish RP2/RM1 connection. Power cycle RP2/RM1 and try agAIn.')
     return;
 end
 invokeWrapper(RPS,'Run');
@@ -933,13 +933,13 @@ function InitRP3StereoSound
 currfig = gcf;
 
 global exper
-if existparam(me, 'RPSound')
+if ExistParam(me, 'RPSound')
     RPS=GetParam(me, 'RPSound');
     if ~isempty(RPS)
-        if existparam(me, 'DefID')
+        if ExistParam(me, 'DefID')
             DefID=GetParam(me, 'DefID');
-            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wait for def write 
-                Message(me, sprintf('waiting for def write...'));
+            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wAIt for def write 
+                Message(me, sprintf('wAIting for def write...'));
                 pause( .1 );
             end
         end
@@ -950,7 +950,7 @@ end
 
 %create activex object and hidden figure
 RPSh=figure('visible','off');
-RPS=actxcontrolWrapper('RPco.x',[20 20 60 60],RPSh);
+RPS=actxControlWrapper('RPco.x',[20 20 60 60],RPSh);
 
 %store these in params
 InitParam(me,'RPSound','value',RPS); %param to hold the RP activex object
@@ -960,9 +960,9 @@ InitParam(me,'RPSh','value',RPSh); %hidden figure for the RP activex object
 % invokeWrapper(RPS,'ClearCOF');
 if invokeWrapper(RPS,'ConnectRM1','USB',2)     %connect to RM1 using 'USB' method
 % if invokeWrapper(RPS,'ConnectRM1','USB',1)   % DHO, using RP2 FSM and RM1 sound machine %connect to RM1 using 'USB' method
-    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep '3StereoSoundRM1.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RM1 control object file. Power cycle RM1 and try again.')
+    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep '3StereoSoundRM1.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RM1 Control object file. Power cycle RM1 and try agAIn.')
     else
         InitParam(me,'RPSDevice','value','RM1','user',2);
         global fake_rp_box;
@@ -976,24 +976,24 @@ if invokeWrapper(RPS,'ConnectRM1','USB',2)     %connect to RM1 using 'USB' metho
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RPS,'ConnectRP2','USB',2)     %connect to RP2 using 'USB' method
-    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep '2SoundRP2_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep '2SoundRP2_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         InitParam(me,'RPSDevice','value','RP2','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RPS,'ConnectRP2','GB',2)         %default use second RP2
-    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep '2SoundRP2_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RPS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep '2SoundRP2_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         InitParam(me,'RPSDevice','value','RP2','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 else
-    Message(me, 'Connection Failure');
-    error('failed to establish RP2/RM1 connection. Power cycle RP2/RM1 and try again.')
+    Message(me, 'Connection FAIlure');
+    error('fAIled to establish RP2/RM1 connection. Power cycle RP2/RM1 and try agAIn.')
     return;
 end
 invokeWrapper(RPS,'Run');
@@ -1015,10 +1015,10 @@ figure(currfig);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 
-function LoadRP3StereoSound(beep, id)   % loads beep(id) sounds. id is an optional param and may be a vector 
+function LoadRP3StereoSound(beep, id)   % loads beep(id) sounds. id is an Optional param and may be a vector 
 
-RPS=GetParam('rpbox', 'RPSOund');
-RP2_ready=strcmp(GetParam('rpbox','RPSDevice'),'RP2');
+RPS=GetParam('RPbox', 'RPSOund');
+RP2_ready=strcmp(GetParam('RPbox','RPSDevice'),'RP2');
 if size(beep{1},2)==2, beep{1} = beep{1}'; end; % turn it into a rows matrix
 if length(beep)>=2 && rows(beep{2})>cols(beep{2}), beep{2} = beep{2}'; end;
 if length(beep)>=3 && rows(beep{3})>cols(beep{3}), beep{3} = beep{3}'; end;
@@ -1027,11 +1027,11 @@ if nargin<2, id = 1:length(beep); end;
 global fake_rp_box;
 for i=1:length(id)  
     if id(i)==1 & ismember(fake_rp_box, [0 1 3 4]),
-        datain_chk = invokeWrapper(RPS,'WriteTagV', 'datain1a', 0, beep{1}(1,:)); %when use with regular speaker
-        datain_chk = invokeWrapper(RPS,'WriteTagV', 'datain1b', 0, beep{1}(2,:)); %when use with regular speaker
+        datAIn_chk = invokeWrapper(RPS,'WriteTagV', 'datAIn1a', 0, beep{1}(1,:)); %when use with regular speaker
+        datAIn_chk = invokeWrapper(RPS,'WriteTagV', 'datAIn1b', 0, beep{1}(2,:)); %when use with regular speaker
     else
-        datain_chk=invokeWrapper(RPS,'WriteTagV',['datain' num2str(id(i))],0,beep{id(i)}); %when use with regular speaker
-        %         datain_chk=invokeWrapper(RPS,'WriteTagV',['datain' num2str(i)],0,beep{i}*10); %when use with sound amplifier
+        datAIn_chk=invokeWrapper(RPS,'WriteTagV',['datAIn' num2str(id(i))],0,beep{id(i)}); %when use with regular speaker
+        %         datAIn_chk=invokeWrapper(RPS,'WriteTagV',['datAIn' num2str(i)],0,beep{i}*10); %when use with sound amplifier
 	end
 	datalngth_chk=invokeWrapper(RPS,'SetTagVal',['datalngth' num2str(id(i))],length(beep{id(i)}));
 end
@@ -1047,17 +1047,17 @@ end
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 
-function LoadRPSound(beep, id)   % loads beep(id) sounds. id is an optional param and may be a vector 
+function LoadRPSound(beep, id)   % loads beep(id) sounds. id is an Optional param and may be a vector 
 
-RPS=GetParam('rpbox', 'RPSOund');
-RP2_ready=strcmp(GetParam('rpbox','RPSDevice'),'RP2');
+RPS=GetParam('RPbox', 'RPSOund');
+RP2_ready=strcmp(GetParam('RPbox','RPSDevice'),'RP2');
 if nargin<2, id = 1:length(beep); end;
 for i=1:length(id) 
 	if RP2_ready
-        datain_chk=invokeWrapper(RPS,'WriteTagV',['datain' num2str(id(i))],0,beep{id(i)}*1); %when use with regular speaker
-%         datain_chk=invokeWrapper(RPS,'WriteTagV',['datain' num2str(i)],0,beep{i}*10); %when use with sound amplifier
+        datAIn_chk=invokeWrapper(RPS,'WriteTagV',['datAIn' num2str(id(i))],0,beep{id(i)}*1); %when use with regular speaker
+%         datAIn_chk=invokeWrapper(RPS,'WriteTagV',['datAIn' num2str(i)],0,beep{i}*10); %when use with sound amplifier
 	else
-        datain_chk=invokeWrapper(RPS,'WriteTagV',['datain' num2str(id(i))],0,beep{id(i)});
+        datAIn_chk=invokeWrapper(RPS,'WriteTagV',['datAIn' num2str(id(i))],0,beep{id(i)});
 	end
 	datalngth_chk=invokeWrapper(RPS,'SetTagVal',['datalngth' num2str(id(i))],length(beep{id(i)}));
 end
@@ -1077,13 +1077,13 @@ function InitRPStereoSound
 %	Initialize RP and load the finite state machine
 %   If an RP object already exists; make sure it's done playing & def writing
 global exper
-if existparam(me, 'RPStereoSound')
+if ExistParam(me, 'RPStereoSound')
     RPSS=GetParam(me, 'RPStereoSound');
     if ~isempty(RPSS)
-        if existparam(me, 'DefID')
+        if ExistParam(me, 'DefID')
             DefID=GetParam(me, 'DefID');
-            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wait for def write 
-                Message(me, sprintf('waiting for def write...'));
+            while invokeWrapper(RP,'DefStatus',DefID)>0  %% wAIt for def write 
+                Message(me, sprintf('wAIting for def write...'));
                 pause( .1 );
             end
         end
@@ -1094,7 +1094,7 @@ end
 
 %create activex object and hidden figure
 RPSSh=figure('visible','off');
-RPSS=actxcontrolWrapper('RPco.x',[20 20 60 60],RPSSh);
+RPSS=actxControlWrapper('RPco.x',[20 20 60 60],RPSSh);
 
 %store these in params
 InitParam(me,'RPStereoSound','value',RPSS); %param to hold the RP activex object
@@ -1103,32 +1103,32 @@ InitParam(me,'RPSSh','value',RPSSh); %hidden figure for the RP activex object
 % invokeWrapper(RPSS,'Halt');
 % invokeWrapper(RPSS,'ClearCOF');
 if invokeWrapper(RPSS,'ConnectRP2','GB',2)         %default use second RP2
-    if ~invokeWrapper(RPSS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep 'SSoundRP2_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RPSS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep 'SSoundRP2_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         InitParam(me,'RPSSDevice','value','RP2','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RPSS,'ConnectRP2','USB',2)     %connect to RP2 using 'USB' method
-    if ~invokeWrapper(RPSS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep 'SSoundRP2_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RP2 control object file. Power cycle RP2 and try again.')
+    if ~invokeWrapper(RPSS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep 'SSoundRP2_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RP2 Control object file. Power cycle RP2 and try agAIn.')
     else
         InitParam(me,'RPSSDevice','value','RP2','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 elseif invokeWrapper(RPSS,'ConnectRM1','USB',2)     %connect to RM1 using 'USB' method
-    if ~invokeWrapper(RPSS,'LoadCOF',[GetParam('rpbox','protocol_path') filesep 'SSoundRM1_2.rco']);
-        Message(me, 'LoadCOF Failure');
-        error('failed to load RM1 control object file. Power cycle RM1 and try again.')
+    if ~invokeWrapper(RPSS,'LoadCOF',[GetParam('RPbox','protocol_path') filesep 'SSoundRM1_2.rco']);
+        Message(me, 'LoadCOF FAIlure');
+        error('fAIled to load RM1 Control object file. Power cycle RM1 and try agAIn.')
     else
         InitParam(me,'RPSSDevice','value','RM1','user',2);
 %         InitParam(me,'RPSBitsOut',[0 0 0 0 0 0 0 0]);
     end
 else
-    Message(me, 'Connection Failure');
-    error('failed to establish RP2/RM1 connection. Power cycle RP2/RM1 and try again.')
+    Message(me, 'Connection FAIlure');
+    error('fAIled to establish RP2/RM1 connection. Power cycle RP2/RM1 and try agAIn.')
     return;
 end
 invokeWrapper(RPSS,'Run');
@@ -1139,21 +1139,21 @@ invokeWrapper(RPSS,'SoftTrg',4);    % Stop and Reset
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 function LoadRPStereoSound(beep)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-RPSS=GetParam('rpbox', 'RPStereoSound');
-if strcmp(GetParam('rpbox','RPSSDevice'),'RP2')
-    invokeWrapper(RPSS,'WriteTagV','datain1',0,beep{1}*1); %when use with regular speaker
-    invokeWrapper(RPSS,'WriteTagV','datain2',0,beep{2}*1); %when use with regular speaker
-    invokeWrapper(RPSS,'WriteTagV','datain3',0,beep{3}*1); %when use with regular speaker
-    invokeWrapper(RPSS,'WriteTagV','datain4',0,beep{4}*1); %when use with regular speaker
-%     invokeWrapper(RPSS,'WriteTagV','datain1',0,beep{1}*10); %when use with sound amplifier
-%     invokeWrapper(RPSS,'WriteTagV','datain2',0,beep{2}*10); %when use with sound amplifier
-%     invokeWrapper(RPSS,'WriteTagV','datain3',0,beep{3}*10); %when use with sound amplifier
-%     invokeWrapper(RPSS,'WriteTagV','datain4',0,beep{4}*10); %when use with sound amplifier
+RPSS=GetParam('RPbox', 'RPStereoSound');
+if strcmp(GetParam('RPbox','RPSSDevice'),'RP2')
+    invokeWrapper(RPSS,'WriteTagV','datAIn1',0,beep{1}*1); %when use with regular speaker
+    invokeWrapper(RPSS,'WriteTagV','datAIn2',0,beep{2}*1); %when use with regular speaker
+    invokeWrapper(RPSS,'WriteTagV','datAIn3',0,beep{3}*1); %when use with regular speaker
+    invokeWrapper(RPSS,'WriteTagV','datAIn4',0,beep{4}*1); %when use with regular speaker
+%     invokeWrapper(RPSS,'WriteTagV','datAIn1',0,beep{1}*10); %when use with sound amplifier
+%     invokeWrapper(RPSS,'WriteTagV','datAIn2',0,beep{2}*10); %when use with sound amplifier
+%     invokeWrapper(RPSS,'WriteTagV','datAIn3',0,beep{3}*10); %when use with sound amplifier
+%     invokeWrapper(RPSS,'WriteTagV','datAIn4',0,beep{4}*10); %when use with sound amplifier
 else
-    invokeWrapper(RPSS,'WriteTagV','datain1',0,beep{1});
-    invokeWrapper(RPSS,'WriteTagV','datain2',0,beep{2});
-    invokeWrapper(RPSS,'WriteTagV','datain3',0,beep{3});
-    invokeWrapper(RPSS,'WriteTagV','datain4',0,beep{4});
+    invokeWrapper(RPSS,'WriteTagV','datAIn1',0,beep{1});
+    invokeWrapper(RPSS,'WriteTagV','datAIn2',0,beep{2});
+    invokeWrapper(RPSS,'WriteTagV','datAIn3',0,beep{3});
+    invokeWrapper(RPSS,'WriteTagV','datAIn4',0,beep{4});
 end
 invokeWrapper(RPSS,'SetTagVal','datalngth1',length(beep{1}));
 invokeWrapper(RPSS,'SetTagVal','datalngth2',length(beep{2}));
@@ -1163,8 +1163,8 @@ invokeWrapper(RPSS,'SetTagVal','datalngth4',length(beep{4}));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 function SetSampleRate(samplerate)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-RPSS=GetParam('rpbox', 'RPStereoSound');
-if strcmp(GetParam('rpbox','RPSSDevice'),'RP2')
+RPSS=GetParam('RPbox', 'RPStereoSound');
+if strcmp(GetParam('RPbox','RPSSDevice'),'RP2')
   warning('I have no idea how to set the sample rate for an RP2!');
   return;
 else

@@ -1,5 +1,5 @@
 function ModuleClose(name)
-% MODULECLOSE(NAME)
+% ModuleClose(NAME)
 global exper
 
 	% If I have a figure, hide it
@@ -18,8 +18,8 @@ global exper
 	
 	% Set my priority to 0 so I am not called and tell modules about it
 	SetParam(name,'open',0);
-	if ExistParam('control','sequence')
-        CallModule('control','sequence');
+	if ExistParam('Control','Sequence')
+        CallModule('Control','Sequence');
     end
 	
 	h=findobj('tag',name,'type','figure');

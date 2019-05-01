@@ -1,7 +1,7 @@
 function ClearParamTrials(module)
 global exper
-% CLEARPARAMTRIALS
-% Reset/clear saved parameters saved with SAVEPARAMTRIAL(MODULE,TRIAL).
+% ClearParamTrials
+% Reset/clear saved parameters saved with SaveParamTrial(MODULE,TRIAL).
 %
 % ZF MAINEN, CSHL, 10/00
 %
@@ -16,8 +16,8 @@ fields = fieldnames(s);
 for i=1:length(fields)
 	sfs = sprintf('%s.%s',sf,fields{i});
 	% save only the ones that need to be saved
-	save = getp(sfs,'save');
+	save = GetP(sfs,'save');
 	if save
-        setp(sfs,'trial','');
+        SetP(sfs,'trial','');
     end
 end

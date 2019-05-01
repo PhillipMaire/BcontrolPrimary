@@ -15,5 +15,5 @@ rts = get_state_name2number(saved_history, task, tnum);
 %   - Event (1-7)
 %   - Time
 e_chord = get_events(evs, 'qname', 'chord', 'RTS', rts);
-e_apoke = get_events(evs, 'qname', 'wait_for_apoke', 'RTS', rts);
+e_apoke = get_events(evs, 'qname', 'wAIt_for_apoke', 'RTS', rts);
 

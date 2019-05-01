@@ -1,11 +1,11 @@
 function out = GetParamTrial(module,param,trial)
 global exper
-% GETPARAMTRIAL
+% GetParamTrial
 % Retrieve *saved* PARAM values from an exper MODULE.
 % 
-% OUT = GETPARAM(MODULE,PARAM,TRIAL)
+% OUT = GetParam(MODULE,PARAM,TRIAL)
 % 		Return the 'value' of a parameter saved for a particular trial
-%     with SAVEPARAMS.
+%     with SaveParams.
 %
 % MODULE and PARAM are strings.
 % FIELD can be a cell array of field names, FIELD = {'f1','f2'},

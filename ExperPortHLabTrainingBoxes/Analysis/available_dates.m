@@ -1,4 +1,4 @@
-function [date_list] = available_dates(ratname, task, varargin)
+function [date_list] = avAIlable_dates(ratname, task, varargin)
 
 % Given a rat and taskname, provides the list of dates for which data
 % exists in the 'SoloData' directory of the current computer.
@@ -11,17 +11,17 @@ if ~isstr(ratname)  % callback    if nargin < 4   % src, event + 3 mandatory
     end;
 end;
 
-pairs = {
+pAIrs = {
     'realign', 0 ; ...
     'cbk', []; ...
     'plist', [];...
     'rlist', []; ...
     };
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 if ~isempty(cbk)
-    ratname = get(rlist, 'String'); ratname = ratname{get(rlist, 'Value')};
-    task = get(plist, 'String'); task = [lower(task{get(plist, 'Value')}) 'obj'];
+    ratname = get(rlist, 'String'); ratname = ratname{get(rlist, 'value')};
+    task = get(plist, 'String'); task = [lower(task{get(plist, 'value')}) 'obj'];
 end;
 
 global Solo_datadir;
@@ -52,7 +52,7 @@ for d = 1:length(matches)
 end;
 
 if ~isempty(cbk)
-    dstring = {'-- No available dates --'};
+    dstring = {'-- No avAIlable dates --'};
     if ~isempty(date_list), dstring = sort(date_list); end;
     set(cbk, 'String', dstring); 
     fprintf(1, 'Got files for %s: %s\n', ratname, task);

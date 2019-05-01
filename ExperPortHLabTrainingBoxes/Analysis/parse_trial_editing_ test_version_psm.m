@@ -7,7 +7,7 @@
 % is a vector of n-by-2 entries, where the first column gives the
 % time at the start of the corresponding state, and the second column
 % gives the time at exit from that state. The number of rows is the
-% number of times the state was entered. See below for details.
+% number of times the state was entered. See below for detAIls.
 %
 % In addition, there are fieldnames Center1, Left1, and Right1, with
 % values corresponding to the times of entering and leaving the first
@@ -32,11 +32,11 @@
 % RealTimeStates   A structure, each entry of which indicates a set of
 %              state id numbers. The corresponding fieldname gives
 %              these state IDs meaning. For example,
-%                 RealTtimeStates.wait_for_cpoke = [40 41]
-%              means that states 40 and 41 are 'wait_for_cpoke' states.
+%                 RealTtimeStates.wAIt_for_cpoke = [40 41]
+%              means that states 40 and 41 are 'wAIt_for_cpoke' states.
 %
 %
-% OPTIONAL PARAMETERS:
+% OptIONAL PARAMETERS:
 % -------------------
 %
 % pokeIDs      a struct that defines the event number type that
@@ -73,19 +73,19 @@
 %              RealTimeStates. The entry for each fieldname will be an
 %              n-by-2 matrix. Each row in the matrix corresponds to
 %              stretches of time in which the states belonged to the
-%              corresponding group of states listed in
+%              corresponding Group of states listed in
 %              RealTimeStates. The first column in the matrix is time
 %              of entry; the second column is time of exit.
 %
 %              For EXAMPLE:
 %                 >> ps = parse_trial([40 0 101 ; 41 0 102 ; 41 0 105 ;
 %                       65 0 106 ; 40 0 107 ; 90 0 110], ...
-%                       struct('wait_for_cpoke', [40 41], 'timeout', 65));
+%                       struct('wAIt_for_cpoke', [40 41], 'timeout', 65));
 %              returns ps with
-%                 ps.wait_for_cpoke = [101 106 ; 107 110]
+%                 ps.wAIt_for_cpoke = [101 106 ; 107 110]
 %                 ps.timeout        = [106 107]
-%              This means: we were in one of the wait_for_cpoke states
-%              from time=101 to time=106, and again from time=107 to
+%              This means: we were in one of the wAIt_for_cpoke states
+%              from time=101 to time=106, and agAIn from time=107 to
 %              110; we were in one of the timeout states from time=106
 %              to time=107.
 %
@@ -100,11 +100,11 @@ function [pstruct] = parse_trial(Events, RealTimeStates, varargin)
         'right1',    [5 6]  ...
         );
    
-    pairs = { ...
+    pAIrs = { ...
       'pokeIDs'            pokeIDs    ; ...
       'statename_list'     'all'      ; ...
       'do_pokes'           true       ; ...
-    }; parseargs(varargin, pairs);
+    }; parseargs(varargin, pAIrs);
 
 
 
@@ -215,7 +215,7 @@ function [start_stop] = state_stretches(evs, etype)
 % stops of any state numbers matching numbers in the vector etype.
 % Matrix will be n-by-2, where first column is start time and last
 % column is end time; number of rows is number of times that state
-% group was visited.
+% Group was visited.
 
 if isempty(evs), start_stop = zeros(0, 2); return; end;   
    

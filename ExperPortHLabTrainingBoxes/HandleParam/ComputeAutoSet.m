@@ -6,13 +6,13 @@ function [] = ComputeAutoSet
 % Goes through the set of SoloParamHandles that were registered with
 % RegisterAutoSetParam. For each of these SPHs, the autoset_string is
 % evaluated in a a context equal to that of the function in which the
-% SPH was created-- that is, all the SPHs available there will be
-% available here, with the caveat that they are all made available as
-% read_only. The relevant function for context is obtained from the
+% SPH was created-- that is, all the SPHs avAIlable there will be
+% avAIlable here, with the caveat that they are all made avAIlable as
+% read_only. The relevant function for context is obtAIned from the
 % SPH's get_owner, get_name, and get_fullname. The SPH's value is then
 % set to whatever the autoset_string evaluated to.
 %
-%    For efficiency, the SPHs are grouped into sets that share the same
+%    For efficiency, the SPHs are Grouped into sets that share the same
 % context. Within each set, strings for all SPHs are evaluated in
 % parallel; after that, the new SPH values are set. The order in which
 % function contexts are run through is the same as
@@ -101,7 +101,7 @@ function [] = compute_new_values(private_owner, ...
             if are_same
                 try,
                     testval = eval([private_autoset_strings{private_i} ';']);
-                    % if we're still here, this is a value evaluation
+                    % if we're sTill here, this is a value evaluation
                     if isstr(testval), are_same = strcmp(oldval, testval);
                     else are_same = (oldval == testval); end;
                     if ~are_same

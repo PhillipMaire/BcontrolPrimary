@@ -1,15 +1,15 @@
 function out = GetP(varargin)
-% GETP
+% GetP
 % Return values from the structure referred to by a structure pointer.
 % 		
-% VAL = GETP(SP)
+% VAL = GetP(SP)
 % 		Return the structure
 %
-% VAL = GETP(SP,FIELD)
+% VAL = GetP(SP,FIELD)
 % 		Return the value of a FIELD
 % 
 % The structure pointer SP is simply a string which names the structure:
-% for a STUCT named exper.control.param, SP = 'exper.control.param'
+% for a STUCT named exper.Control.param, SP = 'exper.Control.param'
 % SP can be a cell array of structure names, SP = {'s1','s2'}, in which
 % case the output is a corresponding cell array 
 % FIELD can also be a cell array of field names, FIELD = {'f1','f2'},

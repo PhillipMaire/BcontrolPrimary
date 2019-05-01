@@ -1,11 +1,11 @@
 function [filename, pathname, filterindex] = uigetfile(varargin)
 
-%UIGETFILE Standard open file dialog box.
-%   [FILENAME, PATHNAME, FILTERINDEX] = UIGETFILE(FILTERSPEC, TITLE)
+%uigetfile Standard open file dialog box.
+%   [FILENAME, PATHNAME, FILTERINDEX] = uigetfile(FILTERSPEC, TITLE)
 %   displays a dialog box for the user to fill in, and returns the filename
 %   and path strings and the index of the selected filter. A successful
 %   return occurs only if the file exists.  If the user  selects a file
-%   that does not exist, an error message is displayed,  and control
+%   that does not exist, an error Message is displayed,  and Control
 %   returns to the dialog box. The user may then enter  another filename,
 %   or press the Cancel button.
 %
@@ -19,13 +19,13 @@ function [filename, pathname, filterindex] = uigetfile(varargin)
 %
 %   When FILTERSPEC is empty the default list of file types is used.
 %
-%   Parameter TITLE is a string containing the title of the dialog box.
+%   Parameter TITLE is a string contAIning the title of the dialog box.
 %
-%   The output variable FILENAME is a string containing the name of the
+%   The output variable FILENAME is a string contAIning the name of the
 %   file selected in the dialog box.  If the user presses Cancel, it is set
 %   to 0.
 %
-%   The output variable PATHNAME is a string containing the path of the
+%   The output variable PATHNAME is a string contAIning the path of the
 %   file selected in the dialog box.  If the user presses Cancel, it is set
 %   to 0.
 %
@@ -34,14 +34,14 @@ function [filename, pathname, filterindex] = uigetfile(varargin)
 %   presses Cancel, it is set to 0.
 %
 %   [FILENAME, PATHNAME, FILTERINDEX] = UIGETTFILE(FILTERSPEC, TITLE, FILE)
-%   FILE is a string containing the name to use as the default selection.
+%   FILE is a string contAIning the name to use as the default selection.
 %
-%   [FILENAME, PATHNAME] = UIGETFILE(..., 'Location', [X Y]) places the
-%   dialog box at screen position [X,Y] in pixel units. This option is
+%   [FILENAME, PATHNAME] = uigetfile(..., 'Location', [X Y]) places the
+%   dialog box at screen position [X,Y] in pixel units. This Option is
 %   supported on UNIX platforms only.
 %
-%   [FILENAME, PATHNAME] = UIGETFILE(..., 'MultiSelect', SELECTMODE)
-%   specifies if multiple file selection is enabled for the UIGETFILE
+%   [FILENAME, PATHNAME] = uigetfile(..., 'MultiSelect', SELECTMODE)
+%   specifies if multiple file selection is enabled for the uigetfile
 %   dialog. Valid values for SELECTMODE are 'on' and 'off'. If the value of
 %   'MultiSelect' is set to 'on', the dialog box supports multiple file
 %   selection. 'MultiSelect' is set to 'off' by default.
@@ -50,11 +50,11 @@ function [filename, pathname, filterindex] = uigetfile(varargin)
 %   filenames are selected. Otherwise, it is a string representing
 %   the selected filename.
 %
-%   [FILENAME, PATHNAME] = UIGETFILE(..., X, Y) places the dialog box at
-%   screen position [X,Y] in pixel units. This option is supported on UNIX
+%   [FILENAME, PATHNAME] = uigetfile(..., X, Y) places the dialog box at
+%   screen position [X,Y] in pixel units. This Option is supported on UNIX
 %   platforms only.  THIS SYNTAX IS OBSOLETE AND WILL BE REMOVED. PLEASE
 %   USE THE FOLLOWING SYNTAX INSTEAD:
-%       [FILENAME, PATHNAME] = UIGETFILE(..., 'Location', [X Y])
+%       [FILENAME, PATHNAME] = uigetfile(..., 'Location', [X Y])
 %
 %
 %   Examples:
@@ -109,7 +109,7 @@ function [filename, pathname, filterindex] = uigetfile(varargin)
 %   end
 %
 %
-%   See also UIPUTFILE, UIGETDIR.
+%   See also uiputfile, UIGETDIR.
 
 %   Copyright 1984-2004 The MathWorks, Inc.
 %   $Revision: 1.3 $  $Date: 2005/09/26 04:17:10 $
@@ -117,7 +117,7 @@ function [filename, pathname, filterindex] = uigetfile(varargin)
 
 
 %%%%%%%%%%%%%%%%
-% Error messages
+% Error Messages
 %%%%%%%%%%%%%%%%
 
 badLocMessage     = 'The Location parameter value must be a 2 element vector.' ;
@@ -164,14 +164,14 @@ end
 
 useNative = true;
 
-% If we are on the Mac & swing is available, set useNative to false,
+% If we are on the Mac & swing is avAIlable, set useNative to false,
 % i.e., we are going to use Java dialogs not native dialogs.
 
 % Comment the following line to disable java dialogs on Mac.
 % useNative = ~( isequal( 'MAC' , computer ) && isempty( javachk('swing') ) ) ;
 % Line above commented out by CDB 4-Sep-05
 
-% If the root appdata is set and swing is available,
+% If the root appdata is set and swing is avAIlable,
 % honor that overriding all other prefs.
 
 if isequal(0, getappdata(0,'UseNativeSystemDialogs')) && isempty( javachk('swing') )
@@ -204,7 +204,7 @@ locationPosition = '' ;
 
 fileSeparator = filesep ;
 pathSeparator = pathsep ;
-remainderArgs = '' ;
+remAInderArgs = '' ;
 newFilter = '' ;
 
 locationPosition    = '' ; % position of 'Location' arg
@@ -310,14 +310,14 @@ allFilter = '' ;
 d = mydialog( ...
     'Visible','off', ...
     'DockControls','off', ...
-    'Color',get(0,'defaultUicontrolBackgroundColor'), ...
+    'Color',get(0,'defaultUiControlBackgroundColor'), ...
     'Windowstyle','modal', ...
     'Resize','on' ...
     );
 
 % Create a JPanel and put it into the dialog - this is for resizing
 
-[panel, container] = javacomponent( handle(com.mathworks.mwswing.MJPanel(java.awt.BorderLayout())),[10 10 20 20],d);
+[panel, contAIner] = javacomponent( handle(com.mathworks.mwswing.MJPanel(java.awt.BorderLayout())),[10 10 20 20],d);
 
 % Create a JFileChooser
 
@@ -347,7 +347,7 @@ panel.add(jfc);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Eliminate "built-in" args such as 'multiselect', 'location' and
-% their values.  As a side effect, create the array remainderArgs.
+% their values.  As a side effect, create the array remAInderArgs.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 eliminateBuiltIns() ;
@@ -391,11 +391,11 @@ end % end if( multiSelectFound & locationFound )
 % Set the chooser to multi select if required
 
 % if( multiSelectFound )
-%     warning('MATLAB:UIGETFILE:MultiSelectIg','MultiSelect is being ignored temporally.');
+%     warning('MATLAB:uigetfile:MultiSelectIg','MultiSelect is being ignored temporally.');
 % end
 
 if( locationFound )
-    warning('MATLAB:UIGETFILE:LocationIgnore','Location is being ignored.');
+    warning('MATLAB:uigetfile:LocationIgnore','Location is being ignored.');
 end
 
 if( multiSelectOn )
@@ -405,11 +405,11 @@ end
 
 % Reset the content of varargin & numArgs
 
-varargin = remainderArgs ;
+varargin = remAInderArgs ;
 
-numArgs = numel( remainderArgs ) ;
+numArgs = numel( remAInderArgs ) ;
 
-% At this point we can have at most 3 remaining args
+% At this point we can have at most 3 remAIning args
 
 if( numArgs > 3 )
     error( badArgsMessage )
@@ -440,12 +440,12 @@ end % end if( 0 == numArgs )
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Handle the case of exactly one remaining arg.
+% Handle the case of exactly one remAIning arg.
 % The argument must be a string or a cell array.
 %
 % If it's a cell array we try to use it as a filespec.
 %
-% If it's a string, there are 2 options:
+% If it's a string, there are 2 Options:
 %
 % If it's a legit description of a file ext, we use it
 % to create a filter and a description.  We then add
@@ -509,7 +509,7 @@ end % end if( 1 == numArgs )
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Handle the case of two remaining args.
+% Handle the case of two remAIning args.
 %
 % If arg 1 is a good filespec, use it
 % and interpret the 2nd arg as a title.
@@ -587,7 +587,7 @@ end % if( 2 == numArgs )
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Handle the case of three remaining arguements.
+% Handle the case of three remAIning arguements.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -674,7 +674,7 @@ else
     set( d , 'Name' , char( jfc.getDefaultGetfileTitle() ) )
 end
 
-set(container,'Units','normalized','position',[0 0 1 1]);
+set(contAIner,'Units','normalized','position',[0 0 1 1]);
 
 jfcHandle = handle(jfc , 'callbackproperties' );
 
@@ -691,7 +691,7 @@ refresh(d)
 awtinvoke( jfc , 'listen()' ) ;
 %jfc.listen() ;
 
-waitfor(d);
+wAItfor(d);
 
 % Retrieve the data stored by the callback
 
@@ -719,55 +719,55 @@ end
 
         allMatlabFilter = com.mathworks.hg.util.dFilter ;
         allMatlabFilter.setDescription( allMDesc ) ;
-        allMatlabFilter.addExtension( mSpec ) ;
-        allMatlabFilter.addExtension( figSpec ) ;
-        allMatlabFilter.addExtension( matSpec ) ;
+        allMatlabFilter.addextension( mSpec ) ;
+        allMatlabFilter.addextension( figSpec ) ;
+        allMatlabFilter.addextension( matSpec ) ;
 
         % Filter for files
 
         mFilter = com.mathworks.hg.util.dFilter ;
         mFilter.setDescription( mDesc ) ;
-        mFilter.addExtension( mSpec ) ;
+        mFilter.addextension( mSpec ) ;
 
         % Filter for .fig files
 
         figFilter = com.mathworks.hg.util.dFilter ;
         figFilter.setDescription( figDesc ) ;
-        figFilter.addExtension( figSpec ) ;
+        figFilter.addextension( figSpec ) ;
 
         % Filter for MAT-files
 
         matFilter = com.mathworks.hg.util.dFilter ;
         matFilter.setDescription( matDesc ) ;
-        matFilter.addExtension( matSpec ) ;
+        matFilter.addextension( matSpec ) ;
 
         % Filter for Simulink Models
 
         simFilter = com.mathworks.hg.util.dFilter ;
         simFilter.setDescription( simDesc ) ;
-        simFilter.addExtension( simSpec ) ;
+        simFilter.addextension( simSpec ) ;
 
         % Filter for Stateflow files
 
         staFilter = com.mathworks.hg.util.dFilter ;
         staFilter.setDescription( staDesc ) ;
-        staFilter.addExtension( staSpec ) ;
+        staFilter.addextension( staSpec ) ;
 
         % Filter for Real-Time Workshop files
 
         wksFilter = com.mathworks.hg.util.dFilter ;
         wksFilter.setDescription( wksDesc ) ;
-        wksFilter.addExtension( rtwSpec ) ;
-        wksFilter.addExtension( tmfSpec ) ;
-        wksFilter.addExtension( tlcSpec ) ;
-        wksFilter.addExtension( cSpec ) ;
-        wksFilter.addExtension( hSpec ) ;
+        wksFilter.addextension( rtwSpec ) ;
+        wksFilter.addextension( tmfSpec ) ;
+        wksFilter.addextension( tlcSpec ) ;
+        wksFilter.addextension( cSpec ) ;
+        wksFilter.addextension( hSpec ) ;
 
         % Filter for Report Generator files
 
         rptFilter = com.mathworks.hg.util.dFilter ;
         rptFilter.setDescription( rptDesc ) ;
-        rptFilter.addExtension( rptSpec ) ;
+        rptFilter.addextension( rptSpec ) ;
 
         % Filter for "All Files"
 
@@ -863,14 +863,14 @@ end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Build a new filter containing an extension and a description
+    % Build a new filter contAIning an extension and a description
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     function buildFilter(  desc , ext )
         newFilter = com.mathworks.hg.util.dFilter ;
         newFilter.setDescription( desc ) ;
-        newFilter.addExtension( ext ) ;
+        newFilter.addextension( ext ) ;
     end % buildFilter
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -923,7 +923,7 @@ end
             filterspec = str ;
 
             extStr = '' ;
-            extStr = char(com.mathworks.hg.util.dFilter.returnExtensionString( str )) ;
+            extStr = char(com.mathworks.hg.util.dFilter.returnextensionString( str )) ;
 
             if( strcmpi( extStr , extError ) )
                 % This isn't a "legal" extension we know about.
@@ -1045,7 +1045,7 @@ end
 
             % Format the extension for our filter
 
-            s = com.mathworks.hg.util.dFilter.returnExtensionString( char(ext) ) ;
+            s = com.mathworks.hg.util.dFilter.returnextensionString( char(ext) ) ;
 
             s = char( s ) ;
 
@@ -1091,7 +1091,7 @@ end
             if ~( strcmp( char( extArray{i} ) , '*.*' ) )
 
                 usrFilter = com.mathworks.hg.util.dFilter ;
-                usrFilter.addExtension( extArray{i} ) ;
+                usrFilter.addextension( extArray{i} ) ;
                 usrFilter.setIdentifier( int2str(i) ) ;
 
                 if( 2 == cols )
@@ -1145,7 +1145,7 @@ end
     % If either is present, check that the next arg has an
     % appropriate value.  If not, set an appropriate error flag.
     %
-    % Also, store all the other arguments in the array "remainderArgs".
+    % Also, store all the other arguments in the array "remAInderArgs".
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1155,7 +1155,7 @@ end
 
         numberOfArgs = numel( args ) ;
 
-        remainderArgIndex = 1 ;
+        remAInderArgIndex = 1 ;
 
         i = 1 ;
 
@@ -1163,11 +1163,11 @@ end
 
             theArg = args{i} ;
 
-            % Add to remainder args if its not a string
+            % Add to remAInder args if its not a string
 
             if( ~( ischar( theArg ) ) | ~( isvector( theArg ) ) )
-                remainderArgs{ remainderArgIndex } = theArg ;
-                remainderArgIndex = remainderArgIndex + 1 ;
+                remAInderArgs{ remAInderArgIndex } = theArg ;
+                remAInderArgIndex = remAInderArgIndex + 1 ;
                 i = i + 1 ;
                 %end % end if( ~( ischar( theArg ) ) | ~( isvector( theArg ) ) )
 
@@ -1189,8 +1189,8 @@ end
             lowArg = lower( theArg ) ;
 
             if( ~strcmp( 'multiselect' , lowArg ) & ~strcmp( 'location' , lowArg ) )
-                remainderArgs{ remainderArgIndex } = theArg ;
-                remainderArgIndex = remainderArgIndex + 1 ;
+                remAInderArgs{ remAInderArgIndex } = theArg ;
+                remAInderArgIndex = remAInderArgIndex + 1 ;
                 i = i + 1 ;
                 continue ;
 
@@ -1336,7 +1336,7 @@ pathSeparator = pathsep ;
 
 jfc = obj;
 
-cmd = char(evd.getPropertyName()) ;
+cmd = char(evd.GetPropertyName()) ;
 
 switch(cmd)
     case 'mathworksHgCancel'
@@ -1348,7 +1348,7 @@ switch(cmd)
         selectionFilter = jfc.getFileFilter() ;
 
         if( ~multiSelectOn )
-            [pathname, fn, ext ] = fileparts(char(jfc.getSelectedFile.toString));
+            [pathname, fn, ext ] = fileparts(char(jfc.getSelectedFile.tostring));
 
             filename = [fn ext];
 

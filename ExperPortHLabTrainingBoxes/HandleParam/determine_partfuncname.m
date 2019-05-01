@@ -3,7 +3,7 @@
 % RETURNS:  funcname, a string
 %
 % determine_partfuncname asks who called the function that in turn called
-% determine_partfuncname. It just returns the main mfile's name, no
+% determine_partfuncname. It just returns the mAIn mfile's name, no
 % subfunction or path to it. Thus, if called from
 %         @this/private/mymethod.m,  subfunction boo()
 % determine_partfuncname would return:

@@ -1,5 +1,5 @@
 function ind = chan_index(names)
-% IND = CHAN_INDEX(NAMES)
+% IND = chan_index(NAMES)
 % Returns the indices of analog input channels.
 % NAMES is either a string is cell array of strings:
 % CHANINDEX('cha')

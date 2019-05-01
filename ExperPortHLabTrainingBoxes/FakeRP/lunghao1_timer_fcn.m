@@ -1,5 +1,5 @@
-function [] = lunghao1_timer_fcn(obj, event, lid)
+function [] = lunghAO1_timer_fcn(obj, event, lid)
 
-    global private_lunghao1_list;
-    TimesUp(private_lunghao1_list{lid});
+    global private_lunghAO1_list;
+    TimesUp(private_lunghAO1_list{lid});
     

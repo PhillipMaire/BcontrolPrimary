@@ -1,12 +1,12 @@
 %pathonly 	[r] = pathonly(fname)	keep only path header
 %
 % Takes a single string argument, and discards anything after (not
-% including) the last '\' or ':' (that is, keeps trailing
+% including) the last '\' or ':' (that is, keeps trAIling
 % slash). If there was no '\' or ':', returns the empty string.  
 %
 % Does not take string matrices, but does take cell string vectors.
 %
-% See also NOEXTENSION, NOPATH
+% See also noextension, nopath
 
 function [r] = pathonly(fname)
 

@@ -1,7 +1,7 @@
 function trial = GetTrial
-% TRIAL = GETTRIAL 
+% TRIAL = GetTrial 
 % Return the number of the current trial
 global exper
 
-	trial = exper.control.param.trial.value;
+	trial = exper.Control.param.trial.value;
 	

@@ -1,18 +1,18 @@
 function out = GetParam(module,param,field)
-% GETPARAM
+% GetParam
 % Retrieve PARAM values from an exper MODULE.
 % 
-% OUT = GETPARAM(MODULE,PARAM)
+% OUT = GetParam(MODULE,PARAM)
 % 		Return the 'value' field (the default)
 %
-% OUT = GETPARAM(MODULE,PARAM,FIELD)
+% OUT = GetParam(MODULE,PARAM,FIELD)
 %		Return the FIELD field.
 %
 % MODULE and PARAM are strings. 
 % 
 % To speed up (considerably) this function, list handling and cell
 % array inputs (param, field) are no longer implemented. Use
-% GetParamList to obtain the list item indexed by the current value.
+% GetParamList to obtAIn the list item indexed by the current value.
 % 
 %
 % ZF MAINEN, CSHL, 10/01

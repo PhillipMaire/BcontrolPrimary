@@ -18,7 +18,7 @@ function [Beep]=MakeSigmoidSwoop2(SRate, Att, StartFreq, EndFreq, Duration, Tau,
 if Duration==0, Beep = []; return; end;
 
 
-FilterPath=[GetParam('rpbox','protocol_path') filesep 'PPfilter.mat'];
+FilterPath=[GetParam('RPbox','protocol_path') filesep 'PPfilter.mat'];
 PP = load(FilterPath);
 PP=PP.PP;
    

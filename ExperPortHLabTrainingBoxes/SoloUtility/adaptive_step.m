@@ -1,7 +1,7 @@
 % [sp] = adaptive_step(sp, hit, {'hit_step', 0}, {'stableperf', 0.75}, ...
 %                         {'mx', 1}, {'mn', 0})
 % 
-% Implements staircase adaptation of a SoloParamHandle.
+% Implements stAIrcase adaptation of a SoloParamHandle.
 %
 % PARAMETERS:
 % -----------
@@ -11,7 +11,7 @@
 % hit       Pass this as 1 if latest trial was in the positive adaptation
 %           direction; passit as 0 if it was in the negative direction
 %
-% OPTIONAL PARAMETERS
+% OptIONAL PARAMETERS
 % -------------------
 %
 % hit_step    How much to add to the parameter when hit==1. Default value
@@ -47,12 +47,12 @@
 
 function [sp] = adaptive_step(sp, hit, varargin)
    
-   pairs = { ...
+   pAIrs = { ...
      'hit_step'      0    ; ...
      'stableperf',   0.75 ; ...
      'mx'            1    ; ...
      'mn'            0    ; ...
-   }; parseargs(varargin, pairs);
+   }; parseargs(varargin, pAIrs);
 
    miss_step = stableperf*hit_step/(1-stableperf); 
 

@@ -6,7 +6,7 @@
 %   - If fake_rp_box doesn't exist, is empty, or is not 1, then calls
 %          out = invoke(axhandle, args);
 %        with args being whatever was passed to it. axhandle should be
-%        an ActiveX ID as retruned by actxcontrol.
+%        an ActiveX ID as retruned by actxControl.
 %
 % fake_rp_box == 0 --> RM1 TDT boxes
 % fake_rp_box == 1 --> First virtual state machine (running off timers)
@@ -32,7 +32,7 @@ if isempty(fake_rp_box) | fake_rp_box == 0,
         error(['GetMachine method unimplemented for RM1 boxes!  Please' ...
             ' run this protocol either on the new RTLinux rigs or' ...
             ' in software emulation or get rid of this call!']);
-    elseif ismember(cmd, {'SetStateNames', 'ForceState0'}),
+    elseif ismember(cmd, {'Setstatenames', 'ForceState0'}),
         out = 1;
         return;
     else
@@ -67,25 +67,25 @@ if isempty(machine),
                 case {'RP2Box.rco' 'RM1Box.rco'}
                     % ------- We are making the State Machine ----------
                     if fake_rp_box == 1, % Timer-based virtual State Machine
-                        machine = lunghao1;
-                        setup_lunghao1_gui(machine);
-                        % Look for a lunghao2 to connect to
+                        machine = lunghAO1;
+                        setup_lunghAO1_gui(machine);
+                        % Look for a lunghAO2 to connect to
                         allmachines = ...
                             FakeActiveXObjects(2:end, findRnum(FakeActiveXObjects, ...
                             'rp_machine'));
                         for othermachine = allmachines',
-                            if isa(othermachine{1}, 'lunghao2')
+                            if isa(othermachine{1}, 'lunghAO2')
                                 set(machine, ...
-                                    'aoutchange_callback', ...
-                                    {'lh1_to_lh2_connection_and_lh1_aout_gui', ...
+                                    'AOutchange_callback', ...
+                                    {'lh1_to_lh2_connection_and_lh1_AOut_gui', ...
                                     othermachine{1}});
                             end;
                         end;
                     elseif fake_rp_box == 2, % RT-Linux State Machine
                         machine = RTLSM(state_machine_properties.server, 3333, state_machine_properties.sm_number); %DHO_07may07
                         machine = SetOutputRouting(machine, state_machine_properties.output_routing); %DHO_07may07
-                        machine = SetInputEvents(machine, state_machine_properties.input_events, 'ai'); %DHO_07may07
-                        state_machine_properties.sm = machine; % keep for controlling state machine from protocol GUI
+                        machine = SetInputEvents(machine, state_machine_properties.input_events, 'AI'); %DHO_07may07
+                        state_machine_properties.sm = machine; % keep for Controlling state machine from protocol GUI
                         
 
 
@@ -132,16 +132,16 @@ if isempty(machine),
                 case {'2SoundRP2_2.rco' '2SoundRM1_2.rco'}
                     % ------- We are making the Sound Machine (old) ----------
                     if fake_rp_box == 1,
-                        machine = lunghao2;
-                        % Look for a lunghao1 to connect to
+                        machine = lunghAO2;
+                        % Look for a lunghAO1 to connect to
                         allmachines = ...
                             FakeActiveXObjects(2:end, findRnum(FakeActiveXObjects, ...
                             'rp_machine'));
                         for othermachine = allmachines',
-                            if isa(othermachine{1}, 'lunghao1')
+                            if isa(othermachine{1}, 'lunghAO1')
                                 set(othermachine{1}, ...
-                                    'aoutchange_callback', ...
-                                    {'lh1_to_lh2_connection_and_lh1_aout_gui', machine});
+                                    'AOutchange_callback', ...
+                                    {'lh1_to_lh2_connection_and_lh1_AOut_gui', machine});
                             end;
                         end;
                     elseif fake_rp_box == 2,
@@ -157,16 +157,16 @@ if isempty(machine),
                 case {'3StereoSoundRM1.rco'}
                     % ------- We are making the Sound Machine (new) ----------
                     if fake_rp_box == 1,
-                        machine = lunghao2b;
-                        % Look for a lunghao1 to connect to
+                        machine = lunghAO2b;
+                        % Look for a lunghAO1 to connect to
                         allmachines = ...
                             FakeActiveXObjects(2:end, findRnum(FakeActiveXObjects, ...
                             'rp_machine'));
                         for othermachine = allmachines',
-                            if isa(othermachine{1}, 'lunghao1')
+                            if isa(othermachine{1}, 'lunghAO1')
                                 set(othermachine{1}, ...
-                                    'aoutchange_callback', ...
-                                    {'lh1_to_lh2_connection_and_lh1_aout_gui', machine});
+                                    'AOutchange_callback', ...
+                                    {'lh1_to_lh2_connection_and_lh1_AOut_gui', machine});
                             end;
                         end;
                     elseif fake_rp_box == 2,
@@ -261,11 +261,11 @@ if ismember(class(machine), {'softsound', 'RTLSoundMachine'}),
         case 'WriteTagV',
             tagname = varargin{3}; startpt = varargin{4}; value = varargin{5};
             switch tagname,
-                case 'datain1',  machine = LoadSound(machine, 1, value, 'both');
-                case 'datain1a', machine = LoadSound(machine, 1, value, 'left');
-                case 'datain1b', machine = LoadSound(machine, 1, value, 'right');
-                case 'datain2',  machine = LoadSound(machine, 2, value);
-                case 'datain3',  machine = LoadSound(machine, 4, value);
+                case 'datAIn1',  machine = LoadSound(machine, 1, value, 'both');
+                case 'datAIn1a', machine = LoadSound(machine, 1, value, 'left');
+                case 'datAIn1b', machine = LoadSound(machine, 1, value, 'right');
+                case 'datAIn2',  machine = LoadSound(machine, 2, value);
+                case 'datAIn3',  machine = LoadSound(machine, 4, value);
                 otherwise,
                     error(['Don''t yet know how to WriteTagV to ' tagname ' into a ' ...
                         class(machine)]);
@@ -325,10 +325,10 @@ if ismember(class(machine), {'softsm', 'RTLSM', 'SoftSMMarkII'}),
             catch
                 warning('Force State 0 called with empty matrix?');
             end;
-        case 'FlushQueue',
+        case 'flushQueue',
             out = 1;
             if (isa(machine,  'softsm') | isa(machine, 'SoftSMMarkII')),
-                machine=FlushQueue(machine);
+                machine=flushQueue(machine);
             end;
 
         case 'SetTagVal', tagname = varargin{3}; value = varargin{4};
@@ -391,12 +391,12 @@ if ismember(class(machine), {'softsm', 'RTLSM', 'SoftSMMarkII'}),
                     
                     %-------- DHO added 5Aug08, messing around ------------
 %                     preamble = .001; % sec
-%                     sustain = 1; % sec
+%                     sustAIn = 1; % sec
 %                     refraction = 0.001; % sec
-%                     DIOLine = 3; 
+%                     DioLine = 3; 
 %                     ID = 1;
-%                     schedWv = [ID -1 -1 DIOLine preamble sustain refraction;
-%                                2 -1 -1 DIOLine 1.5 sustain refraction];
+%                     schedWv = [ID -1 -1 DioLine preamble sustAIn refraction;
+%                                2 -1 -1 DioLine 1.5 sustAIn refraction];
 %                     machine = SetScheduledWaves(machine, schedWv);
                     
 %                     on1 = repmat(.5, [1 3000]);
@@ -454,8 +454,8 @@ if ismember(class(machine), {'softsm', 'RTLSM', 'SoftSMMarkII'}),
                 case 5,  % ignore for now-- timed Douts
                 case 6,  % ignore for now-- allows DoutBypass
                 case 7,  % ignore for now-- disallows DoutBypass
-                case 8,  % ignore for now-- allows AoutBypass
-                case 9,  % ignore for now-- disallows AoutBypass
+                case 8,  % ignore for now-- allows AOutBypass
+                case 9,  % ignore for now-- disallows AOutBypass
                 case 10,
                     if     isa(machine, 'softsm'), machine = SetPCReadyFlag(machine);
                     else   machine = ReadyToStartTrial(machine);
@@ -463,9 +463,9 @@ if ismember(class(machine), {'softsm', 'RTLSM', 'SoftSMMarkII'}),
                 otherwise, error('Don''t know this SoftTrg number');
             end;
 
-        case 'SetStateNames',
+        case 'Setstatenames',
             if (isa(machine, 'SoftSMMarkII')),
-                machine = SetStateNames(machine, varargin{3});
+                machine = Setstatenames(machine, varargin{3});
             end;
             out = 1;
 

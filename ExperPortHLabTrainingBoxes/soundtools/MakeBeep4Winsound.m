@@ -13,7 +13,7 @@ function Beep=MakeBeep4Winsound( SRate,  Attenuation, Frequency, Duration,  vara
 % If a Attenuation is a vector, a harmonic stack is created with these attenuations.
 % Frequency in Hz
 % Duration in milliseconds
-% A fifth optional parameter RiseFall specifies the 10%-90%
+% A fifth Optional parameter RiseFall specifies the 10%-90%
 % rise and fall times in milliseconds using a cos^2 edge.
 
 % Create a time vector.
@@ -48,7 +48,7 @@ if ( nargin >= 5 )
 	Edge=MakeEdge( SRate, RiseFall );
 	LEdge=length(Edge);
 	
-	% Put a cos^2 gate on the leading and trailing edges.
+	% Put a cos^2 gate on the leading and trAIling edges.
 	Beep(1:LEdge)=Beep(1:LEdge) .* fliplr(Edge);
 	Beep(end-LEdge+1:end)=Beep(end-LEdge+1:end) .* Edge;
 	

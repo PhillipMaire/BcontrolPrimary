@@ -1,11 +1,11 @@
 function out = GetParamUI(module,param,field)
-% GETPARAMUI
+% GetParamUI
 % Retrieve properties of a ui associated with a PARAM.
 %
-% VAL = GETPARAMUI(MODULE,PARAM,FIELD);
+% VAL = GetParamUI(MODULE,PARAM,FIELD);
 % 		Calls 'get' on the ui associtated with PARAM
 %
-% H = GETPARAMUI(MODULE,PARAM);
+% H = GetParamUI(MODULE,PARAM);
 %		Return a handle to the ui.
 %
 % PARAM and MODULE are strings. FIELD can be a string or

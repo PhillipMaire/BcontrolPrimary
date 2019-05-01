@@ -1,7 +1,7 @@
 function val = GetUI(module,name,field,varargin)
-% VAL = GETUI(MODULE,NAME,FIELD,[VARARGIN])
+% VAL = GetUI(MODULE,NAME,FIELD,[VARARGIN])
 % Get values from various ui fields according to the tag NAME
-% and optional fields passed in the extra arguments.
+% and Optional fields passed in the extra arguments.
 % Returns only the value of any FIELDS found.
 
 module = lower(module);

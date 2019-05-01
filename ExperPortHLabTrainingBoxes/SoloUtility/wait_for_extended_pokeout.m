@@ -4,7 +4,7 @@
 
 %
 % NOTE!!!: The current implementation assumes (1) that there are only
-% DIO scheduled waves declared, no analog out ones; (2) that apart from
+% Dio scheduled waves declared, no analog out ones; (2) that apart from
 % scheduled waves, input event mapping is the standard [1 -1 2 -2 3 -3]
 % for three nose cones. (see @RTLSM/SetInputEvents.m). 
 %
@@ -26,7 +26,7 @@
 % secs. Trigger 1 is set off on the initial Right poke:
 % >> [sm, stm] = wait_for_extended_pokeout(sm, stm, 'startpoke', 'L', ...
 %                       'contout_line', 1, 'contout_time', 0.15, ...
-%                       'minwait', 2, 'maxwait', 5, 'maxout', 0.5); 
+%                       'minwAIt', 2, 'maxwAIt', 5, 'maxout', 0.5); 
 %
 % Upon final exit, the FSM will
 % come out into the state immediately after the
@@ -38,42 +38,42 @@
 % >> sm = SetStateMatrix(sm, stm); 
 %
 % And run the thing:
-% >> sm = Run(sm); sm = ForceState0(sm); for i=1:10000, sm = FlushQueue(sm); pause(0.1); end;
+% >> sm = Run(sm); sm = ForceState0(sm); for i=1:10000, sm = flushQueue(sm); pause(0.1); end;
 %
 %
 
 
 function [sm, stm] = wait_for_extended_pokeout(sm, stm, varargin)
    
-   pairs = { ...
+   pAIrs = { ...
      'startpoke'         'L'      ; ...
      'contout_line'       0       ; ...
      'contout_time'       0       ; ...
      'init_trigout'       0       ; ...
-     'minwait'            0       ; ...
-     'maxwait'            0       ; ...
+     'minwAIt'            0       ; ...
+     'maxwAIt'            0       ; ...
      'maxout'             0       ; ...
-   }; parseargs(varargin, pairs);
+   }; parseargs(varargin, pAIrs);
    
    st = rows(stm);    mo = maxout;
-   mn = minwait;      mx = maxwait;  
+   mn = minwAIt;      mx = maxwAIt;  
    cl = contout_line; ct = contout_time;
    it = init_trigout;
    
    if contout_time < 0.001,
       error('Sorry, contout_time must be at least 1 ms');
    end;
-   if minwait <= contout_time,
-      error('Sorry, minwait must be larger than contout_time');
+   if minwAIt <= contout_time,
+      error('Sorry, minwAIt must be larger than contout_time');
    end;
-   if maxwait <= minwait,
-      error('Sorry, maxwait must be larger than minwait');
+   if maxwAIt <= minwAIt,
+      error('Sorry, maxwAIt must be larger than minwAIt');
    end;
    if maxout < 0.001,
       error('Sorry, maxout must be at least 1 ms');
    end;
    
-   scheds       = GetDIOScheduledWaves(sm);
+   scheds       = GetDioScheduledWaves(sm);
    schedids     = scheds(:,1);
    schedincols  = scheds(:,2);
    schedoutcols = scheds(:,3);
@@ -106,8 +106,8 @@ function [sm, stm] = wait_for_extended_pokeout(sm, stm, varargin)
    
    scheds = [scheds ; ...
              [contout_wavenumber -1 cocol   -1 contout_time 0 0] ; ...
-             [mintime_wavenumber -1 cocol+1 -1 minwait      0 0] ; ...
-             [maxtime_wavenumber -1 cocol+2 -1 maxwait      0 0] ; ...
+             [mintime_wavenumber -1 cocol+1 -1 minwAIt      0 0] ; ...
+             [maxtime_wavenumber -1 cocol+2 -1 maxwAIt      0 0] ; ...
              [outtime_wavenumber -1 cocol+3 -1 maxout       0 0] ; ...
             ];
    cw = 2^contout_wavenumber; mnw = 2^mintime_wavenumber;
@@ -123,7 +123,7 @@ function [sm, stm] = wait_for_extended_pokeout(sm, stm, varargin)
    switch startpoke
     case 'L',
       nstm = [ ...
-        st   st   st+1 st   st   st   st  *ones(1,nx) 0    0    0    0    st   100 0  0  0 ; ...     % 0: Waiting for action
+        st   st   st+1 st   st   st   st  *ones(1,nx) 0    0    0    0    st   100 0  0  0 ; ...     % 0: WAIting for action
         st+1 st+1 st+1 st+2 st+1 st+1 st+1*ones(1,nx) st+4 0    0    0    st+1 100 cl it xxx ; ...   % 1: Inside, triggering alarms
         st+2 st+2 st+3 st+2 st+2 st+2 st+2*ones(1,nx) st+5 0    0    0    st+2 100 cl 0  0   ; ...   % 2: Outside,in contout mode
         st+3 st+3 st+3 st+2 st+3 st+3 st+3*ones(1,nx) st+4 0    0    0    st+3 100 cl 0  0   ; ...   % 3: Inside, in contout mode
@@ -135,7 +135,7 @@ function [sm, stm] = wait_for_extended_pokeout(sm, stm, varargin)
      
     case 'R',
       nstm = [ ...
-        st   st   st   st   st+1 st   st  *ones(1,nx) 0    0    0    0    st   100 0  0 0 ; ...     % 0: Waiting for action
+        st   st   st   st   st+1 st   st  *ones(1,nx) 0    0    0    0    st   100 0  0 0 ; ...     % 0: WAIting for action
         st+1 st+1 st+1 st+1 st+1 st+1 st+1*ones(1,nx) st+4 0    0    0    st+1 100 cl 0 xxx ; ...   % 1: Inside, triggering alarms
         st+2 st+2 st+2 st+2 st+3 st+2 st+2*ones(1,nx) st+5 0    0    0    st+2 100 cl 0 0   ; ...   % 2: Outside,in contout mode
         st+3 st+3 st+3 st+3 st+3 st+3 st+3*ones(1,nx) st+4 0    0    0    st+3 100 cl 0 0   ; ...   % 3: Inside, in contout mode

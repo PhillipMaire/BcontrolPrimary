@@ -1,6 +1,6 @@
 function [x] = get_saved_field(ratname, task, date, f_ver, fieldowner, fieldname);
 
-% General purpose utility: Gets contents of the desired field for the
+% General purpose utility: Gets Contents of the desired field for the
 % specified datafile
 % Datafile is specified by the rat name, task, date, and file version.
 %

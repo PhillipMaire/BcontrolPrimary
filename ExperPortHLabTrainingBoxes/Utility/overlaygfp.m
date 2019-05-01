@@ -3,15 +3,15 @@ global exper;
 
 % OVERLAY takes in a greyscale image GFPIMAGE of type UINT16
 % and returns an RGB image with a red overlay where MASK = 0.
-% The image is scaled by the default range, exper.opt.param.range.value
+% The image is scaled by the default range, exper.Opt.param.range.value
 % THRESHOLD (0-1) is used to set cutoff of MASK.
 
 
 
-intimage = exper.opt.ratio;
-range = exper.opt.param.range.value;
-gfpimage = exper.opt.grab;
-threshold = exper.orca.param.thresh.value;
+intimage = exper.Opt.ratio;
+range = exper.Opt.param.range.value;
+gfpimage = exper.Opt.grab;
+threshold = exper.Orca.param.thresh.value;
 msk = makemask(gfpimage,threshold);
 
 intimage(find(intimage > range)) = range;

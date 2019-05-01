@@ -1,22 +1,22 @@
 
 
-% ----- LEGAL_SKIPOUT_SECTION
+% ----- legal_skipout_section
 
-% Adds a chunk of statematrix in which an in poke has to be maintained
+% Adds a chunk of statematrix in which an in poke has to be mAIntAIned
 % for timelength secs, but during which brief poke outs are
 % allowed. Takes the current state matrix and adds to it; uses
 % scheduled waves, so does the necessary modifications to them through
 % the FSM object. 
 %
 % NOTE!!!: The current implementation assumes (1) that there are only
-% DIO scheduled waves declared, no analog out ones; (2) that apart from
+% Dio scheduled waves declared, no analog out ones; (2) that apart from
 % scheduled waves, input event mapping is the standard [1 -1 2 -2 3 -3]
 % for three nose cones. (see @RTLSM/SetInputEvents.m). 
 %
 % The first state in the chunk of state matrix added is one where the
-% system is simply waiting for the initiating poke; upon this
+% system is simply wAIting for the initiating poke; upon this
 % initiating poke, it goes to the *second* state in the added state
-% matrix. So, if you want to go straight to that upon poke, go to the
+% matrix. So, if you want to go strAIght to that upon poke, go to the
 % second state.
 
 % EXAMPLE CODE:
@@ -48,25 +48,25 @@
 % >> sm = SetStateMatrix(sm, stm); 
 %
 % And run the thing:
-% >> sm = Run(sm); sm = ForceState0(sm); for i=1:10000, sm = FlushQueue(sm); pause(0.1); end;
+% >> sm = Run(sm); sm = ForceState0(sm); for i=1:10000, sm = flushQueue(sm); pause(0.1); end;
 %
 %
 
 
 function [sm, stm] = legal_skipout_section(sm, stm, timelength, varargin)
    
-   pairs = { ...
+   pAIrs = { ...
      'startpoke'         'C'      ; ...
      'penalty_state'      []      ; ...
      'legalskipout'       0       ; ...
      'initial_trigger'    0       ; ...
-   }; parseargs(varargin, pairs);
+   }; parseargs(varargin, pAIrs);
    if isempty(penalty_state), penalty_state = rows(stm); end;
    
    st = rows(stm);  ps = penalty_state;    ls = legalskipout;
    tl = timelength; it = initial_trigger;
    
-   scheds       = GetDIOScheduledWaves(sm);
+   scheds       = GetDioScheduledWaves(sm);
    schedids     = scheds(:,1);
    schedincols  = scheds(:,2);
    schedoutcols = scheds(:,3);

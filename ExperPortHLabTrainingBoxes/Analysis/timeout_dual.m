@@ -1,8 +1,8 @@
 function [pd_chunks, dd_chunks] = timeout_dual(rat, date, f_ver, varargin)
-pairs = { ...
+pAIrs = { ...
     'task', 'dual_discobj' ; ...
     };
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 load_datafile(rat, task, date, f_ver);
 

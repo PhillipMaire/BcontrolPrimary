@@ -1,11 +1,11 @@
-function out = Stack(a,s)
-% OUT = STACK(A,S)
+function out = stack(a,s)
+% OUT = stack(A,S)
 % A is a 3 dimensional matrix
 % OUT a 3d matrix with avg of S frames in A
 
 
 if mod(size(a,3),s)
-   error('STACK: Matrix size must be a multiple of bin size')
+   error('stack: Matrix size must be a multiple of bin size')
 end
 d = size(a,3)/s;
 

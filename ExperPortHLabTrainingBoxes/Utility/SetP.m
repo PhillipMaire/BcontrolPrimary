@@ -1,19 +1,19 @@
 function out = SetP(varargin)
-% SETP
+% SetP
 % Set values in the structure referred to by a structure pointer.
 % The structure pointer SP is simply a string which names the structure:
-% STRUCT = exper.control.param WOULD MEAN SP = 'exper.control.param'.
+% STRUCT = exper.Control.param WOULD MEAN SP = 'exper.Control.param'.
 % NOTE: acts directly on the structure, not on a copy.
 % 		
-% STRUCT = SETP(SP)
+% STRUCT = SetP(SP)
 % 		Return the structure from the structure pointer, untouched
-% STRUCT = SETP(SP,FIELD,VALUE)
-% 		Set the value of one FIELD to VALUE
-% STRUCT = SETP(SP,FIELD1,VALUE,[FIELD2,VALUE2],...,[FIELDN,VALUEN])
+% STRUCT = SetP(SP,FIELD,value)
+% 		Set the value of one FIELD to value
+% STRUCT = SetP(SP,FIELD1,value,[FIELD2,value2],...,[FIELDN,valueN])
 %		Set the values of multiple FIELD names
 % 	
 % SP can be a cell array of structure names, in which case all 
-% structures with FIELD have it set to VALUE. It is not an error
+% structures with FIELD have it set to value. It is not an error
 % to operate on structures that do not have FIELD.
 %
 % ZF MAINEN, CSHL, 8/00
@@ -47,7 +47,7 @@ for p=1:length(sp)
 				elseif isstr(a)
 					vs = sprintf('''%s''',a);
 				else
-					message('Setp cannot handle this kind of assignment!','error');
+					Message('SetP cannot handle this kind of assignment!','error');
 				end
 			else
 				vs = inputname(n+1);

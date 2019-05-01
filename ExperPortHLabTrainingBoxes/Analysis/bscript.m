@@ -1,6 +1,6 @@
 clf;
 
-seq = rpboxevents2trialdata(saved); 
+seq = RPboxevents2trialdata(saved); 
 % seq = seq([1 100:end],:);
 validcpoketime = getvals(seq, 'validcpoketime');
 validcpokedur  = getvals(seq, 'validcpokedur');

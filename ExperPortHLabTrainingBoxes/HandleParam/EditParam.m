@@ -2,7 +2,7 @@
 % Version history
 % 091905:   Carlos      Initial write
 % 092105:   SSP         
-%   - Added 'TooltipString', 'label' (in 'pairs'), labelpos
+%   - Added 'TooltipString', 'label' (in 'pAIrs'), labelpos
 %   - EditParam returns itself as an object
 % 092405:   SSP         Replaced old file with Carlos' versions and re-made
 % changes made on 092105
@@ -31,7 +31,7 @@ function [ed] = EditParam(obj, parname, parval, x, y, varargin)
    else   error('obj must be an object or the string ''base''');
    end;
    
-   pairs = { ...
+   pAIrs = { ...
        'param_owner',        param_owner            ; ...
        'param_funcowner',    determine_fullfuncname     ; ...
        'position',           []                         ; ...
@@ -41,7 +41,7 @@ function [ed] = EditParam(obj, parname, parval, x, y, varargin)
        'labelpos',           'right'                    ; ...  
        'HorizontalAlignment' 'right'                    ; ...
        'nlines'              1                          ; ...
-       }; parseargs(varargin, pairs);
+       }; parseargs(varargin, pAIrs);
 
    if isempty(position),
       position = gui_position(x, y);

@@ -5,7 +5,7 @@
 %
 % Does not take string matrices, but does take cell string vectors.
 %
-% see also NOPATH, EXTENSION, PATHONLY
+% see also nopath, extension, pathonly
 
 function [r] = noextension(fname)
 

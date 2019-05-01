@@ -13,9 +13,9 @@ function [bb_sound, bb_len] = Make_badboy_sound(wn_len, spacer_len, repeats, var
 % Varargin:
 % volume: Sound intensity of BadBoySound - normal, Louder, LOUDEST
 
-pairs = { ...
+pAIrs = { ...
 	'volume', 'normal' ; ...
-}; parse_knownargs(varargin, pairs);
+}; parse_knownargs(varargin, pAIrs);
 
 
 % set up vars

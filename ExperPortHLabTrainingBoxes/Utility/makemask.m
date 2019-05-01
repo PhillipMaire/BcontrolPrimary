@@ -1,6 +1,6 @@
 function out = makemask(inimage, cutoff)
 
-% MAKEMASK takes a uint16 tif image and converts it into a binary bitmap
+% makemask takes a uint16 tif image and converts it into a binary bitmap
 % where brightest values are set to zero
 % cutoff is 0 to 1
 

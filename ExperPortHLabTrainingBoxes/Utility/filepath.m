@@ -11,7 +11,7 @@ function [p] = filepath(rat, type)
 % Output: A string with the pathname
 % 
 % Note: The script will check if the path in question exists and if not,
-% it will generate a warning message to indicate the absence.
+% it will generate a warning Message to indicate the absence.
 %
 % Sample usage:
 % >> p = filepath('ghazni','s')  

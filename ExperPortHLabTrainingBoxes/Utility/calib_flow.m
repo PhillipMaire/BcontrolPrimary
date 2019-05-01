@@ -1,6 +1,6 @@
 function f = calib_flow(flows)
 
-% function to calibrate flow controler
+% function to calibrate flow Controler
 
 % parameters for calibration ('set flow' and 'actual flow')
 set_flow_A = [0 1 2 4 8 10 20 40 60 80 90];

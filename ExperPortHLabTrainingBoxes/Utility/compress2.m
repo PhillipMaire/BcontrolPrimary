@@ -1,4 +1,4 @@
-% set optical ratio to an byte ('uint8','uint16', or 'uint32') representation of image
+% set Optical ratio to an byte ('uint8','uint16', or 'uint32') representation of image
 function [byteimage, floor, scale] = compress(rin,type)
 	switch(type)
 	case 'uint8'

@@ -32,8 +32,8 @@ case {'init','reinit'}
     SetParamUI(me,'mode','string','current');
     
     
-    % message box
-    uicontrol('parent',fig,'tag','message','style','edit',...
+    % Message box
+    uiControl('parent',fig,'tag','Message','style','edit',...
         'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1;
     
 	set(fig,'pos',[142 480-n*vs 128 n*vs],'visible','on');

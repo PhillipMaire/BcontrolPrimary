@@ -1,4 +1,4 @@
-function [] = lunghao1_gui_doutchange_callback(lh1, varargin)
+function [] = lunghAO1_gui_doutchange_callback(lh1, varargin)
 
     fignum = get(lh1, 'UserData');
     udata = get(fignum, 'UserData');

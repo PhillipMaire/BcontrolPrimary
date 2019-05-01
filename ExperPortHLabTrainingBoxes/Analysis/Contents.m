@@ -3,8 +3,8 @@
 % load_datafile: Loads the data file of a given rat, task, date, and
 %                file version ("a","b") 
 %
-% available_dates: Returns the dates for which data for a given
-%                  rat/task combination are available on the current
+% avAIlable_dates: Returns the dates for which data for a given
+%                  rat/task combination are avAIlable on the current
 %                  computer  
 %
 % parse_filename:  Given a filename in standard convention, breaks it
@@ -23,7 +23,7 @@
 % EVENT ANALYSIS
 % Tools in Analysis/
 % parse_trials: Gets start/end times for all states and poke events on trial-by-trial basis
-% get_state_name: Resolves an array of state numbers into state descriptions (dead_time, wait_for_apoke, etc.,)
+% get_state_name: Resolves an array of state numbers into state descriptions (dead_time, wAIt_for_apoke, etc.,)
 % get_trial_events: Given a saved_history vector, returns the events and
 %   state name-to-number mappings for a single trial
 %
@@ -36,7 +36,7 @@
 %  get_correct_side: Gets correct sides for each trial in binary array (1=left, 0=right)
 %  multiple_timeouts: Gets trials with specified ranges of timeouts
 % 
-% A little fancier but still general:
+% A little fancier but sTill general:
 % -----------------------------------
 %  apoke_during_timeout: Gets trials where left or right poke occurred during timeout
 %  correct_poke_during_timeout: Gets trials where animal timed out and then make correct left or right poke

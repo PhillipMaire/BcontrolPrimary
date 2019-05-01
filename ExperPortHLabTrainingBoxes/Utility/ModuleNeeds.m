@@ -1,6 +1,6 @@
 function ModuleNeeds(module,needs)
 global exper
-% MODULENEEDS(module,needs)
+% ModuleNeeds(module,needs)
 % open all the modules that this one needs in order to run
 
 	SetParam(module,'needs','list',needs);

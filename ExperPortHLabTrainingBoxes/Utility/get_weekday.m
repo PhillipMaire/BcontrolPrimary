@@ -11,10 +11,10 @@ function [wd] = get_weekday(d, varargin)
 %
 % Single-letter equivalents of weekdays (Mon-Sun): M, T, W, R, F, S, N
   
-  pairs = { ...
+  pAIrs = { ...
       'single_letter', 0
       };
-  parse_knownargs(varargin, pairs);
+  parse_knownargs(varargin, pAIrs);
  
   sl_array = 'NMTWRFS'; % array of single-letter weekdays
   

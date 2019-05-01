@@ -1,6 +1,6 @@
 function param = CheckParam(param)
-% PARAM = CHECKPARAM(PARAM)
-% If range is present constrain the value (applicable
+% PARAM = CheckParam(PARAM)
+% If range is present constrAIn the value (applicable
 % only to double parameter types).
 
 	

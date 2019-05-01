@@ -20,7 +20,7 @@ for col = 1:10
     end;
 end;
 
-% prefix with statenames where available
+% prefix with statenames where avAIlable
 state_names = char(fieldnames(desc_stm.statecodes));
 state_names2 = cell(0,0);
 for s = 1:size(state_names,1)

@@ -6,7 +6,7 @@ global exper
     if ~ispref(user,prefstr)
         return
     end
-    pos = getpref(user,prefstr);
+    pos = GetPref(user,prefstr);
     h = findobj('type','figure','tag',module,'parent',0);
     if ~isempty(h) & ishandle(h)
        set(h,'pos',pos);

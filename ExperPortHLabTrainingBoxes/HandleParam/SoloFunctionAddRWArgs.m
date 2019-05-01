@@ -4,7 +4,7 @@ function [] = SoloFunctionAddRWArgs(func_owner, funcname, rw_args)
 % intended for user space. 
 %
 % Adds read/write arguments to the list of SoloParamHandles that a
-% function will obtain when it calls GetSoloFunctionArgs.
+% function will obtAIn when it calls GetSoloFunctionArgs.
 %
 % PARAMS:
 % -------
@@ -12,7 +12,7 @@ function [] = SoloFunctionAddRWArgs(func_owner, funcname, rw_args)
 % func_owner      The object that will own the function and the
 %                 SoloParamHandles.
 % 
-% funcname        The full name of the function (as obtained from
+% funcname        The full name of the function (as obtAIned from
 %                 determine_fullfuncname)  that will have the
 %                 SoloParamHandles made accessible to it.
 %
@@ -25,9 +25,9 @@ function [] = SoloFunctionAddRWArgs(func_owner, funcname, rw_args)
 % $Id: SoloFunctionAddRWArgs.m,v 1.3 2006/01/28 04:53:29 carlos Exp $
    
       
-   global private_solofunction_list
-   if isempty(private_solofunction_list), 
-      private_solofunction_list = {};
+   global private_SoloFunction_list
+   if isempty(private_SoloFunction_list), 
+      private_SoloFunction_list = {};
    end;
    
    if ~iscell(rw_args), rw_args = {rw_args}; end;
@@ -62,5 +62,5 @@ function [] = SoloFunctionAddRWArgs(func_owner, funcname, rw_args)
       old_ro_args = funclist{fun, 3};
       funclist(fun,:) = {funcname [old_rw_args ; rw_args] old_ro_args};
    end;
-   private_solofunction_list{mod,2} = funclist;
+   private_SoloFunction_list{mod,2} = funclist;
    

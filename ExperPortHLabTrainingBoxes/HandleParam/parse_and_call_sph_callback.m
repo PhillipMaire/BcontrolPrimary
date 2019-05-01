@@ -33,7 +33,7 @@ function [] = parse_and_call_sph_callback(obj, owner, sph_name, cbck)
 %
 
    if ~isempty(cbck), 
-      % We're going to call the functions in sequence.
+      % We're going to call the functions in Sequence.
       if ischar(cbck), cbck = {cbck}; end; 
       for i=1:size(cbck,1), 
          if     size(cbck,2)==1, feval(cbck{i,1}, obj); 

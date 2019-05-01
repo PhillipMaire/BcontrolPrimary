@@ -1,9 +1,9 @@
 function out = Master8(varargin)
 % Master8
 % 
-% This module will control the Master8 from the serial port.
+% This module will Control the Master8 from the serial port.
 % The full functionality of the Master8 is not implemented,
-% notably, we are only dealing with channels 1, 2 in triggered or train mode.
+% notably, we are only dealing with channels 1, 2 in triggered or trAIn mode.
 %
 
 global exper
@@ -33,22 +33,22 @@ case 'init'
     InitParam(me,'freq','ui','edit','value',50,'all',ones(1,8)*50,'range',[0.25 1.66e7],'save',1,'pos',[h n*vs hs vs]); n=n+1;
     InitParam(me,'delay','ui','edit','value',1e-4,'all',ones(1,8)*1e-4,'range',[100e-6 3999],'save',1,'pos',[h n*vs hs vs]); n=n+1;
     InitParam(me,'dura','ui','edit','value',1e-3,'all',ones(1,8)*1e-3,'range',[40e-6 3999],'save',1,'pos',[h n*vs hs vs]); n=n+1;
-    InitParam(me,'mode','ui','popupmenu','list',{'off','trig','train','free','dc','gate'},...
+    InitParam(me,'mode','ui','popupmenu','list',{'off','trig','trAIn','free','dc','gate'},...
         'm8',{'O','G','N','F','C','T'},'all',ones(1,8),'value',1,'save',1,'pos',[h n*vs hs vs]); n=n+1;
     n=n+1;
     InitParam(me,'chan','ui','popupmenu','list',num2cell(1:8),'value',1,'pos',[h n*vs hs vs]); n=n+1;
 
     InitParam(me,'comm','list',{'com1','com2','com3','com4'},'value',1,'pos',[h n*vs hs vs]);
     n=n+1;
-    uicontrol(fig,'style','pushbutton','string','reset','callback',[me ';'],'tag','reset','pos',[h n*vs hs vs]); n=n+1;
+    uiControl(fig,'style','pushbutton','string','reset','callback',[me ';'],'tag','reset','pos',[h n*vs hs vs]); n=n+1;
 
-    % message box
-    uicontrol('parent',fig,'tag','message','style','edit',...
+    % Message box
+    uiControl('parent',fig,'tag','Message','style','edit',...
         'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1;
     
 	set(fig,'pos',[142 480-n*vs 128 n*vs],'visible','on');
     
-    master8('reset');
+    Master8('reset');
     
 case 'reinit'
 	
@@ -71,7 +71,7 @@ case 'reinit'
     SetParam(me,'delay','all',ones(1,8)*GetParam(me,'delay'));
     InitParam(me,'dura','ui','disp','value',0.2e-3,'range',[40e-6 3999],'pos',[h n*vs hs vs]); n=n+1;
     SetParam(me,'dura','all',ones(1,8)*GetParam(me,'dura'));
-    InitParam(me,'mode','ui','popupmenu','list',{'trig','train','free','dc','gate','off'},'m8',{'G','N','F','C','T','O'},'all',ones(1,8),...
+    InitParam(me,'mode','ui','popupmenu','list',{'trig','trAIn','free','dc','gate','off'},'m8',{'G','N','F','C','T','O'},'all',ones(1,8),...
         'value',1,'pos',[h n*vs hs vs]); n=n+1;
     SetParamUI(me,'mode','enable','off');
     n=n+1;
@@ -80,8 +80,8 @@ case 'reinit'
     InitParam(me,'comm','list',{'com1','com2','com3','com4'},'value',1,'pos',[h n*vs hs vs]);
     n=n+1;
 
-    % message box
-    uicontrol('parent',fig,'tag','message','style','edit',...
+    % Message box
+    uiControl('parent',fig,'tag','Message','style','edit',...
         'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1;
     
 	set(fig,'pos',[142 480-n*vs 128 n*vs],'visible','on');
@@ -93,24 +93,24 @@ case 'trialready'
     
 case 'trialend'
     
-%   	SaveParamsTrial(me,GetParam('control','trial'));
-    tr = GetParam('control','trial');
-    exper.master8.param.mode.trial{tr} = GetParam(me,'mode','all');
-    exper.master8.param.dura.trial{tr} = GetParam(me,'dura','all');
-    exper.master8.param.delay.trial{tr} = GetParam(me,'delay','all');
-    exper.master8.param.inter.trial{tr} = GetParam(me,'inter','all');
-    exper.master8.param.M.trial{tr} = GetParam(me,'M','all');
+%   	SaveParamsTrial(me,GetParam('Control','trial'));
+    tr = GetParam('Control','trial');
+    exper.Master8.param.mode.trial{tr} = GetParam(me,'mode','all');
+    exper.Master8.param.dura.trial{tr} = GetParam(me,'dura','all');
+    exper.Master8.param.delay.trial{tr} = GetParam(me,'delay','all');
+    exper.Master8.param.inter.trial{tr} = GetParam(me,'inter','all');
+    exper.Master8.param.M.trial{tr} = GetParam(me,'M','all');
     
 case 'trialreview'    
     
 
 if 0
-    tr = GetParam('control','trial');
-    mode = exper.master8.param.mode.trial{tr};
-    dura = exper.master8.param.dura.trial{tr};
-    delay = exper.master8.param.delay.trial{tr};
-    inter = exper.master8.param.inter.trial{tr};
-    M = exper.master8.param.M.trial{tr};
+    tr = GetParam('Control','trial');
+    mode = exper.Master8.param.mode.trial{tr};
+    dura = exper.Master8.param.dura.trial{tr};
+    delay = exper.Master8.param.delay.trial{tr};
+    inter = exper.Master8.param.inter.trial{tr};
+    M = exper.Master8.param.M.trial{tr};
     chan = GetParamList(me,'chan');
     
     SetParam(me,'mode',mode(chan));
@@ -119,9 +119,9 @@ if 0
     SetParam(me,'dura',dura(chan));
     SetParam(me,'M',M(chan));
 else
-    tr = GetParam('control','trial');
-    if length(exper.master8.param.inter.trial) >= tr
-        inter = exper.master8.param.inter.trial{tr};
+    tr = GetParam('Control','trial');
+    if length(exper.Master8.param.inter.trial) >= tr
+        inter = exper.Master8.param.inter.trial{tr};
         chan = GetParamList(me,'chan');
         SetParam(me,'inter',inter(chan));
         SetParam(me,'freq',1/GetParam(me,'inter'));
@@ -140,7 +140,7 @@ case 'reset'
 %          return;
 %      end
       
-      % reset master8
+      % reset Master8
 %      writem8('O A A A E');
 
       % let Master 8 display the values sent
@@ -151,12 +151,12 @@ case 'reset'
       % set all channel values
       for n=1:8
           SetParam(me,'chan',n);
-          master8('chan');
-          master8('mode');
-          master8('dura');
-          master8('delay');
-          master8('inter');
-          master8('m');
+          Master8('chan');
+          Master8('mode');
+          Master8('dura');
+          Master8('delay');
+          Master8('inter');
+          Master8('m');
       end
       SetParam(me,'chan',ch);
       
@@ -177,7 +177,7 @@ case 'chan'
     
     M = GetParam(me,'M','all');
     SetParam(me,'M',M(chan));
-    message(me,'');
+    Message(me,'');
     
     
 case 'mode'
@@ -295,7 +295,7 @@ global exper
         SetParam(me,'delay',GetParam(me,'dura')/10000+1e-6);
     end
     switch GetParamList(me,'mode')
-    case 'train'
+    case 'trAIn'
         if GetParam(me,'inter') <= GetParam(me,'dura')+59e-6
             SetParam(me,'inter',GetParam(me,'dura')+60e-6);
         end
@@ -322,10 +322,10 @@ function writem8(str)
     
 %    resp = fscanf(com);
 %    [t,r]= strtok(resp,'!')
-%    message(me,t);
-%    message(me,resp);
+%    Message(me,t);
+%    Message(me,resp);
 
-    message(me,str);
+    Message(me,str);
 %    fclose(com);
     
  
@@ -341,7 +341,7 @@ function com = get_com(port)
 	end
 	if isempty(com)
 
-% Master 8 wants 19200 baud, no parity, 8 bits per char, 1 stop but, no control lines
+% Master 8 wants 19200 baud, no parity, 8 bits per char, 1 stop but, no Control lines
 % If there is a problem, be sure to check these: press 'all' twice on m8
 		com = serial(port,'tag','m8');
 		fopen(com);

@@ -1,9 +1,9 @@
 function [xcomm xfin xmid weber] = get_weber(x, y, varargin)
 
-pairs = { ...
+pAIrs = { ...
     'pitches', 0 ; ...
     };
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 % Finally, plot threshold limits and calculate Weber ratio
 plus_sd = normcdf(1); minus_sd = normcdf(-1);

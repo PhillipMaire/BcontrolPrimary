@@ -1,5 +1,5 @@
 function h = SetUIValue(module,name,val,varargin)
-% H = SETUIVALUE(MODULE,NAME,VAL,[LIST],[VARARGIN])
+% H = SetUIValue(MODULE,NAME,VAL,[LIST],[VARARGIN])
 % Set the value in a gui field specified by 'tag' NAME to
 % the value VAL. Extra arguments specify additional fields
 % and values that are set.

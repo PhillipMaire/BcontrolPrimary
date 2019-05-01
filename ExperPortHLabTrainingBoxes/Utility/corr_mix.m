@@ -25,7 +25,7 @@ p_val = 0.01;
 % grc = [16 8 9 10 11 7];
 % grh = [16 15 14 13 12 2];
 
-n_glo = length(exper.blob.roi);
+n_glo = length(exper.Blob.roi);
 
 Pred = [];
 Resp = [];
@@ -78,7 +78,7 @@ h = text(0.5,1,title_str,'horiz','center','vertical','top','parent',axi,'tag','r
 
 
 % local function
-function [mix_pred, mix_resp, res_cat] = group_ratio_plot2(blob, p_val, trial_range)
+function [mix_pred, mix_resp, res_cat] = group_ratio_plot2(Blob, p_val, trial_range)
 
 grm = [2 3 4 5 6 7];
 grc = [16 8 9 10 11 7];
@@ -87,12 +87,12 @@ grh = [16 15 14 13 12 2];
 global exper
 
 if nargin == 0
-    errordlg('Please enter blob number')
+    errordlg('Please enter Blob number')
 end
 
-g_list = exper.group.param.group.list;
-g_trial = exper.sequence.param.group.trial;
-trial_length = length(exper.blob.roi(1).ratio);
+g_list = exper.Group.param.Group.list;
+g_trial = exper.Sequence.param.Group.trial;
+trial_length = length(exper.Blob.roi(1).ratio);
 
 if nargin < 3
     trial_range = 1:trial_length;
@@ -106,7 +106,7 @@ for i = 1:length(g_list)
     for t = trial_range
         if strcmp(g,g_trial{t})
             x = [x i];
-            y = [y exper.blob.roi(blob).ratio(t)];
+            y = [y exper.Blob.roi(Blob).ratio(t)];
             
             xx(t) = i;
         end
@@ -117,8 +117,8 @@ M = [];
 SE = [];
 for i = 1:length(g_list)
     t = find(xx == i);
-    m = mean(exper.blob.roi(blob).ratio(t)*(-1));
-    se = std(exper.blob.roi(blob).ratio(t)*(-1))/sqrt(length(t));
+    m = mean(exper.Blob.roi(Blob).ratio(t)*(-1));
+    se = std(exper.Blob.roi(Blob).ratio(t)*(-1))/sqrt(length(t));
     M = [M m];
     SE = [SE se];
 end
@@ -129,9 +129,9 @@ end
 % 7   mix0_100
 % 16   blank
 
-res_A = exper.blob.roi(blob).ratio(find(xx == 2));
-res_B = exper.blob.roi(blob).ratio(find(xx == 7));
-res_blank = exper.blob.roi(blob).ratio(find(xx == 16));
+res_A = exper.Blob.roi(Blob).ratio(find(xx == 2));
+res_B = exper.Blob.roi(Blob).ratio(find(xx == 7));
+res_blank = exper.Blob.roi(Blob).ratio(find(xx == 16));
 
 res_cat = 0;
 if kstest2(res_A,res_blank, p_val, 1)
@@ -191,5 +191,5 @@ min_res = min([M(2:16) mix_pred]);
 % axis(ax)
 % 
 % axi = axes('parent',fig,'pos',[0 0 1 1],'tag','r_title','visible','off');
-% title_str = ['glomerulus ' num2str(blob) '   ( trial : ' num2str(trial_range(1)) ' - ' num2str(trial_range(end)) ' )'];
+% title_str = ['glomerulus ' num2str(Blob) '   ( trial : ' num2str(trial_range(1)) ' - ' num2str(trial_range(end)) ' )'];
 % h = text(0.5,1,title_str,'horiz','center','vertical','top','parent',axi,'tag','ratio_title');

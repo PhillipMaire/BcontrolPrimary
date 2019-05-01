@@ -10,17 +10,17 @@ addpath([pwd '/Modules']);
 % daqreset;
 
 ModuleInit('Control');
-if ~isempty(GetParam('control','user'))
-    if strcmp(GetParam('control','user'),'uchida_e')
+if ~isempty(GetParam('Control','user'))
+    if strcmp(GetParam('Control','user'),'uchida_e')
         
-        ModuleInit('ai');
+        ModuleInit('AI');
         ModuleInit('valveflow');
-        %     ModuleInit('opt');
-        %     ModuleInit('blob');
-            ModuleInit('group');
-        %     ModuleInit('orca');
-        %     ModuleInit('till');
-        ModuleInit('sequence');
+        %     ModuleInit('Opt');
+        %     ModuleInit('Blob');
+            ModuleInit('Group');
+        %     ModuleInit('Orca');
+        %     ModuleInit('Till');
+        ModuleInit('Sequence');
         % need to add one channel to AI even though it's not used
         AI('board_open','nidaq',1);
         AI('add_chan',1,'');
@@ -29,14 +29,14 @@ if ~isempty(GetParam('control','user'))
         Control('restore_layout');
         
     else
-        ModuleInit('ai');
+        ModuleInit('AI');
         ModuleInit('valveflow');
-        ModuleInit('opt');
-        ModuleInit('blob');
-        ModuleInit('group');
-        ModuleInit('orca');
-        ModuleInit('till');
-        ModuleInit('sequence');
+        ModuleInit('Opt');
+        ModuleInit('Blob');
+        ModuleInit('Group');
+        ModuleInit('Orca');
+        ModuleInit('Till');
+        ModuleInit('Sequence');
         % need to add one channel to AI even though it's not used
         AI('board_open','nidaq',1);
         AI('add_chan',1,'');

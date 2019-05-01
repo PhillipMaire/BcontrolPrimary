@@ -1,8 +1,8 @@
 function [sph] = get_any_handle(func, meth, param)
 
-% GET_ANY_HANDLE
+% get_any_handle
 %     Used for debugging purposes
-%     Accesses private_solofunction_list to return the handle to any parameter
+%     Accesses private_SoloFunction_list to return the handle to any parameter
 %     in any method in any function currently running.
 %
 %     Input params:
@@ -13,9 +13,9 @@ function [sph] = get_any_handle(func, meth, param)
 %     Sample usage:
 %         sph = get_any_handle('@dual_discobj', 'ChordSection', 'Tone_Loc');
 
-global private_solofunction_list;
+global private_SoloFunction_list;
 
-psf = private_solofunction_list;
+psf = private_SoloFunction_list;
 
 if ~strcmp('@',func(1)),func = ['@' func]; end;
 

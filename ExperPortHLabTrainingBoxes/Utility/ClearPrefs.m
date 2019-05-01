@@ -1,15 +1,15 @@
 function ClearPrefs(user)
-% CLEARPREFS(USER)
+% ClearPrefs(USER)
 % Using builtin Matlab pref functions, clear saved preferences
 % for the specified user
-% See SAVEPREFS(USER), RESTOREPREFS(USER)
+% See SavePrefs(USER), RestorePrefs(USER)
 
 % ZF MAINEN, CSHL, 1/01
 
 global exper
 
 % look at all the preferences
-p = getpref;
+p = GetPref;
 pref = fieldnames(p);
 % find preferences matching the user
 for n=1:length(pref)

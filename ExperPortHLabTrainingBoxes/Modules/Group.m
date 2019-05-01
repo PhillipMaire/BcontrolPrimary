@@ -1,8 +1,8 @@
 function varargout = Group(varargin)
 % Group
 %
-% This module collects groups of trials based on parameters such as odor ID.
-% These can be used by other modules to select useful groups of trials for
+% This module collects Groups of trials based on parameters such as odor ID.
+% These can be used by other modules to select useful Groups of trials for
 % averaging, etc.
 % 
 %
@@ -30,9 +30,9 @@ case {'init','reinit'}
 	n = 0;
    
     
-    uicontrol(fig,'style','pushbutton','string','Add','callback',[me ';'],'tag','add_from_param','pos',[h+hs/3 n*vs hs/3 vs]); 
-    uicontrol(fig,'style','pushbutton','string','Add all','callback',[me ';'],'tag','add_all_from_param','pos',[h+hs*2/3 n*vs hs/3 vs]); 
-    uicontrol(fig,'style','pushbutton','string','Collect','callback',[me ';'],'tag','collect','pos',[h n*vs hs/3 vs]); n=n+1
+    uiControl(fig,'style','pushbutton','string','Add','callback',[me ';'],'tag','add_from_param','pos',[h+hs/3 n*vs hs/3 vs]); 
+    uiControl(fig,'style','pushbutton','string','Add all','callback',[me ';'],'tag','add_all_from_param','pos',[h+hs*2/3 n*vs hs/3 vs]); 
+    uiControl(fig,'style','pushbutton','string','Collect','callback',[me ';'],'tag','collect','pos',[h n*vs hs/3 vs]); n=n+1
     InitParam(me,'value','ui','popupmenu','list',{' '},'value',1,'pos',[h n*vs hs vs]); n=n+1;
     InitParam(me,'param','ui','popupmenu','list',{' '},'value',1,'pos',[h n*vs hs vs]); n=n+1;
     InitParam(me,'module','ui','popupmenu','list',{' '},'value',1,'pos',[h n*vs hs vs]); n=n+1;
@@ -44,15 +44,15 @@ case {'init','reinit'}
     
 %    InitParam(me,'review','ui','popupmenu','list',' ','value',1,'trials',' ','pos',[h n*vs hs vs]); n=n+1;
 
-    uicontrol(fig,'style','pushbutton','string','Update','callback',[me ';'],'tag','update_group','pos',[h+hs*2/3 n*vs hs/3 vs]); 
-    uicontrol(fig,'style','pushbutton','string','Del all','callback',[me ';'],'tag','del_all','pos',[h+hs/3 n*vs hs/3 vs]); 
-    uicontrol(fig,'style','pushbutton','string','Move dn','callback',[me ';'],'tag','move_dn','pos',[h n*vs hs/3 vs]); n=n+1;
+    uiControl(fig,'style','pushbutton','string','Update','callback',[me ';'],'tag','update_Group','pos',[h+hs*2/3 n*vs hs/3 vs]); 
+    uiControl(fig,'style','pushbutton','string','Del all','callback',[me ';'],'tag','del_all','pos',[h+hs/3 n*vs hs/3 vs]); 
+    uiControl(fig,'style','pushbutton','string','Move dn','callback',[me ';'],'tag','move_dn','pos',[h n*vs hs/3 vs]); n=n+1;
     
-    uicontrol(fig,'style','pushbutton','string','New','callback',[me ';'],'tag','new_group','pos',[h+hs*2/3 n*vs hs/3 vs]); 
-    uicontrol(fig,'style','pushbutton','string','Del','callback',[me ';'],'tag','del','pos',[h+hs/3 n*vs hs/3 vs]); 
-    uicontrol(fig,'style','pushbutton','string','Move up','callback',[me ';'],'tag','move_up','pos',[h n*vs hs/3 vs]); n=n+1
+    uiControl(fig,'style','pushbutton','string','New','callback',[me ';'],'tag','new_Group','pos',[h+hs*2/3 n*vs hs/3 vs]); 
+    uiControl(fig,'style','pushbutton','string','Del','callback',[me ';'],'tag','del','pos',[h+hs/3 n*vs hs/3 vs]); 
+    uiControl(fig,'style','pushbutton','string','Move up','callback',[me ';'],'tag','move_up','pos',[h n*vs hs/3 vs]); n=n+1
     
-    InitParam(me,'group','ui','popupmenu','list',{' '},'trials',{' '},'value',1,'pos',[h n*vs hs vs]); n=n+2;
+    InitParam(me,'Group','ui','popupmenu','list',{' '},'trials',{' '},'value',1,'pos',[h n*vs hs vs]); n=n+2;
   
 
     InitParam(me,'name','ui','edit','value','','pos',[h n*vs hs vs]); n=n+1;
@@ -71,8 +71,8 @@ case {'init','reinit'}
 
 
     
-    % message box
-    uicontrol('parent',fig,'tag','message','style','edit',...
+    % Message box
+    uiControl('parent',fig,'tag','Message','style','edit',...
         'enable','inact','horiz','left','pos',[h n*vs hs vs]); n=n+1;
     
 	set(fig,'pos',[142 480-n*vs 68+hs n*vs],'visible','on');
@@ -96,8 +96,8 @@ case 'load'
     LoadParams(me);
     
 case 'reset'
-    SetParam(me,'group','value',1,'list',{' '},'trials',{' '});
-    update_group;
+    SetParam(me,'Group','value',1,'list',{' '},'trials',{' '});
+    update_Group;
     
     
 % functions that are called by other modules that work with Group
@@ -105,7 +105,7 @@ case 'reset'
 
 case 'current'
 % [trials, name] = Group('current')
-% return the currently selected group of trials and its name
+% return the currently selected Group of trials and its name
 % trials is an array, name is a string. Invalid trials are
 % removed. Both trials and name are passed as strings.
 
@@ -115,16 +115,16 @@ case 'current'
    
 case 'all'
 % [trials, name] = Group('all')
-% Return cell arrays of all the groups and their names. 
+% Return cell arrays of all the Groups and their names. 
 % Invalid trials are removed. Both trials and names are passed as strings.
 
-   trials = GetParam(me,'group','trials'); 
+   trials = GetParam(me,'Group','trials'); 
    for n=1:length(trials)
        val_trials{n} = remove_invalid(trials{n});
    end
    varargout{1} = val_trials;
    if nargout > 1
-       names = GetParam(me,'group','list');
+       names = GetParam(me,'Group','list');
        varargout{2} = names; 
    end
     
@@ -132,11 +132,11 @@ case 'all'
 case 'all_valid'
     
     % trials = Group('all_valid')
-    % Return all valid trials in all groups as a single list.
+    % Return all valid trials in all Groups as a single list.
     
     
     val_trials = [];
-    trials = GetParam(me,'group','trials'); 
+    trials = GetParam(me,'Group','trials'); 
     for n=1:length(trials)
         val_trials = [val_trials remove_invalid(trials{n})];
     end
@@ -145,39 +145,39 @@ case 'all_valid'
     
 case 'add'
 % Group('add',trial,name]
-% Add a trial to the group 'name'. Create a new group if 
+% Add a trial to the Group 'name'. Create a new Group if 
 % name does not exist.
 
 
-    trials = GetParam(me,'group','trials'); 
-    groups = GetParam(me,'group','list'); 
+    trials = GetParam(me,'Group','trials'); 
+    Groups = GetParam(me,'Group','list'); 
     
     new_trial = varargin{2};
     if ischar(new_trial)
         new_trial = str2num(new_trial)
     end
-    new_group = varargin{3};
+    new_Group = varargin{3};
     
     % start at 2 because the first string is not used
-    for n=1:length(groups)
-        if ~isempty(groups{n}) & strmatch(groups{n},new_group)
+    for n=1:length(Groups)
+        if ~isempty(Groups{n}) & strmatch(Groups{n},new_Group)
             tr = str2num(trials{n});
             if isempty(find(tr == new_trial))
                 trials{n} = num2str(sort([tr new_trial]));
             end
-            SetParam(me,'group','trials',trials,'value',n);
-            update_group;
+            SetParam(me,'Group','trials',trials,'value',n);
+            update_Group;
             return;
         end
     end
     
-    % search failed, so add a new one
-    groups{end+1} = new_group;
+    % search fAIled, so add a new one
+    Groups{end+1} = new_Group;
     trials{end+1} = num2str(new_trial);
     
-    SetParam(me,'group','list',groups,'trials',trials,'value',length(groups));
+    SetParam(me,'Group','list',Groups,'trials',trials,'value',length(Groups));
     
-    update_group;
+    update_Group;
     
 
     
@@ -185,21 +185,21 @@ case 'add'
 case 'match'
 % [name, index] = Group('match',target_trial)
 % Target is a string specifying a trial
-% Returns the first group which includes the target trial.
+% Returns the first Group which includes the target trial.
 % Name is a string and index is a number.
 
     target = varargin{2};
     if ischar(target)
         target = str2num(target);
     end
-    trials = GetParam(me,'group','trials'); 
-    groups = GetParam(me,'group','list'); 
+    trials = GetParam(me,'Group','trials'); 
+    Groups = GetParam(me,'Group','list'); 
     
     varargout{1} = [];
     for n=1:length(trials)
         tr = str2num(trials{n});
         if ~isempty(find(tr == target))
-            varargout{1} = groups{n};
+            varargout{1} = Groups{n};
             if nargout > 1
                 varargout{2} = n;
             end
@@ -209,23 +209,23 @@ case 'match'
     
     
 case 'get'
-% [trials, index] = Group('get',target_group)
-% Returns the trials associated with a group
-% Target_group can be either a string (group name)
-% of the index of the group (value of the popupmenu ui).
+% [trials, index] = Group('get',target_Group)
+% Returns the trials associated with a Group
+% Target_Group can be either a string (Group name)
+% of the index of the Group (value of the popupmenu ui).
 % Trials are returned as a string. Invalid trials are removed.
     
     
-    trials = GetParam(me,'group','trials'); 
-    groups = GetParam(me,'group','list'); 
+    trials = GetParam(me,'Group','trials'); 
+    Groups = GetParam(me,'Group','list'); 
     
-    target_group = varargin{2};
+    target_Group = varargin{2};
     
     % if passed a string, then search for it
-    if ischar(target_group)
+    if ischar(target_Group)
         % start at 2 because the first string is not used
-        for n=1:length(groups)
-            if strmatch(groups{n},target_group)
+        for n=1:length(Groups)
+            if strmatch(Groups{n},target_Group)
                 varargout{1} = remove_invalid(trials{n});
                 if nargout ==2 
                     varargout{2} = n;
@@ -233,11 +233,11 @@ case 'get'
                 return;
             end
         end
-        % search failed
+        % search fAIled
         varargout{1} = [];
     else 
         % if passed a number just return the trials
-        varargout{1} = trials{target_group};
+        varargout{1} = trials{target_Group};
     end
     
 case 'add_invalid'
@@ -277,14 +277,14 @@ case 'remove_invalid'
     if ischar(trials)
         trials = str2num(trials);
     end
-    invalid_num = str2num(GetParam('group','invalid'));
+    invalid_num = str2num(GetParam('Group','invalid'));
     for n=1:length(trials)
         good_ind = find(invalid_num ~= trials(n));
         invalid_num = invalid_num(good_ind);
     end
     
     new_invalid = sprintf('%d ',invalid_num); 
-    SetParam('group','invalid',new_invalid(1:end-1));
+    SetParam('Group','invalid',new_invalid(1:end-1));
     varargout{1} = new_invalid(1:end-1);
            
 
@@ -301,47 +301,47 @@ case 'value'
     SetParam(me,'trials',trials);
 	
     
-case 'new_group'
-    % update the group to reflect new trials and name
-    trials_list = GetParam(me,'group','trials'); 
+case 'new_Group'
+    % update the Group to reflect new trials and name
+    trials_list = GetParam(me,'Group','trials'); 
     trials_list{end+1} = ' ';    
     SetParam(me,'trials',' ');
     SetParam(me,'name',' ');
-    SetParam(me,'group','trials',trials_list);
+    SetParam(me,'Group','trials',trials_list);
   
-    name_list = GetParam(me,'group','list');      % list of names
+    name_list = GetParam(me,'Group','list');      % list of names
     name_list{end+1} = ' ';
-    SetParam(me,'group','list',name_list);
+    SetParam(me,'Group','list',name_list);
    
-case 'update_group'
-    % update the group to reflect new trials and name
-    trials_list = GetParam(me,'group','trials'); 
-    trials_list{GetParam(me,'group','value')} = GetParam(me,'trials');    
-    SetParam(me,'group','trials',trials_list);
+case 'update_Group'
+    % update the Group to reflect new trials and name
+    trials_list = GetParam(me,'Group','trials'); 
+    trials_list{GetParam(me,'Group','value')} = GetParam(me,'trials');    
+    SetParam(me,'Group','trials',trials_list);
   
-    name_list = GetParam(me,'group','list');      % list of names
-    name_list{GetParam(me,'group','value')} = GetParam(me,'name');    
-    SetParam(me,'group','list',name_list);
-    update_group;
+    name_list = GetParam(me,'Group','list');      % list of names
+    name_list{GetParam(me,'Group','value')} = GetParam(me,'name');    
+    SetParam(me,'Group','list',name_list);
+    update_Group;
 
     
 case 'collect'
-    if ExistParam('control','run') & GetParam('control','run')
-        message(me,'Stop run before collecting trials','error');
+    if ExistParam('Control','run') & GetParam('Control','run')
+        Message(me,'Stop run before collecting trials','error');
         return;
     else
         collect;
-        message(me,'');
+        Message(me,'');
     end
     
     
     
     
-case 'group'
-    tr = GetParamList(me,'group','trials');
+case 'Group'
+    tr = GetParamList(me,'Group','trials');
 
     SetParam(me,'trials',tr);
-    SetParam(me,'name',GetParamList(me,'group','list'));
+    SetParam(me,'name',GetParamList(me,'Group','list'));
     
 
     
@@ -354,8 +354,8 @@ case 'add_from_param'
     end
 
 
-    trials_list = GetParam(me,'group','trials');  % list of trials
-    name_list = GetParam(me,'group','list');      % list of names
+    trials_list = GetParam(me,'Group','trials');  % list of trials
+    name_list = GetParam(me,'Group','list');      % list of names
     
     name = sprintf('%s',GetParamList(me,'value'));
     
@@ -364,9 +364,9 @@ case 'add_from_param'
     trials_list{ind} = select_trials(trials);
     name_list{ind} = name;
         
-    SetParam(me,'group','trials',trials_list,'list',name_list,'value',ind);
+    SetParam(me,'Group','trials',trials_list,'list',name_list,'value',ind);
     
-    update_group;
+    update_Group;
     
 case 'add_all_from_param'
     for n=1:length(GetParam(me,'value','list'))
@@ -377,9 +377,9 @@ case 'add_all_from_param'
  
     
 case 'del'
-    ind = GetParam(me,'group','value');
-    trials_list = GetParam(me,'group','trials'); % list of trials
-    name_list = GetParam(me,'group','list');  % list of comments
+    ind = GetParam(me,'Group','value');
+    trials_list = GetParam(me,'Group','trials'); % list of trials
+    name_list = GetParam(me,'Group','list');  % list of comments
        
     k=1;
     for n=1:length(trials_list)
@@ -391,21 +391,21 @@ case 'del'
     end
     ind = max([ind-1 1]);
     
-    SetParam(me,'group','trials',new_trials_list,'value',ind,'list',new_name_list);
-    update_group;
+    SetParam(me,'Group','trials',new_trials_list,'value',ind,'list',new_name_list);
+    update_Group;
     
     
 case 'del_all'
     if strcmp(questdlg('Remove all trials?'),'Yes')
-        SetParam(me,'group','value',1,'list',{' '},'trials',{' '});
-        update_group;
+        SetParam(me,'Group','value',1,'list',{' '},'trials',{' '});
+        update_Group;
     end
     
 case 'move_dn'
-    % move the current group down in the list
-    s_list = GetParam(me,'group','list');
-    s_trials = GetParam(me,'group','trials');
-    v = GetParam(me,'group','value');
+    % move the current Group down in the list
+    s_list = GetParam(me,'Group','list');
+    s_trials = GetParam(me,'Group','trials');
+    v = GetParam(me,'Group','value');
     
     if v == 1
         return;
@@ -416,16 +416,16 @@ case 'move_dn'
     ttmp = s_trials{v-1};
     s_trials{v-1} = s_trials{v};
     s_trials{v} = ttmp;
-    SetParam(me,'group','list',s_list);
-    SetParam(me,'group','trials',s_trials);
-    SetParam(me,'group','value',v-1);
-    update_group;
+    SetParam(me,'Group','list',s_list);
+    SetParam(me,'Group','trials',s_trials);
+    SetParam(me,'Group','value',v-1);
+    update_Group;
     
 case 'move_up'
-    % move the current group up in the list
-    s_list = GetParam(me,'group','list');
-    s_trials = GetParam(me,'group','trials');
-    v = GetParam(me,'group','value');
+    % move the current Group up in the list
+    s_list = GetParam(me,'Group','list');
+    s_trials = GetParam(me,'Group','trials');
+    v = GetParam(me,'Group','value');
     
     if v == length(s_list)
         return;
@@ -438,10 +438,10 @@ case 'move_up'
     s_trials{v+1} = s_trials{v};
     s_trials{v} = ttmp;
     
-    SetParam(me,'group','list',s_list);
-    SetParam(me,'group','trials',s_trials);
-    SetParam(me,'group','value',v+1);
-    update_group;
+    SetParam(me,'Group','list',s_list);
+    SetParam(me,'Group','trials',s_trials);
+    SetParam(me,'Group','value',v+1);
+    update_Group;
     
     
 case 'open'
@@ -452,59 +452,59 @@ case 'open'
     else 
         filterspec = [path '\*.mat'];
     end
-    prompt = 'Load groups from mat file...';
+    prompt = 'Load Groups from mat file...';
 	[filename, pathname] = uigetfile(filterspec, prompt);
     if isequal(filename,0)|isequal(pathname,0)
-         message(me,'Open canceled');
+         Message(me,'Open canceled');
          return
     end
 	set(get(gcbo,'parent'),'user',pathname);
     s = load([pathname '\' filename]);
-    exper = setfield(exper,'group',s.group);
-    message(me,['Opened ' filename]);
+    exper = setfield(exper,'Group',s.Group);
+    Message(me,['Opened ' filename]);
     LoadParams(me);
     
     
 case 'save'
     path = get(get(gcbo,'parent'),'user');
-    filterspec = sprintf('%s_groups.mat',GetParam('control','expid'));
+    filterspec = sprintf('%s_Groups.mat',GetParam('Control','expid'));
     if ~isempty(path)
         filterspec = [path '\' filterspec];
     end
-    prompt = 'Save groups to mat file...';
+    prompt = 'Save Groups to mat file...';
 	[filename, pathname] = uiputfile(filterspec, prompt);
     if isequal(filename,0)|isequal(pathname,0)
-         message(me,'Save canceled');
+         Message(me,'Save canceled');
          return
     end
 	set(get(gcbo,'parent'),'user',pathname);
-    group = exper.group;
-    save([pathname '\' filename],'group');
-    message(me,['Saved ' filename]);
+    Group = exper.Group;
+    save([pathname '\' filename],'Group');
+    Message(me,['Saved ' filename]);
     
     
 case 'export'
     % to format suitable for excel
     path = get(get(gcbo,'parent'),'user');
-    filterspec = sprintf('%s_groups.txt',GetParam('control','expid'));
+    filterspec = sprintf('%s_Groups.txt',GetParam('Control','expid'));
     if ~isempty(path)
         filterspec = [path '\' filterspec];
     end
-    prompt = 'Export groups to text/xls file...';
+    prompt = 'Export Groups to text/xls file...';
 	[filename, pathname] = uiputfile(filterspec, prompt);
     if isequal(filename,0)|isequal(pathname,0)
-         message(me,'Export canceled');
+         Message(me,'Export canceled');
          return
     end
 	set(get(gcbo,'parent'),'user',pathname);
     fid = fopen([pathname '\' filename],'w');
     if fid == -1
-        message(me,'Cannot write to file','error');
+        Message(me,'Cannot write to file','error');
         return    
     end
     
-    s_list = GetParam(me,'group','list');
-    s_trials = GetParam(me,'group','trials');
+    s_list = GetParam(me,'Group','list');
+    s_trials = GetParam(me,'Group','trials');
     
     for n=1:length(s_list)
         
@@ -516,7 +516,7 @@ case 'export'
         fprintf(fid,'\n');
     end
     fclose(fid);
-    message(me,['Exported ' filename]);
+    Message(me,['Exported ' filename]);
     
     
 case 'import'
@@ -525,7 +525,7 @@ case 'import'
     if ~isempty(path)
         filterspec = [path '\' filterspec];
     end
-    prompt = 'Import groups file...';
+    prompt = 'Import Groups file...';
     [filename, pathname] = uigetfile(filterspec, prompt);
     if isequal(filename,0)|isequal(pathname,0)
         return
@@ -537,7 +537,7 @@ case 'import'
     
     k = 0;
     for n=1:length(parse)
-        % is this a group name -- that is, not a trial number?
+        % is this a Group name -- that is, not a trial number?
         if isempty(str2num(parse{n}))
             k=k+1;
             names{k} = parse{n};
@@ -547,12 +547,12 @@ case 'import'
         end
     end
     
-    message(me,sprintf('Imported %d groups',k))
+    Message(me,sprintf('Imported %d Groups',k))
      
-    SetParam(me,'group','list',names);
-    SetParam(me,'group','trials',trials);
-    SetParam(me,'group','value',1);
-    update_group;
+    SetParam(me,'Group','list',names);
+    SetParam(me,'Group','trials',trials);
+    SetParam(me,'Group','value',1);
+    update_Group;
  
     
 case 'copy_sets'
@@ -560,9 +560,9 @@ case 'copy_sets'
     SetParam(me,'invalid',GetParam('sets','invalid'));
     SetParam(me,'valid',GetParam('sets','valid'));
     
-    SetParam(me,'group','value',GetParam('sets','sets','value'));
-    SetParam(me,'group','list',GetParam('sets','sets','list'));
-    SetParam(me,'group','trials',GetParam('sets','sets','trials'));
+    SetParam(me,'Group','value',GetParam('sets','sets','value'));
+    SetParam(me,'Group','list',GetParam('sets','sets','list'));
+    SetParam(me,'Group','trials',GetParam('sets','sets','trials'));
     
     
     
@@ -581,22 +581,22 @@ function out = callback
 	out = [lower(mfilename) ';'];
 
     
-function update_group
+function update_Group
 
     [trials,names] = Group('all');
-    val = GetParam('group','group');
+    val = GetParam('Group','Group');
     SetParam(me,'trials',trials{val});
     SetParam(me,'name',names{val});
  
-    % these functions allow group to update lists in any figure that makes
-    % use of a popupmenu tagged 'group' or edit ui tagged 'trials'
-    % for each of these ui's to be found, they should have the 'user' field set to 'group'
+    % these functions allow Group to update lists in any figure that makes
+    % use of a popupmenu tagged 'Group' or edit ui tagged 'trials'
+    % for each of these ui's to be found, they should have the 'user' field set to 'Group'
     
-    set(findobj('style','edit','tag','trials','user','group'),'string',trials{val});
-    set(findobj('style','popupmenu','user','group'),'string',names,'value',val);
+    set(findobj('style','edit','tag','trials','user','Group'),'string',trials{val});
+    set(findobj('style','popupmenu','user','Group'),'string',names,'value',val);
     
-    % opt may have more to do 
-    Opt('update_group');
+    % Opt may have more to do 
+    Opt('update_Group');
     
 function update_collect
 global exper
@@ -629,11 +629,11 @@ global exper
     
     trials = 1:length(GetParam(module,param,'trial'));
     
-    current_trial = GetParam('control','trial');
-	if ExistParam('control','run') & GetParam('control','run')
-        ai('pause');
-        if ExistParam('ao')
-    		ao('pause');
+    current_trial = GetParam('Control','trial');
+	if ExistParam('Control','run') & GetParam('Control','run')
+        AI('pause');
+        if ExistParam('AO')
+    		AO('pause');
         end
         restart = 1;
     else
@@ -643,7 +643,7 @@ global exper
     
     numeric = 0;
     for n=1:length(trials)
-        SetParam('control','trial',trials(n));
+        SetParam('Control','trial',trials(n));
         
         % should retrieve the saved parameters
         CallModule(module,'trialreview');
@@ -679,7 +679,7 @@ global exper
     trs = trs(i);
     
     SetParam(me,'value','list',xs,'trials',trs,'value',1);
-    SetParam('control','trial',current_trial);
+    SetParam('Control','trial',current_trial);
     if restart
         Control('run');
     end
@@ -697,7 +697,7 @@ global exper
         valid = str2num(GetParam(me,'valid'));
     end
     if nargin < 1
-        trials = 1:length(GetParam('control','trialdur','trial'));
+        trials = 1:length(GetParam('Control','trialdur','trial'));
     else
         if isstr(trials)
             trials = str2num(trials);
@@ -706,7 +706,7 @@ global exper
         
     used = [];
     if isempty(valid)
-        valid = 1:length(exper.opt.trial);
+        valid = 1:length(exper.Opt.trial);
     end
     
     good = '';
@@ -727,7 +727,7 @@ function good = remove_invalid(trials_str)
     good = '';
     k=1;
     trials = str2num(trials_str);
-    invalid = str2num(GetParam('group','invalid'));
+    invalid = str2num(GetParam('Group','invalid'));
     for n=1:length(trials)
         if isempty(find([-1 invalid] == trials(n)))
             good(k) = trials(n);

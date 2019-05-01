@@ -1,7 +1,7 @@
 function [agg] = timeout_aggregator(to)
 % gives percentage distribution of timeouts during sound events
 % Input is a cell array, each entry of which is a struct for one trial.
-% The struct contains sound events for the task, and the value for each key
+% The struct contAIns sound events for the task, and the value for each key
 % is the number of timeouts that have occurred during that event for that
 % trial.
 %

@@ -16,7 +16,7 @@
 % Tau           Tau of frequency sigmoid, in ms
 % RiseFall      width of half-cosine squared edge window, in ms
 %
-% OPTIONAL ARGS:
+% OptIONAL ARGS:
 % --------------
 %
 %  F1_volume_factor    default 1; How much to multiply StartFreq part
@@ -26,9 +26,9 @@
 %                      of signal by.
 %
 %  PPfilter_fname      full path and filename, including .mat, of a
-%                      file containing filter parameters from speaker
+%                      file contAIning filter parameters from speaker
 %                      calibration. If this parameter is left empty, the
-%                      location is drawn from exper's rpbox protocol_path.
+%                      location is drawn from exper's RPbox protocol_path.
 %
 % The transition from F1_volume_factor to F2_volume_factor follows the
 % sigmoid used for everything else.
@@ -40,18 +40,18 @@ function [Beep]=MakeSigmoidSwoop3(SRate, Att, StartFreq, EndFreq, ...
                                   BeforeDuration, AfterDuration, Breaklen, ...
                                   Tau, RiseFall, varargin) 
 if nargin<=9, varargin = {}; end;
-pairs = { ...
+pAIrs = { ...
   'F1_volume_factor'     1   ; ...
   'F2_volume_factor'     1   ; ...
   'PPfilter_fname'      ''   ; ...
-}; parseargs(varargin, pairs);
+}; parseargs(varargin, pAIrs);
    
    
 if BeforeDuration==0 & AfterDuration==0, Beep = []; return; end;
 
 
 if isempty(PPfilter_fname)
-   FilterPath=[GetParam('rpbox','protocol_path') filesep 'PPfilter.mat'];
+   FilterPath=[GetParam('RPbox','protocol_path') filesep 'PPfilter.mat'];
 else
    FilterPath = PPfilter_fname;
 end;

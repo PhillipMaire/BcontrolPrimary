@@ -26,7 +26,7 @@ function [ratname,protocol,datestr,version,datestruct,direc] = ...
    % Chop off .mat extension, if it is there:
    fname = noextension(fname);
 
-   % Chop off date tail:
+   % Chop off date tAIl:
    [tok, revfname] = strtok(fname(end:-1:1), '_');
    tok = tok(end:-1:1);
    version = tok(end);
@@ -42,7 +42,7 @@ function [ratname,protocol,datestr,version,datestruct,direc] = ...
    [tok, revfname] = strtok(revfname, '_');
    ratname = tok(end:-1:1);
    
-   % Chop off leading '_'; whatever remains must be the protocol
+   % Chop off leading '_'; whatever remAIns must be the protocol
    revfname = revfname(2:end);
    protocol = revfname(end:-1:1);
    

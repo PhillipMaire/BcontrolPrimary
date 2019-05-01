@@ -1,10 +1,10 @@
-%actxcontrolWrapper.m   [out] = actxcontrolWrapper(varargin)
+%actxControlWrapper.m   [out] = actxControlWrapper(varargin)
 %
 % Takes two possible actions, depending on the value of the global variable
 % 'fake_rp_box':
 %
 %   - If fake_rp_box doesn't exist, is empty, or is 0, then calls
-%          out = actxcontrol(args); 
+%          out = actxControl(args); 
 %        with args being whatever was passed to it.
 %
 %   - If fake_rp_box ~= 0, then interprets the first three args as 
@@ -17,20 +17,20 @@
 % fake_rp_box == 4 --> softsm virtual state machine (old, no scheduled waves)
 %
 
-function [out] = actxcontrolWrapper(varargin)
+function [out] = actxControlWrapper(varargin)
 
 global fake_rp_box;
 global FakeActiveXObjects;
 
 if length(varargin)<1, error('Need at least one argument'); end;
 
-% If using RM1 boxes, this is just a direct gateway to actxcontrol.m
+% If using RM1 boxes, this is just a direct gateway to actxControl.m
 if isempty(fake_rp_box) | fake_rp_box == 0,
     argstr = []; for i=1:length(varargin)-1,
         argstr = [argstr 'varargin{' num2str(i) '}, '];
     end;
     argstr = [argstr 'varargin{' num2str(length(varargin)) '}'];
-    out = eval(['actxcontrol(' argstr ');']);
+    out = eval(['actxControl(' argstr ');']);
     return;
 
 % Using virtual machines that also use software sound
@@ -63,7 +63,7 @@ elseif fake_rp_box == 2, % First call creates empty virtual machine;
           [FakeActiveXObjects ; {newhandle name pos fighandle ''}];
    else
       newhandle = num2str(size(FakeActiveXObjects,1));
-      acx = actxcontrol(name, pos, fighandle);
+      acx = actxControl(name, pos, fighandle);
       FakeActiveXObjects = ...
           [FakeActiveXObjects ; {newhandle name pos fighandle acx}];
    end;

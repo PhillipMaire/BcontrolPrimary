@@ -9,19 +9,19 @@
 % 'Attenuation' is a scalar (0 dB is an amplitude 1 sinusoid.)
 % 'F1' and 'F2' in Hz
 % 'ToneDuration' and 'Delay' in milliseconds
-% A fifth optional parameter 'RiseFall' specifies the 10%-90%
+% A fifth Optional parameter 'RiseFall' specifies the 10%-90%
 % rise and fall times in milliseconds using a cos^2 edge.
 
 function Beep=Make2Sines( SRate,  Attenuation, F1, F2, ToneDuration, Delay, varargin )
 
-FilterPath=[GetParam('rpbox','protocol_path') '\PPfilter.mat'];
+FilterPath=[GetParam('RPbox','protocol_path') '\PPfilter.mat'];
 if ( size(dir(FilterPath),1) == 1 )
     PP=load(FilterPath);
     PP=PP.PP;
-    % message(me,'Generating Calibrated Tones');
+    % Message(me,'Generating Calibrated Tones');
 else
     PP=[];
-    % message(me,'Generating Non-calibrated Tones');
+    % Message(me,'Generating Non-calibrated Tones');
 end
 
 % Create a time vector.
@@ -42,7 +42,7 @@ if ( nargin >= 5 )
 	RiseFall=varargin{1};
 	Edge=MakeEdge( SRate, RiseFall );
 	LEdge=length(Edge);
-	% Put a cos^2 gate on the leading and trailing edges.
+	% Put a cos^2 gate on the leading and trAIling edges.
 	snd(1:LEdge)=snd(1:LEdge) .* fliplr(Edge);
 	snd((end-LEdge+1):end)=snd((end-LEdge+1):end) .* Edge;
 end
@@ -65,7 +65,7 @@ if ( nargin >= 5 )
 	RiseFall=varargin{1};
 	Edge=MakeEdge( SRate, RiseFall );
 	LEdge=length(Edge);
-	% Put a cos^2 gate on the leading and trailing edges.
+	% Put a cos^2 gate on the leading and trAIling edges.
 	snd3(1:LEdge)=snd3(1:LEdge) .* fliplr(Edge);
 	snd3((end-LEdge+1):end)=snd3((end-LEdge+1):end) .* Edge;
 end

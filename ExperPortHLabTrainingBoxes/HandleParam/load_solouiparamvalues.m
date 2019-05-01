@@ -1,21 +1,21 @@
 % [outflag] = load_solouiparamvalues(ratname, varargin)
-% Loads a 'settings' file, containing the value of all UI Solo params
+% Loads a 'settings' file, contAIning the value of all UI Solo params
 % for a particular object. The object is determined either through
 % determine_owner.m (which usually returns the class of the calling
-% object), or, if the optional parameter 'child_protocol', is passed
+% object), or, if the Optional parameter 'child_protocol', is passed
 % in, by the class of the value of the passed child_protocol.
 %   
 % All the settings files are stored in Solo_datadir/Settings, where
-% Solo_datadir is a global variable containing the pathname of the
+% Solo_datadir is a global variable contAIning the pathname of the
 % relevant directory.
 %
 
 function [outflag] = load_solouiparamvalues(ratname, varargin)
 
-pairs = { ...
+pAIrs = { ...
     'child_protocol', [] ; ...
     };
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 if isempty(child_protocol),
     owner = determine_owner;
@@ -82,7 +82,7 @@ end;
    if ~isempty(protocol_name) && exist('fig_position', 'var') && ...
         ~isempty(fig_position),
       protocol_name = protocol_name{1};
-      % Get the main figure for this protocol and set its position
+      % Get the mAIn figure for this protocol and set its position
       f = findobj(get(0, 'Children'), 'Name', value(protocol_name));
       set(f, 'Position', fig_position); drawnow;
       % If window is too big, Macs automatically move it after drawnow and
@@ -94,7 +94,7 @@ end;
       end;
    end;
 
-   % --- NOW SET THE VALUES OF THE HANDLES ---
+   % --- NOW SET THE valueS OF THE HANDLES ---
    fnames = fieldnames(saved);
    % Make a place to store all the SPHs that we find, for future use with 
    % autoset. Keys will be fnames, elements will the existing SPHs.
@@ -130,14 +130,14 @@ end;
             elseif isnumeric(saved.(fnames{i})),
                fprintf(2, '  Intended value was %g\n\n', saved.(fnames{i}));
             end;
-            fprintf(2, 'The error message was "%s"\n\n\n', lasterr);
+            fprintf(2, 'The error Message was "%s"\n\n\n', lasterr);
          end;
       end;
    end;
 
    
    % --- NOW CHECK FOR HANDLES THAT WERE NOT UPDATED BUT HAVE A DEFAULT
-   % --- RESET VALUE 
+   % --- RESET value 
 
    unloaded_handles = setdiff_sph(handles, updated_handles);
    for i=1:length(unloaded_handles),
@@ -147,7 +147,7 @@ end;
    end;
    
    
-   % --- CALL ALL NECESSARY CALLBACKS FROM CHANGES TO HANDLE VALUES
+   % --- CALL ALL NECESSARY CALLBACKS FROM CHANGES TO HANDLE valueS
    % First, get a list of all the callbacks. First column is number of
    % callback args.
    cback_list = cell(rows(updated_handles), 2);

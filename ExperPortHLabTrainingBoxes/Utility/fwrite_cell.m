@@ -1,5 +1,5 @@
 function [] = fwrite_cell(p_cell, fstring, fname)
-% Writes contents of given cell array to an Excel file. The cell should be
+% Writes Contents of given cell array to an Excel file. The cell should be
 % 1-by-c in size, the first row of which is a header (see format below).
 % Each subsequent row is a column array. 'fstring' is the format used to
 % write each entry of this column array in the output file.

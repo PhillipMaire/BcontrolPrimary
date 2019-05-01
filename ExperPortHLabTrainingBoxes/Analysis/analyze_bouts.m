@@ -22,7 +22,7 @@ if ~isstr(rat)
     varargin = varargin(3:end);
 end;
 
-pairs = { ...
+pAIrs = { ...
     'pitch_task', 0     ; ...
     'psychometric', 0   ; ...
     'binmin', 0         ; ...
@@ -33,7 +33,7 @@ pairs = { ...
     'last_win', 0       ; ...
     'binsamp', 0; ...
     };
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 
 switch action
@@ -44,7 +44,7 @@ switch action
         % Plot performance rates in windows
         [h, l, last_win] = hit_rates(rat, task, date);
         set(l, 'ButtonDownFcn', {@analyze_bouts, rat, task, date, ...
-            'action', 'show_details', 'binmin', binmin, 'binmax', binmax, ...
+            'action', 'show_detAIls', 'binmin', binmin, 'binmax', binmax, ...
             'last_win', last_win});
         set(gca,'Position', [0.03 0.5 0.96 0.45]);
         hgraph = gca;
@@ -71,11 +71,11 @@ switch action
 
         set(gcf,'Position',[50 175 690 620], 'MenuBar', 'none', 'Toolbar', 'none');
 
-    case 'show_details'
+    case 'show_detAIls'
         k = get(gca, 'CurrentPoint');
         k = floor(k(1,1));
         if k < win, k = win+1; elseif k > last_win, k = last_win-5; end;
-        show_detailed_hits(rat, task, date, k-win, k+win, 'binmin', binmin, 'binmax', binmax);
+        show_detAIled_hits(rat, task, date, k-win, k+win, 'binmin', binmin, 'binmax', binmax);
 
     otherwise
         error('Invalid action!: %s', action);

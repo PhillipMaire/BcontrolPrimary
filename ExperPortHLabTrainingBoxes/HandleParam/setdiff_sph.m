@@ -1,7 +1,7 @@
 %setdiff_sph.m    [hlist] = setdiff_sph(s1, s2)
 %
-% Given two cells containing SoloParamHandles, returns a cell
-% containing all those SPHs that are in s1 but not in s2.
+% Given two cells contAIning SoloParamHandles, returns a cell
+% contAIning all those SPHs that are in s1 but not in s2.
 %
 
 function [hlist] = setdiff_sph(s1, s2)

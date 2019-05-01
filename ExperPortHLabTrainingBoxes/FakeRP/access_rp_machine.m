@@ -13,7 +13,7 @@ switch command,
         return;
         
     case 'SetTagVal',
-        if length(varargin)<2, error('Need a string Tag and need a Tag Value to set'); end;
+        if length(varargin)<2, error('Need a string Tag and need a Tag value to set'); end;
         tag = lower(varargin{1});  check_tagname_exists(rp_machine, tag); 
         rp_machine.(tag) = varargin{2}; out=1; updated_machine = rp_machine;
         return;

@@ -1,4 +1,4 @@
-%parseargs   [] = parseargs(arguments, pairs, singles)
+%parseargs   [] = parseargs(arguments, pAIrs, singles)
 %
 % Variable argument parsing-- supersedes parseargs_example. This
 % function is meant to be used in the context of other functions
@@ -8,18 +8,18 @@
 %
 %    function myfunction(args, ..., varargin)
 %
-% and would define the variables "pairs" and "singles" (in a
+% and would define the variables "pAIrs" and "singles" (in a
 % format described below), and would then include the line
 %
-%       parseargs(varargin, pairs, singles);
+%       parseargs(varargin, pAIrs, singles);
 %
-% 'pairs' and 'singles' specify how the variable arguments should
+% 'pAIrs' and 'singles' specify how the variable arguments should
 % be parsed; their format is decribed below. It is best
 % understood by looking at the example at the bottom of these help 
 % comments.
 %
-% PARSEARGS DOES NOT RETURN ANY VALUES; INSTEAD, IT USES ASSIGNIN
-% COMMANDS TO CHANGE OR SET VALUES OF VARIABLES IN THE CALLING
+% parseargs DOES NOT RETURN ANY valueS; INSTEAD, IT USES ASSIGNIN
+% COMMANDS TO CHANGE OR SET valueS OF VARIABLES IN THE CALLING
 % FUNCTION'S SPACE.  
 %
 %
@@ -29,8 +29,8 @@
 %
 % -arguments     The varargin list, I.e. a row cell array.
 %
-% -pairs         A cell array of all those arguments that are
-%                specified by argument-value pairs. First column
+% -pAIrs         A cell array of all those arguments that are
+%                specified by argument-value pAIrs. First column
 %                of this cell array must indicate the variable
 %                names; the second column must indicate
 %                correponding default values. 
@@ -49,12 +49,12 @@
 % Example:
 % --------
 %
-% In "pairs", the first column defines both the variable name and the 
+% In "pAIrs", the first column defines both the variable name and the 
 % marker looked for in varargin, and the second column defines that
 % variable's default value:
 %
-%   pairs = {'thingy'  20 ; ...
-%            'blob'    'that'};
+%   pAIrs = {'thingy'  20 ; ...
+%            'Blob'    'that'};
 %
 % In "singles", the first column is the flag to be looked for in varargin, 
 % the second column defines the variable name this flag affects, the third
@@ -68,42 +68,42 @@
 % 
 % Now for the function call from the user function:
 %
-%   parseargs({'blob', 'fuff!', 'no_plot'}, pairs, singles);
+%   parseargs({'Blob', 'fuff!', 'no_plot'}, pAIrs, singles);
 %
-% This will set, in the caller space, thingy=20, blob='fuff!', and
-% plot_fg=0. Since default values are in the second column of "pairs"
+% This will set, in the caller space, thingy=20, Blob='fuff!', and
+% plot_fg=0. Since default values are in the second column of "pAIrs"
 % and the fourth column of "singles", and in the call to
 % parseargs 'thingy' was not specified, 'thingy' takes on its
 % default value of 20. 
 %
 % Note that the arguments to parseargs may be in any order-- the
 % only ordering restriction is that whatever immediately follows
-% pair names (e.g. 'blob') will be interpreted as the value to be
-% assigned to them (e.g. 'blob' takes on the value 'fuff!');
+% pAIr names (e.g. 'Blob') will be interpreted as the value to be
+% assigned to them (e.g. 'Blob' takes on the value 'fuff!');
 %
-% If you never use singles, you can just call "parseargs(varargin, pairs)"
+% If you never use singles, you can just call "parseargs(varargin, pAIrs)"
 % without the singles argument.
 %
 
 
-function [] = parseargs(arguments, pairs, singles)
+function [] = parseargs(arguments, pAIrs, singles)
    
    if nargin < 3, singles = {}; end;
 
-   for i=1:size(pairs,1),
-      assignin('caller', pairs{i,1}, pairs{i,2});
+   for i=1:size(pAIrs,1),
+      assignin('caller', pAIrs{i,1}, pAIrs{i,2});
    end;
    for i=1:size(singles,1),
       assignin('caller', singles{i,2}, singles{i,4});
    end;
    if isempty(singles), singles = {'', '', [], []}; end; 
-   if isempty(pairs),   pairs   = {'', []}; end; 
+   if isempty(pAIrs),   pAIrs   = {'', []}; end; 
    
    arg = 1; while arg <= length(arguments),
       
       switch arguments{arg},
 	 
-	 case pairs(:,1),
+	 case pAIrs(:,1),
 	 if arg+1 <= length(arguments)
 	    assignin('caller', arguments{arg}, arguments{arg+1});
 	    arg = arg+1;

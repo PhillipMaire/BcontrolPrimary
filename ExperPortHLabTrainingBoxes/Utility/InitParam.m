@@ -1,12 +1,12 @@
 function out = InitParam(module,param,varargin)
-% SETPARAM
+% SetParam
 % Set PARAM values of an exper module.
 % 
-% STRUCT = INITPARAM(MODULE,PARAM)
+% STRUCT = InitParam(MODULE,PARAM)
 % 		Initialize param to default values
 %
-% STRUCT = INITPARAM(MODULE,PARAM,VARGIN)
-%		Initialize and then call SETPARAM with the extra arguments 
+% STRUCT = InitParam(MODULE,PARAM,VARGIN)
+%		Initialize and then call SetParam with the extra arguments 
 %		(see SetParam)
 %
 % MODULE & PARAM, are strings
@@ -61,7 +61,7 @@ for n=1:2:np
             if ishandle(h)
                 fp = get(h);
                 uifields = fieldnames(fp);
-                SetParam(module,param,field,val);          % modified by Lung-Hao Tai 08/25/2002
+                SetParam(module,param,field,val);          % modified by Lung-HAO TAI 08/25/2002
             end
         otherwise
     end
@@ -79,10 +79,10 @@ for n=1:2:np
 	  SetParam(module,param,varargin{:});
    case 'pref'
        if ~val
-            a=findobj('callback','editparam','tag',param);
+            a=findobj('callback','EditParam','tag',param);
             set(a,'visible','off');
        end
-        case 'range'                                        % modified by Lung-Hao Tai 01/03/2003
+        case 'range'                                        % modified by Lung-HAO TAI 01/03/2003
             val=sort(val);
             if ishandle(h) 
                 if strcmp(get(h,'style'),'slider') & length(val)==2
@@ -92,24 +92,24 @@ for n=1:2:np
             SetParam(module,param,lower(field),val);
             
         case {'Enable', 'enable'}
-            SetParam(module,param,lower(field),val);        % modified by Lung-Hao Tai 08/25/2002
+            SetParam(module,param,lower(field),val);        % modified by Lung-HAO TAI 08/25/2002
             
     %   case {uifields, 'pos'}
-        case {uifields{:}, 'pos'}                           % modified by Lung-Hao Tai 08/25/2002
+        case {uifields{:}, 'pos'}                           % modified by Lung-HAO TAI 08/25/2002
             if ishandle(h)
                 SetParamUI(module,param,field,val);
             end
         otherwise
-            SetParam(module,param,lower(field),val);        % modified by Lung-Hao Tai 08/25/2002
+            SetParam(module,param,lower(field),val);        % modified by Lung-HAO TAI 08/25/2002
     end
 end
 
 % deal with preferences that have been saved
-if ExistParam('control','user')
-    user = getparam('control','user');
+if ExistParam('Control','user')
+    user = GetParam('Control','user');
     prefstr = sprintf('%s_%s',module,param);
     if ispref(user,prefstr)
-        a = getpref(user,prefstr);
+        a = GetPref(user,prefstr);
         if isstruct(a)
             fields = fieldnames(a);
             n=1;
@@ -118,12 +118,12 @@ if ExistParam('control','user')
                 case {'name','type','ui','h','trial'}
                 % don't restore these        
                 otherwise
-                    pairs{n} = fields{i};
-                    pairs{n+1} = getfield(a,fields{i});
+                    pAIrs{n} = fields{i};
+                    pAIrs{n+1} = getfield(a,fields{i});
                     n=n+2;
                 end
             end
-            SetParam(module,param,pairs{:});
+            SetParam(module,param,pAIrs{:});
         else
             SetParam(module,param,a);
         end

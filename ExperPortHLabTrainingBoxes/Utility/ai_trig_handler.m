@@ -6,4 +6,4 @@ function ai_trig_handler(obj,event)
     %msg=[ 'Triggered ' datestr(datenum(tictoc),13) ...
     %		sprintf('%d', 1000*(tictoc(end)-floor(tictoc(end))) ) ];
     
-    message('ai',['Triggered ' datestr(datenum(tictoc),13)]);
+    Message('AI',['Triggered ' datestr(datenum(tictoc),13)]);

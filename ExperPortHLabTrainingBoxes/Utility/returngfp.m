@@ -1,13 +1,13 @@
 function [scalegfp, gfpc] = returngfp()
 global exper;
 
-% RETURNGFP takes the default gfp image, makes a mask and displays them.
+% returngfp takes the default gfp image, makes a mask and displays them.
 % it also returns the images
 % syntax: [gfpimage, gfpmask] = returngfp()
 
 
-gfp = exper.opt.grab;
-threshold = exper.orca.param.thresh.value;
+gfp = exper.Opt.grab;
+threshold = exper.Orca.param.thresh.value;
 
 gfpm = makemask(gfp,threshold);
 

@@ -1,9 +1,9 @@
 function [list] = generate_variability(lower_bound, upper_bound, hazard_rate, len, varargin)
 
-pairs = { ...
+pAIrs = { ...
     'decreasing', 0 ; ...       % when set, exponential DECAY occurs on prob, not growth
     };
-parse_knownargs(varargin,pairs);
+parse_knownargs(varargin,pAIrs);
 
 %
 % Select values from a provided range. Assigns probability of selection

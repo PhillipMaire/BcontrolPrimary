@@ -3,7 +3,7 @@
 % Takes a variable in the caller's workspace, called varname,
 % and assigns it the value of a ui_pushbutton_param_handle. 
 % 
-% All name-value pairs passed in to persistent_ui_pushbutton are passed along to the
+% All name-value pAIrs passed in to persistent_ui_pushbutton are passed along to the
 % ui_pushbutton_param_handle creator. 
 % 
 % In addition, in the ui_pushbutton_param_handle, param_owner is set to the 

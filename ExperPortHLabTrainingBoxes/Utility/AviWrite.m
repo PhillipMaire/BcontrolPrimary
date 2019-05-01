@@ -1,7 +1,7 @@
-function output = aviwrite(x,filename,info)
+function output = AviWrite(x,filename,info)
 
 %-------------------------------------------------------------------------
-% result = AVIWrite(DATA,FILENAME,INFO)
+% result = AviWrite(DATA,FILENAME,INFO)
 %
 % write a 3D stack of images (X,Y,T) as a Windows AVI file, suitable
 % for importing to PowerPoint. Stores the current colormap. 
@@ -24,7 +24,7 @@ function output = aviwrite(x,filename,info)
 % info.param	int(1x256)		an array of 4-byte data
 %
 %
-% Zach Mainen 
+% Zach MAInen 
 % zach@cshl.org
 % 1/25/2000
 %
@@ -36,14 +36,14 @@ function output = aviwrite(x,filename,info)
 
   if nargin == 0; 
      disp(['-------------------------------']);  
-     disp([' aviwrite'])
+     disp([' AviWrite'])
      disp(['-------------------------------']);
-     disp([' usage: y = aviwrite(data,filename,info)'])
+     disp([' usage: y = AviWrite(data,filename,info)'])
      error(['### no parameters']); 
   end
     
   fid = fopen(filename, 'w');
-  if fid < 3; error(['### aviwrite: ', filename, ' could NOT be opened.']); end
+  if fid < 3; error(['### AviWrite: ', filename, ' could NOT be opened.']); end
   fclose(fid);
   
 columns = size(x,1);
@@ -51,7 +51,7 @@ lines = size(x,2);
 frames = size(x,3);
 
 if mod(columns,8) | mod(lines,8)
-	error(['### aviwrite: x and y dimensions must be divisible by 8']);    
+	error(['### AviWrite: x and y dimensions must be divisible by 8']);    
 end
 
 if isa(x,'uint8')
@@ -100,7 +100,7 @@ header(1:4) = uint8('RIFF');
 header(5:8) = sepbytes(filelength,4);		% file length
 header(9:12) = uint8('AVI ');
 
-% Define the main AVI header
+% Define the mAIn AVI header
 
 FramesPerSec = info.rate;			% frame rate (frames/sec)
 MicroSecPerFrame = 1e6/FramesPerSec;		% frame duration in microsec
@@ -171,7 +171,7 @@ header(161:164) = [0 1 0 255];					% not sure what this is!
 
 Planes = 1;					% planes
 BitCount = bytes*8;		% bit count
-Compression = 0;
+compression = 0;
 SizeImage = Width*Height;
 XpelsPerMeter = 1000;		% some kind of scaling?
 YpelsPerMeter = 1000;		% some kind of scaling?
@@ -186,7 +186,7 @@ header(177:180) = sepbytes(Width,4);		% Width
 header(181:184) = sepbytes(Height,4);
 header(185:186) = sepbytes(Planes,2);		
 header(187:188) = sepbytes(BitCount,2);	
-header(189:192) = sepbytes(Compression,4);	
+header(189:192) = sepbytes(compression,4);	
 header(193:196) = sepbytes(SizeImage,4);
 header(197:200) = sepbytes(XpelsPerMeter,4);	
 header(201:204) = sepbytes(YpelsPerMeter,4);

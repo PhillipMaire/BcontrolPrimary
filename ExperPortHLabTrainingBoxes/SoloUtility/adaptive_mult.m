@@ -1,7 +1,7 @@
 % [sp] = adaptive_mult(sp, hit, {'hit_frac', 0}, {'stableperf', 0.75}, ...
 %                         {'mx', 1}, {'mn', 0})
 % 
-% Implements multiplicative staircase adaptation of a SoloParamHandle.
+% Implements multiplicative stAIrcase adaptation of a SoloParamHandle.
 %
 % PARAMETERS:
 % -----------
@@ -11,7 +11,7 @@
 % hit       Pass this as 1 if latest trial was in the positive adaptation
 %           direction; passit as 0 if it was in the negative direction
 %
-% OPTIONAL PARAMETERS
+% OptIONAL PARAMETERS
 % -------------------
 %
 % hit_frac    Fraction extra to add to the parameter when
@@ -51,12 +51,12 @@
 
 function [sp] = adaptive_mult(sp, hit, varargin)
    
-   pairs = { ...
+   pAIrs = { ...
      'hit_frac'      0    ; ...
      'stableperf',   0.75 ; ...
      'mx'            1    ; ...
      'mn'            0    ; ...
-   }; parseargs(varargin, pairs);
+   }; parseargs(varargin, pAIrs);
 
 
    log_hit_step  = log10(1 + hit_frac);

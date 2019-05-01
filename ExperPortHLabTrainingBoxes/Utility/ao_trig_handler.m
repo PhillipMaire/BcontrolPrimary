@@ -7,4 +7,4 @@ function ao_trig_handler(obj,event)
     %msg=[ 'Triggered ' datestr(datenum(tictoc),13) ...
     %		sprintf('%d', 1000*(tictoc(end)-floor(tictoc(end))) ) ];
     
-    message('ao',['Triggered ' datestr(datenum(tictoc),13)]);
+    Message('AO',['Triggered ' datestr(datenum(tictoc),13)]);

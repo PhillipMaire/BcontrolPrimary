@@ -1,8 +1,8 @@
 function RestorePrefs(user)
-% RESTOREPREFS(USER)
+% RestorePrefs(USER)
 % Using builtin Matlab pref functions, restore saved preferences
 % for the specified user
-% See SAVEPREFS(USER)
+% See SavePrefs(USER)
 
 % ZF MAINEN, CSHL, 1/01
 
@@ -13,7 +13,7 @@ if ~ispref(user)
     return;
 end
 
-p = getpref(user);
+p = GetPref(user);
 
 pref = fieldnames(p);
 % find preferences matching the user
@@ -22,7 +22,7 @@ for n=1:length(pref)
     param = param(2:end);
     
     % set the preferences
-    a = getpref(user,pref{n},'');
+    a = GetPref(user,pref{n},'');
     if ~isempty(a) 
         if isstruct(a)
             fields = fieldnames(a);
@@ -32,12 +32,12 @@ for n=1:length(pref)
                 case {'name','type','ui','h','trial'}
                     % don't restore these        
                 otherwise
-                    pairs{q} = fields{i};
-                    pairs{q+1} = getfield(a,fields{i});
+                    pAIrs{q} = fields{i};
+                    pAIrs{q+1} = getfield(a,fields{i});
                     q = q+2;
                 end
             end
-            SetParam(module,param,pairs{:});
+            SetParam(module,param,pAIrs{:});
         else
             SetParam(module,param,a);
         end

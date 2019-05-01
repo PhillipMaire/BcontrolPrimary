@@ -44,7 +44,7 @@ case {'init','reinit'}
 	fig = ModuleFigure(me,'visible','off');	
 	
 	SetParam(me,'priority',5);
-	ModuleNeeds(me,{'opt'});
+	ModuleNeeds(me,{'Opt'});
     
 	hs = 60;
 	h = 5;
@@ -68,7 +68,7 @@ case {'init','reinit'}
     InitParam(me,'info');
     % this parameter is set to an array of parameter
     % values to be saved with the current .avi
-    % this is done by calling orca('set_info',ind,val) [see below]
+    % this is done by calling Orca('set_info',ind,val) [see below]
     
     switch getenv('MatroxBoard')
     case 'MeteorIIDig'
@@ -82,7 +82,7 @@ case {'init','reinit'}
 	InitParam(me,'autoscale','ui','checkbox','value',0,'pos',[h n*vs hs vs]); n=n+1;
 	InitParam(me,'thresh','ui','edit','value',0.9,'range',[0 1],'pos',[h n*vs hs vs]); n=n+1;
 	InitParam(me,'imagemax');
-    InitParam(me,'gain','ui','popupmenu','value',2,'list',{'low','normal','high'},'pos',[h n*vs hs vs],'save',1); n=n+1;
+    InitParam(me,'gAIn','ui','popupmenu','value',2,'list',{'low','normal','high'},'pos',[h n*vs hs vs],'save',1); n=n+1;
 	InitParam(me,'mode','ui','popupmenu','value',4,'list',{'f1','f2','f4','f8','s1','s2','s4','s8'},'pos',[h n*vs hs vs],'save',1); n=n+1;
 	InitParam(me,'hwtrigger','value',0,'pos',[h n*vs hs vs]);
     InitParam(me,'stack','ui','popupmenu','value',1,'list',{1,2,4,8,16},'pos',[h n*vs hs vs],'save',1); n=n+1;
@@ -104,15 +104,15 @@ case {'init','reinit'}
     	InitParam(me,'Focus','ui','togglebutton','pos',[h+hs n*vs hs vs])
     	SetParamUI(me,'Focus','string','Focus','pref',0);
     
-        uicontrol(fig,'style','pushbutton','tag','grab','string','Grab',...
+        uiControl(fig,'style','pushbutton','tag','grab','string','Grab',...
             'callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1
     end
     
 	hf = uimenu(fig,'label','File');
     uimenu(hf,'label','Open...','tag','open','callback',[me ';']);	
     
-    % message box
-    uicontrol('parent',fig,'tag','message','style','edit',...
+    % Message box
+    uiControl('parent',fig,'tag','Message','style','edit',...
         'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1;
     
     if ~GetParam(me,'init') & strcmp(action,'init')
@@ -125,7 +125,7 @@ case {'init','reinit'}
     
     if strcmp(action,'init')
         if GetParam(me,'board','value') == 2
-            SetParamUI(me,'gain','enable','off');
+            SetParamUI(me,'gAIn','enable','off');
             SetParamUI(me,'mode','enable','off');
             Orca('mode');
         else
@@ -142,18 +142,18 @@ case 'trialready'
     
 case 'trialend'
 	if GetParam(me,'Acquire')
-		rate = 1/mean(diff(exper.opt.t));
+		rate = 1/mean(diff(exper.Opt.t));
         if GetParamList(me,'bin') > 1
-            exper.opt.im = bin3(exper.opt.im,[GetParamList(me,'bin') GetParamList(me,'bin') 1])/GetParamList(me,'stack');
+            exper.Opt.im = bin3(exper.Opt.im,[GetParamList(me,'bin') GetParamList(me,'bin') 1])/GetParamList(me,'stack');
         else
             if GetParamList(me,'stack') > 1
-                exper.opt.im = double(exper.opt.im)/GetParamList(me,'stack');
+                exper.Opt.im = double(exper.Opt.im)/GetParamList(me,'stack');
             else
-                exper.opt.im = double(exper.opt.im);
+                exper.Opt.im = double(exper.Opt.im);
             end
         end
         save_image;
-		message(me,sprintf('%d frames, %.2f fps',length(exper.opt.t),rate));
+		Message(me,sprintf('%d frames, %.2f fps',length(exper.Opt.t),rate));
 	end
 	SaveParamsTrial(me);
     
@@ -162,26 +162,26 @@ case 'trialreview'
     
     
 case 'trigger'
-	% this is going to block control, so should be called last
-    message(me,'Check code slice rate');
+	% this is going to block Control, so should be called last
+    Message(me,'Check code slice rate');
     
 %    Orca('slicerate'); % ZFM ??? do we need to check slice rate here???
 %    ZFM 10-02-03
     
     if ~ExistParam(me,'open') return; end
 	if GetParam(me,'acquire') & GetParam(me,'open')
-		message(me,sprintf('Triggered %s',datestr(now,13)));
+		Message(me,sprintf('Triggered %s',datestr(now,13)));
 		f = GetParam(me,'Frames');
       [im,t] = milmex('grabframes',GetParam(me,'xsize'),GetParam(me,'ysize'),f,0,GetParamList(me,'stack'));
       subreg = GetParam(me,'subregion','rot');
-      exper.opt.im = im(subreg(1):subreg(2),subreg(3):subreg(4),:);
-		exper.opt.t = t; 
+      exper.Opt.im = im(subreg(1):subreg(2),subreg(3):subreg(4),:);
+		exper.Opt.t = t; 
 	end
 
 		
 case 'close'
-    close(findobj('tag','orca_fig'));
-	orca('quit');
+    close(findobj('tag','Orca_fig'));
+	Orca('quit');
 	
 case 'load'
     LoadParams(me);
@@ -210,11 +210,11 @@ case 'hwtrigger'
 		fprintf(com1,'AMD N');	
 	end
 	
-case 'gain'
+case 'gAIn'
 	switch GetParamList(me,'mode')
 	case {'s1'}
 		com1 = get_com1;
-		str = sprintf('CEG %d',GetParam(me,'Gain','value')-1);
+		str = sprintf('CEG %d',GetParam(me,'GAIn','value')-1);
 		fprintf(com1,str);
 	otherwise
 	end
@@ -229,13 +229,13 @@ case 'exposure'
     minutes = floor(sec/60);
     sec = sec-minutes;
     str = sprintf('AET %d:%02d.%03d',minutes,sec,msec);
-    message(me,str);  
+    Message(me,str);  
 	fprintf(get_com1,str);
 
 case 'slicerate'
-    f = floor(GetParam('control','trialdur')*GetParam(me,'framerate'));
+    f = floor(GetParam('Control','trialdur')*GetParam(me,'framerate'));
 	SetParam(me,'Frames',f);	
-    SetParam('opt','frames',f/GetParamList(me,'stack'));
+    SetParam('Opt','frames',f/GetParamList(me,'stack'));
 	 
 case 'autoscale'
 	 if ~GetParam(me,'focus')
@@ -258,19 +258,19 @@ case 'mode'
         dim = [640,480];
         SetParam(me,'ImageBits',8);
         SetParam(me,'FrameRate',30);
-        SetParam('opt','FrameRate',30);
-        message(me,'640x480 30 fps');
+        SetParam('Opt','FrameRate',30);
+        Message(me,'640x480 30 fps');
         SetParam(me,'stack','list',{1,15},'value',2);
         
         SetParam(me,'Xsize',dim(1));
         SetParam(me,'Ysize',dim(2));
         SetParam(me,'subregion',[1 dim(1) 1 dim(2)]);
-        SetParam(me,'Frames',floor(GetParam('control','trialdur')*GetParam(me,'framerate')));
+        SetParam(me,'Frames',floor(GetParam('Control','trialdur')*GetParam(me,'framerate')));
         SetParam(me,'ImageMax',2^GetParam(me,'ImageBits'));
-%        SetParam('opt','framerate',GetParam(me,'framerate')/GetParamList(me,'stack'));
+%        SetParam('Opt','framerate',GetParam(me,'framerate')/GetParamList(me,'stack'));
         
     else
-        % orca board
+        % Orca board
         
         com1 = get_com1;
         path = GetParam(me,'dcfpath');
@@ -286,57 +286,57 @@ case 'mode'
             fprintf(com1,'INI\nSSP H');
             SetParam(me,'ImageBits',12);
             SetParam(me,'FrameRate',5);
-            message(me,'Fast scan, 1280x1024');
+            Message(me,'Fast scan, 1280x1024');
         case 'f2'
             dim = milmex('dcf',sprintf('%s\\%s%s.dcf',path,base,mode));
             fprintf(com1,'INI\nSSP H\nSMD S\nSPX 2');
             SetParam(me,'ImageBits',12);
             SetParam(me,'FrameRate',10);
-            message(me,'Fast scan, 640x512');
+            Message(me,'Fast scan, 640x512');
         case 'f4'
             dim = milmex('dcf',sprintf('%s\\%s%s.dcf',path,base,mode));
             fprintf(com1,'INI\nSSP H\nSMD S\nSPX 4');			
             SetParam(me,'ImageBits',12);
             SetParam(me,'FrameRate',15);
-            message(me,'Fast scan, 320x256');
+            Message(me,'Fast scan, 320x256');
         case 'f8'
             dim = milmex('dcf',sprintf('%s\\%s%s.dcf',path,base,mode));
             fprintf(com1,'INI\nSSP H\nSMD S\nSPX 8');			
             SetParam(me,'ImageBits',12);
             SetParam(me,'FrameRate',30);
-            message(me,'Fast scan, 160x128');
+            Message(me,'Fast scan, 160x128');
         case 's1'
             dim = milmex('dcf',sprintf('%s\\%s%s.dcf',path,base,mode));
             fprintf(com1,'INI\nSSP S\nSMD S\nSPX 1');			
-            str = sprintf('CEG %d',GetParam(me,'Gain','value')-1);
+            str = sprintf('CEG %d',GetParam(me,'GAIn','value')-1);
             fprintf(com1,str);
             SetParam(me,'ImageBits',14);
             SetParam(me,'FrameRate',0.82);
-            message(me,'Slow scan, 1280x1024');
+            Message(me,'Slow scan, 1280x1024');
         case 's2'
             dim = milmex('dcf',sprintf('%s\\%s%s.dcf',path,base,mode));
             fprintf(com1,'INI\nSSP S\nSMD S\nSPX 2');			
-            str = sprintf('CEG %d',GetParam(me,'Gain','value')-1);
+            str = sprintf('CEG %d',GetParam(me,'GAIn','value')-1);
             fprintf(com1,str);
             SetParam(me,'ImageBits',14);
             SetParam(me,'FrameRate',1.6);
-            message(me,'Slow scan, 640x512');
+            Message(me,'Slow scan, 640x512');
         case 's4'
             dim = milmex('dcf',sprintf('%s\\%s%s.dcf',path,base,mode));
             fprintf(com1,'INI\nSSP S\nSMD S\nSPX 4');			
-            str = sprintf('CEG %d',GetParam(me,'Gain','value')-1);
+            str = sprintf('CEG %d',GetParam(me,'GAIn','value')-1);
             fprintf(com1,str);
             SetParam(me,'ImageBits',14);
             SetParam(me,'FrameRate',3.0);
-            message(me,'Slow scan, 320x256');
+            Message(me,'Slow scan, 320x256');
         case 's8'
             dim = milmex('dcf',sprintf('%s\\%s%s.dcf',path,base,mode));
             fprintf(com1,'INI\nSSP S\nSMD S\nSPX 8');			
-            str = sprintf('CEG %d',GetParam(me,'Gain','value')-1);
+            str = sprintf('CEG %d',GetParam(me,'GAIn','value')-1);
             fprintf(com1,str);
             SetParam(me,'ImageBits',14);
             SetParam(me,'FrameRate',5.2);
-            message(me,'Slow scan, 160x128');
+            Message(me,'Slow scan, 160x128');
           otherwise
         end
     end
@@ -344,7 +344,7 @@ case 'mode'
 	SetParam(me,'Xsize',dim(1));
 	SetParam(me,'Ysize',dim(2));
 	SetParam(me,'subregion',[1 dim(1) 1 dim(2)]);
-	SetParam(me,'Frames',floor(GetParam('control','trialdur')*GetParam(me,'framerate')));
+	SetParam(me,'Frames',floor(GetParam('Control','trialdur')*GetParam(me,'framerate')));
 	SetParam(me,'ImageMax',2^GetParam(me,'ImageBits'));
     make_subregion;
     Orca('slicerate');
@@ -358,13 +358,13 @@ case 'mode'
 case 'open'
 	prompt = 'Open tif file...';
 	filetype = '*.tif';
-	filterspec = [GetParam('control','datapath') '\' filetype];
+	filterspec = [GetParam('Control','datapath') '\' filetype];
 	[filename, pathname] = uigetfile(filterspec, prompt);
 	if filename == 0 return; end
 
-	exper.opt.grab = double(imread([pathname filename]));
+	exper.Opt.grab = double(imread([pathname filename]));
 	draw_image;
-    SetParam(me,'subregion','value',[1 size(exper.opt.grab,1) 1 size(exper.opt.grab,2)]);
+    SetParam(me,'subregion','value',[1 size(exper.Opt.grab,1) 1 size(exper.Opt.grab,2)]);
     make_subregion;	
 	
 
@@ -375,21 +375,21 @@ case 'focus'
 	if GetParam(me,'focus')
         make_subregion;
 		SetParamUI(me,'focus','BackgroundColor',[1 0 0]);
-        SetParamUI(me,'gain','Enable','off');
+        SetParamUI(me,'gAIn','Enable','off');
         SetParamUI(me,'mode','Enable','off');
-        if ExistParam('till')
+        if ExistParam('Till')
             Till('on',1);
         end
 		focus;
 	else
-		close(findobj('type','figure','tag','orcafocus','name','Focus'));
+		close(findobj('type','figure','tag','Orcafocus','name','Focus'));
 		SetParamUI(me,'focus','BackgroundColor',get(gcf,'Color'));
 %        if GetParam(me,'board','board') == 2
         if GetParam(me,'board','value') == 1
-            SetParamUI(me,'gain','Enable','on');
+            SetParamUI(me,'gAIn','Enable','on');
             SetParamUI(me,'mode','Enable','on');
         end
-        if ExistParam('till')
+        if ExistParam('Till')
             Till('on',0);
         end
 	end
@@ -416,8 +416,8 @@ case 'overlay'
 	end
 	if ~GetParam(me,'focus')
 		draw_image;
-	   if ~isempty(exper.opt.ratio)
-			opt('draw_ratio');
+	   if ~isempty(exper.Opt.ratio)
+			Opt('draw_ratio');
 		end
 	end
 
@@ -429,7 +429,7 @@ case 'subregion'
     make_subregion;
     
 case 'subreg_set'
-    ax = findobj('tag','orca_axes');
+    ax = findobj('tag','Orca_axes');
     subx = round(get(ax,'xlim'))*GetParamList(me,'bin');
     suby = round(get(ax,'ylim'))*GetParamList(me,'bin');
     subx(2) = subx(2)+1;
@@ -456,7 +456,7 @@ case 'draw'
 case 'set_info'
     % used to save parameter values 
     % called as 
-    % orca('set_info',index,value)
+    % Orca('set_info',index,value)
     
     index = varargin{2};
     value = varargin{3};
@@ -469,11 +469,11 @@ case 'set_info'
     SetParam(me,'info',info);
 
 case 'reset'
-	orca('mode');
+	Orca('mode');
    ClearParamTrials(me);
-   setparam(me,'display','list','','value',1);
+   SetParam(me,'display','list','','value',1);
 
-	message(me,'');
+	Message(me,'');
 
 
 case 'com'
@@ -503,7 +503,7 @@ function out = callback
 function h=focus
 global exper
 
-    h=findobj('type','figure','name','orca','tag','orca_fig');
+    h=findobj('type','figure','name','Orca','tag','Orca_fig');
 
     [im,t0] = milmex('grabframes',GetParam(me,'xsize'),GetParam(me,'ysize'),1);
     subreg = GetParam(me,'subregion','rot');
@@ -528,10 +528,10 @@ global exper
 			mask = find(im > GetParam(me,'thresh')*max2(im));
 			im(mask) = clim(2);
 		end
-		set(img,'cdata',rot90(im,-1),'parent',a,'tag','orca_image','cdatamapping','scaled');
+		set(img,'cdata',rot90(im,-1),'parent',a,'tag','Orca_image','cdatamapping','scaled');
 		dt = t1-t0;
 		t0 = t1;
-		message(me,sprintf('%02.4g fps',1/dt));
+		Message(me,sprintf('%02.4g fps',1/dt));
 	end
     
 function grab_image
@@ -539,15 +539,15 @@ global exper
 %    if GetParam(me,'review')
 %        return
 %    end
-	message(me,sprintf('Grabbing %d...',GetParamList(me,'stack')));
+	Message(me,sprintf('Grabbing %d...',GetParamList(me,'stack')));
 	subreg = GetParam(me,'subregion','rot');
 	im = milmex('grabframes',GetParam(me,'xsize'),GetParam(me,'ysize'),GetParamList(me,'stack'),0,GetParamList(me,'stack'));
-	exper.opt.im = im(subreg(1):subreg(2),subreg(3):subreg(4));
+	exper.Opt.im = im(subreg(1):subreg(2),subreg(3):subreg(4));
 	if GetParamList(me,'bin') > 1
-		exper.opt.im = bin2(exper.opt.im,GetParamList(me,'bin'));
+		exper.Opt.im = bin2(exper.Opt.im,GetParamList(me,'bin'));
 	end
-	exper.opt.grab = double(exper.opt.im) / GetParamList(me,'stack');
-	message(me,'done.');
+	exper.Opt.grab = double(exper.Opt.im) / GetParamList(me,'stack');
+	Message(me,'done.');
 
 	draw_image;
 	
@@ -556,23 +556,23 @@ function [img, a, h] = draw_image(im)
 global exper
 
 	if nargin < 1
-		im = exper.opt.grab;
+		im = exper.Opt.grab;
 	end
 	
-	h=findobj('type','figure','name','orca','tag','orca_fig');
+	h=findobj('type','figure','name','Orca','tag','Orca_fig');
 	if isempty(h)
-		[h,a] = make_orca_fig;
+		[h,a] = make_Orca_fig;
 	else
-        a = findobj(h,'tag','orca_axes');
+        a = findobj(h,'tag','Orca_axes');
     end
 	if isempty(a)
 		delete(h);
 		[h, a] = make_ratio_fig;
 	end
 	
-	img = findobj(a,'tag','orca_image');
+	img = findobj(a,'tag','Orca_image');
 	if isempty(img)
-		img = image('parent',a,'tag','orca_image');
+		img = image('parent',a,'tag','Orca_image');
 	end
 	
  	if GetParam(me,'autoscale')
@@ -583,14 +583,14 @@ global exper
 	set(a,'clim',clim);
 	if GetParam(me,'overlay')
 		
-%		exper.opt.mask = 1 - makemask(im, GetParam(me,'thresh'));
-%		im = im + exper.opt.mask .* clim(2);
+%		exper.Opt.mask = 1 - makemask(im, GetParam(me,'thresh'));
+%		im = im + exper.Opt.mask .* clim(2);
 %		im(im > GetParam(me,'thresh')) = clim(2);
-		exper.opt.mask = find(im > GetParam(me,'thresh')*max2(im));
-		im(exper.opt.mask) = clim(2);
+		exper.Opt.mask = find(im > GetParam(me,'thresh')*max2(im));
+		im(exper.Opt.mask) = clim(2);
     end
     
-    set(img,'cdata',rot90(im,-1),'parent',a,'tag','orca_image','cdatamapping','scaled');
+    set(img,'cdata',rot90(im,-1),'parent',a,'tag','Orca_image','cdatamapping','scaled');
 
     subreg = GetParam(me,'subregion')/GetParamList(me,'bin');
     set(a,'xtickmode','auto','ytickmode','auto');
@@ -601,29 +601,29 @@ global exper
 
 function store_image
 global exper
-    exper.opt.trial(GetParam('control','trial')).grab = compress(exper.opt.grab,'uint16');
+    exper.Opt.trial(GetParam('Control','trial')).grab = compress(exper.Opt.grab,'uint16');
 	update_display_list;
 	
 	letter = 97; % a
-	filename = sprintf('%s\\%s%03d%s.tif',GetParam('control','datapath'),GetParam('control','expid'),GetParam('control','trial'),letter);
+	filename = sprintf('%s\\%s%03d%s.tif',GetParam('Control','datapath'),GetParam('Control','expid'),GetParam('Control','trial'),letter);
     fid = fopen(filename);
 	while fid > -1      
 		letter = letter+1;        
 		if letter > 122
-			message(me,'File NOT saved','error');
+			Message(me,'File NOT saved','error');
 			return
 		end
         fclose(fid);
-		filename = sprintf('%s\\%s%03d%s.tif',GetParam('control','datapath'),GetParam('control','expid'),GetParam('control','trial'),letter);
+		filename = sprintf('%s\\%s%03d%s.tif',GetParam('Control','datapath'),GetParam('Control','expid'),GetParam('Control','trial'),letter);
         fid = fopen(filename);
 	end
-	imwrite(uint16(exper.opt.grab),filename,'tiff','Compression','none');
-	message(me,sprintf('%s',filename));
+	imwrite(uint16(exper.Opt.grab),filename,'tiff','compression','none');
+	Message(me,sprintf('%s',filename));
 
     
-function [h, a] = make_orca_fig
-    h = figure('name','orca','tag','orca_fig','number','off','doublebuffer','on','deletefcn',[me '(''focus'',0);']);
-	 a = axes('climmode','manual','DataAspectRatioMode','manual','visible','on','tag','orca_axes',...
+function [h, a] = make_Orca_fig
+    h = figure('name','Orca','tag','Orca_fig','number','off','doublebuffer','on','deletefcn',[me '(''focus'',0);']);
+	 a = axes('climmode','manual','DataAspectRatioMode','manual','visible','on','tag','Orca_axes',...
         'position',[0.05 0.05 0.95 0.95]);
 	 colormap(gray_plus_red);
     m1 = uimenu(h,'label','Orca');
@@ -634,27 +634,27 @@ function [h, a] = make_orca_fig
 function recall_image(trial)
 global exper
 	read_file = 1;
-	if trial <= length(exper.opt.trial)
-		if ~isempty(exper.opt.trial(trial).grab)
-	    	exper.opt.grab = expand(exper.opt.trial(trial).grab);
+	if trial <= length(exper.Opt.trial)
+		if ~isempty(exper.Opt.trial(trial).grab)
+	    	exper.Opt.grab = expand(exper.Opt.trial(trial).grab);
 			read_file = 0;
-			message(me,sprintf('%d',trial));
+			Message(me,sprintf('%d',trial));
 		end
 	end
 	if read_file
-		filename = sprintf('%s\\%s%03d.avi',GetParam('control','datapath'),...
-			GetParam('control','expid'),GetParam('orca','display'));
+		filename = sprintf('%s\\%s%03d.avi',GetParam('Control','datapath'),...
+			GetParam('Control','expid'),GetParam('Orca','display'));
 	
 		f = fopen(filename);
 		if f == -1
-			message(me,'No such image','error');
+			Message(me,'No such image','error');
 			return;
 		end
 		fclose(f);
-		exper.opt.grab = double(imread(f));
-		exper.opt.trial(trial).grab = compress(exper.opt.grab,'uint16');
+		exper.Opt.grab = double(imread(f));
+		exper.Opt.trial(trial).grab = compress(exper.Opt.grab,'uint16');
 		update_display_list;
-		message(me,filename);
+		Message(me,filename);
 	end
 	
 	draw_image;
@@ -691,41 +691,41 @@ global exper
     ylim = [subval(3) subval(4)];
     
     
-    a1 = findobj('tag','orca_axes');
+    a1 = findobj('tag','Orca_axes');
     set(a1,'xlim',xlim,'ylim',ylim);
-    a2 = findobj('tag','opt_axes');
+    a2 = findobj('tag','Opt_axes');
     set(a2,'xlim',xlim,'ylim',ylim);
     
-    orcaf = findobj('tag','orca_fig');
-    optf = findobj('tag','opt_ratio_fig');
-    p = get(orcaf,'pos');
+    Orcaf = findobj('tag','Orca_fig');
+    Optf = findobj('tag','Opt_ratio_fig');
+    p = get(Orcaf,'pos');
     if ~isempty(p)
         p(1:2) = p(1:2)-50;
-        set(optf,'pos',p);
+        set(Optf,'pos',p);
     end
      
             
 function save_image
 global exper
-	info.rate = 1/mean(diff(exper.opt.t));
+	info.rate = 1/mean(diff(exper.Opt.t));
 	info.avg = 1;
 	info.vec = zeros(1,256);
-    s = min(256,length(exper.opt.t));
-	info.vec(1:s) = exper.opt.t(1:s);
+    s = min(256,length(exper.Opt.t));
+	info.vec(1:s) = exper.Opt.t(1:s);
    
     p = GetParam(me,'info');
     info.param = zeros(1,256);
     info.param(1,1:length(p)) = p;
     
 	% now write compressed movie
-	filename = sprintf('%s\\%s%03d.avi',GetParam('control','datapath'),...
-	GetParam('control','expid'),...
-	    GetParam('control','trial'));
+	filename = sprintf('%s\\%s%03d.avi',GetParam('Control','datapath'),...
+	GetParam('Control','expid'),...
+	    GetParam('Control','trial'));
 	
-	message(me,sprintf('Writing %s%03d.avi...',GetParam('control','expid'),...
-		GetParam('control','trial')));
-	aviwrite(exper.opt.im,filename,info);   
-	message(me,'');
+	Message(me,sprintf('Writing %s%03d.avi...',GetParam('Control','expid'),...
+		GetParam('Control','trial')));
+	AviWrite(exper.Opt.im,filename,info);   
+	Message(me,'');
 
             
 	
@@ -733,18 +733,18 @@ function update_display_list
 global exper
 	k=1;
     list = '';
-	if length(exper.opt.trial) 
- 		for n=1:length(exper.opt.trial)
-			if isfield(exper.opt.trial(n),'grab')
-                if ~isempty(exper.opt.trial(n).grab)
+	if length(exper.Opt.trial) 
+ 		for n=1:length(exper.Opt.trial)
+			if isfield(exper.Opt.trial(n),'grab')
+                if ~isempty(exper.Opt.trial(n).grab)
     				list{k} = sprintf('%d',n);
 				    k=k+1;
                 end
 			end
 		end
-		setparam(me,'display','list',list,'value',GetParam('control','trial'));
+		SetParam(me,'display','list',list,'value',GetParam('Control','trial'));
     else
-        setparam(me,'display','list',' ','value',1);
+        SetParam(me,'display','list',' ','value',1);
     end
 	 
     
@@ -767,7 +767,7 @@ function b = bin_image(a)
 	 
 function out = makemask(inimage, cutoff)
 
-% MAKEMASK takes a uint16 tif image and converts it into a binary bitmap
+% makemask takes a uint16 tif image and converts it into a binary bitmap
 % where brightest values are set to zero
 % cutoff is 0 to 1
 
@@ -783,14 +783,14 @@ out = -(double(im2bw(scaledimage,cutoff))-1);
 
 function com1 = get_com1	
 	com1 = [];
-		c = instrfind('tag','orca');
+		c = instrfind('tag','Orca');
 		for n=1:length(c)
 			if strcmp(get(c(n),'status'),'open')
 				com1 = c(n);
 			end
 		end
 		if isempty(com1)
-			com1 = serial('com1','tag','orca','terminator','cr');	
+			com1 = serial('com1','tag','Orca','terminator','cr');	
 			fopen(com1);
 		end
 	

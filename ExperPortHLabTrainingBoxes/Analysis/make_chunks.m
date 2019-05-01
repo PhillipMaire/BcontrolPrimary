@@ -1,5 +1,5 @@
 function [pd_chunks, dd_chunks] = make_chunks(first_pd, first_dd, trials)
-% MAKE_CHUNKS
+% make_chunks
 %   Returns contiguous trials of pd trials (each segment is an entry of
 %   pd_chunks) and dd trials (ditto dd_chunks)
 

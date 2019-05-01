@@ -23,7 +23,7 @@ end;
 % get trials with >= 1 Timeout
 sound_state = 43;  % for @pitchsampobj
 left_over_sound_state = 44;     % for @pitchsampobj, state where sound is played but rat can withdraw w/o penalty
-wpks_state = 45;    % 'wait-for-answer-poke stsate
+wpks_state = 45;    % 'wAIt-for-answer-poke stsate
 % Note: A valid Cout may occur either in state 44 or 45.
 
 
@@ -66,7 +66,7 @@ if show_only_timeout
         to_count(t_num) = length(find(e(:,1) == sound_state));
     end;
 
-    % 2 or more entry-exit pairs
+    % 2 or more entry-exit pAIrs
     to_trials = find(to_count > 2);
 else
     to_trials = 1:num_trials;

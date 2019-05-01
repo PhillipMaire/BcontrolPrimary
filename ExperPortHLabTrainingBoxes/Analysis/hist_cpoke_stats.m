@@ -7,17 +7,17 @@
 
 function [hhandles] = hist_cpoke_stats(cpokestats, varargin)
 
-   pairs = { ...
+   pAIrs = { ...
      'handles'            []   ; ...
      'custom_colors'      []   ; ...
      'plottables'         []   ; ...
    }; 
 
    if nargin==2, 
-      parseargs({}, pairs);
+      parseargs({}, pAIrs);
       handles = varargin{1}; 
    else
-      parseargs(varargin, pairs);
+      parseargs(varargin, pAIrs);
    end;
    
    if isempty(custom_colors)

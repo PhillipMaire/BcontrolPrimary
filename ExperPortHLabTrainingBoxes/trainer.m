@@ -1,6 +1,6 @@
 
 
-function [x, y] = trainer(obj, action, x, y)
+function [x, y] = trAIner(obj, action, x, y)
 
 GetSoloFunctionArgs;
 
@@ -33,51 +33,51 @@ switch action
         
         
 
-        MenuParam(obj, 'trainer_show', {'view', 'hide'}, 'hide', x, y, 'label', 'trainer Control', 'TooltipString', 'Control trainer');
-        set_callback(trainer_show, {mfilename,'hide_show'});
+        MenuParam(obj, 'trAIner_show', {'view', 'hide'}, 'hide', x, y, 'label', 'trAIner Control', 'TooltipString', 'Control trAIner');
+        set_callback(trAIner_show, {mfilename,'hide_show'});
 
         next_row(y);
-        SubheaderParam(obj, 'sectiontitle', 'Trainer Control', x, y);
+        SubheaderParam(obj, 'sectiontitle', 'trAIner Control', x, y);
 
         parentfig_x = x; parentfig_y = y;
        
         
         % ---  Make new window for motor configuration
-        SoloParamHandle(obj, 'trainerfig', 'saveable', 0);
-        trainerfig.value = figure('Position', [3 800 410 245], 'Menubar', 'none',...
-            'Toolbar', 'none','Name','Trainer Control','NumberTitle','off');
+        SoloParamHandle(obj, 'trAInerfig', 'saveable', 0);
+        trAInerfig.value = figure('Position', [3 800 410 245], 'Menubar', 'none',...
+            'Toolbar', 'none','Name','trAIner Control','NumberTitle','off');
 
         x = 1; y = 1;
 
-        %       PushButtonParam(obj, 'serial_open', x, y, 'label', 'Open serial port');
+        %       PushbuttonParam(obj, 'serial_open', x, y, 'label', 'Open serial port');
         %       set_callback(serial_open, {mfilename, 'serial_open'});
         %       next_row(y);
 
        
        
-%         PushButtonParam(obj, 'reset_motors_firmware', x, y, 'label', 'Reset Zaber firmware parameters',...
+%         PushbuttonParam(obj, 'reset_motors_firmware', x, y, 'label', 'Reset Zaber firmware parameters',...
 %             'TooltipString','Target acceleration, target speed, and microsteps/step');
 %         set_callback(reset_motors_firmware, {mfilename, 'reset_motors_firmware'});
 %         next_row(y);
 
-        PushButtonParam(obj, 'Right', x, y, 'label', 'Right');
+        PushbuttonParam(obj, 'Right', x, y, 'label', 'Right');
         set_callback(read_positions, {mfilename, 'read_positions'});
         
-          PushButtonParam(obj, 'Left', x, y, 'label', 'Left');
+          PushbuttonParam(obj, 'Left', x, y, 'label', 'Left');
         set_callback(read_positions, {mfilename, 'read_positions'});
         
-          PushButtonParam(obj, 'Absent', x, y, 'label', 'Absent');
+          PushbuttonParam(obj, 'Absent', x, y, 'label', 'Absent');
         set_callback(read_positions, {mfilename, 'read_positions'});
         
         SubheaderParam(obj, 'title', 'next rial type', x, y);
         
         next_column(x); y = 1;
         
-        PushButtonParam(obj, 'read_positions', x, y, 'label', 'Read position');
+        PushbuttonParam(obj, 'read_positions', x, y, 'label', 'Read position');
         set_callback(read_positions, {mfilename, 'read_positions'});
   
         next_row(y);
-        NumeditParam(obj, 'motor_position', 0, x, y, 'label', ...
+        NumEditParam(obj, 'motor_position', 0, x, y, 'label', ...
             'Motor position','TooltipString','Absolute position in microsteps of motor.');
         set_callback(motor_position, {mfilename, 'motor_position'});
         
@@ -89,29 +89,29 @@ switch action
         
         %--------------- extreme positions for the multi-pole task --------------------------------
         next_row(y);
-        NumeditParam(obj, 'no_pole_position_ant', 180000, x, y, 'label', ...
+        NumEditParam(obj, 'no_pole_position_ant', 180000, x, y, 'label', ...
             '"No" ant position','TooltipString','Far no trial position in microsteps.');
         
         next_row(y);
-        NumeditParam(obj, 'no_pole_position_pos', 100001, x, y, 'label', ...
+        NumEditParam(obj, 'no_pole_position_pos', 100001, x, y, 'label', ...
             '"No" pos position','TooltipString','Near no trial position in microsteps.');
         
         next_row(y);
-        NumeditParam(obj, 'yes_pole_position_ant', 100000, x, y, 'label', ...
+        NumEditParam(obj, 'yes_pole_position_ant', 100000, x, y, 'label', ...
             '"Yes" ant position','TooltipString','Far yes trial position in microsteps.');        
         
         next_row(y);
-        NumeditParam(obj, 'yes_pole_position_pos', 20000, x, y, 'label', ...
+        NumEditParam(obj, 'yes_pole_position_pos', 20000, x, y, 'label', ...
             '"Yes" pos position','TooltipString','Near yes trial position in microsteps.');
         %%%psm below 
         next_row(y);
-        NumeditParam(obj, 'Absent_pole_position', 180000, x, y, 'label', ...
+        NumEditParam(obj, 'Absent_pole_position', 180000, x, y, 'label', ...
             '"Absent" lat position','TooltipString','out of range anterior trial.');        
         
         %%%psm above
 % 
 %         next_row(y);
-%         NumeditParam(obj, 'num_of_pole_position', 5, x, y, 'label', ...
+%         NumEditParam(obj, 'num_of_pole_position', 5, x, y, 'label', ...
 %             'Pole positions','TooltipString','Number of Yes/No pole position');
 % 
 %         % switch between 2 pole task and multi-pole
@@ -123,15 +123,15 @@ switch action
         
         
         next_row(y);
-        NumeditParam(obj, 'motor_move_time', 2, x, y, 'label', ...
+        NumEditParam(obj, 'motor_move_time', 2, x, y, 'label', ...
             'motor move time','TooltipString','set up time for motor to move.');
 
         next_row(y)
-        PushButtonParam(obj, 'read_lateral_positions', x, y, 'label', 'Read lateral position');
+        PushbuttonParam(obj, 'read_lateral_positions', x, y, 'label', 'Read lateral position');
         set_callback(read_lateral_positions, {mfilename, 'read_lateral_positions'});
 
         next_row(y);
-        NumeditParam(obj, 'lateral_motor_position', 180000, x, y, 'label', ...
+        NumEditParam(obj, 'lateral_motor_position', 180000, x, y, 'label', ...
             'lateral_motor_position','TooltipString','Absolute position in microsteps of motor.');
         set_callback(lateral_motor_position, {mfilename, 'lateral_motor_position'});
 
@@ -174,9 +174,9 @@ switch action
         absent_position = value(Absent_pole_position);%set position to lateral position for the absent trial
         tic
 %         move_absolute(motors,half_point_lat,value(lateral_motor_num));
-        move_absolute_sequence3(motors,{half_point,next_pole_position},value(motor_num),...
+        move_absolute_Sequence3(motors,{half_point,next_pole_position},value(motor_num),...
             {half_point_lat,absent_position},value(lateral_motor_num));
-%         move_absolute_sequence(motors,{half_point_lat,absent_position},value(lateral_motor_num));
+%         move_absolute_Sequence(motors,{half_point_lat,absent_position},value(lateral_motor_num));
 %         move_absolute(motors,absent_position,value(lateral_motor_num));
         movetime = toc
             else
@@ -185,9 +185,9 @@ switch action
         %which is set for absolute movement which needs to be corrected later
         tic 
 %         move_absolute(motors,half_point_lat,value(lateral_motor_num));
-        move_absolute_sequence3(motors,{half_point,next_pole_position},value(motor_num),...
+        move_absolute_Sequence3(motors,{half_point,next_pole_position},value(motor_num),...
             {half_point_lat,absent_position},value(lateral_motor_num));
-%         move_absolute_sequence(motors,{half_point_lat,absent_position},value(lateral_motor_num));
+%         move_absolute_Sequence(motors,{half_point_lat,absent_position},value(lateral_motor_num));
 %         move_absolute(motors,absent_position,value(lateral_motor_num));
         movetime = toc
             end

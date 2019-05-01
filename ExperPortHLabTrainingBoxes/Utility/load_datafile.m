@@ -15,21 +15,21 @@ if nargin < 4
     date = date(1:end-1);
 end;
 
-pairs = {
+pAIrs = {
     'realign', 0 ; ...
     'dlist', []; ...
     'plist', [];...
     'rlist', []; ...
     };
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 if ~isempty(rlist)
-    ratname = get(rlist, 'String'); ratname = ratname{get(rlist, 'Value')};
-    task = get(plist, 'String'); task = [lower(task{get(plist, 'Value')}) 'obj'];
-    date = get(dlist, 'String'); date = date{get(dlist, 'Value')}; f_ver = date(end); date = date(1:end-1);
+    ratname = get(rlist, 'String'); ratname = ratname{get(rlist, 'value')};
+    task = get(plist, 'String'); task = [lower(task{get(plist, 'value')}) 'obj'];
+    date = get(dlist, 'String'); date = date{get(dlist, 'value')}; f_ver = date(end); date = date(1:end-1);
 end;
 
-pairs = {'realign', 0 ; }; parse_knownargs(varargin, pairs);
+pAIrs = {'realign', 0 ; }; parse_knownargs(varargin, pAIrs);
     
 global Solo_datadir;
 if isempty(Solo_datadir), mystartup; end;

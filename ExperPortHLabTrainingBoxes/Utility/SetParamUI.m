@@ -1,5 +1,5 @@
 function h = SetParamUI(module,param,varargin)
-% SETPARAMUI
+% SetParamUI
 % Change properties of a ui associated with a PARAM.
 % PARAM is a string with the param name; MODULE can be
 % a string or a cell array of strings. Returns a handle
@@ -9,7 +9,7 @@ function h = SetParamUI(module,param,varargin)
 % then sets the ui to be either editable, black on white ('enable')
 % or non-editable, black on gray ('disable')
 % 
-% H = SETPARAMUI(MODULE,PARAM,VARAGIN)
+% H = SetParamUI(MODULE,PARAM,VARAGIN)
 %	
 % ZF MAINEN, CSHL, 8/00
 %
@@ -22,9 +22,9 @@ if ~ishandle(h) return; end
 if nargin == 3
     switch(varargin{1})
         case 'enable'
-            setparamui(module,param,'enable','on','background',[1 1 1]);
+            SetParamUI(module,param,'enable','on','background',[1 1 1]);
         case 'disable'
-            setparamui(module,param,'enable','inactive','background',get(get(h,'parent'),'color'));
+            SetParamUI(module,param,'enable','inactive','background',get(get(h,'parent'),'color'));
         otherwise
     end
 else
@@ -36,9 +36,9 @@ else
         val = varargin{n+1};
         switch field
             case 'pos'
-                % getpos can handle various kinds of requests
+                % GetPos can handle various kinds of requests
                 if isstr(val)
-                    set(h,'pos',getpos(h,val));
+                    set(h,'pos',GetPos(h,val));
                 else
                     set(h,field,val);
                 end

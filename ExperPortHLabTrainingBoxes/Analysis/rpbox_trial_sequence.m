@@ -1,4 +1,4 @@
-function [sseq] = rpbox_trial_sequence(saved)
+function [sseq] = RPbox_trial_Sequence(saved)
 
    rtrials = saved.trial_events(:,1);
    rtimes  = saved.trial_events(:,2);

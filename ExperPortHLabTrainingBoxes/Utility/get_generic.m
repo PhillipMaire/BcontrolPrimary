@@ -1,7 +1,7 @@
 function [value] = get_generic(key)
 
 global fake_rp_box;  
-if fake_rp_box==2, srate=200000; % GetSampleRate(rpbox('getsoundmachine'));
+if fake_rp_box==2, srate=200000; % GetSampleRate(RPbox('getsoundmachine'));
 else               srate=50e6/1024;
 end;
    
@@ -24,7 +24,7 @@ gvals = {
 ind = find(strcmp(gvals(:,1), key));
 
 if isempty(ind)
-    error('Invalid param: %s! Please see available parameter values in protocolobj constructor', param);
+    error('Invalid param: %s! Please see avAIlable parameter values in protocolobj constructor', param);
 end;
 
 value = gvals{ind,2};

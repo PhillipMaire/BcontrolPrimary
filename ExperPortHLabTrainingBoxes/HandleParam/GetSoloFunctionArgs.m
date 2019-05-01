@@ -21,7 +21,7 @@ function [arglist] = GetSoloFunctionArgs(varargin)
 % expects to have exactly three parameters in its call, the second being
 % func_owner, and the third being func_name. In this case, the function
 % instantiates nothing but instead has a single return value, a cell
-% vector list containing the names of all vars that would have been
+% vector list contAIning the names of all vars that would have been
 % instantiated if called in normal mode. The list doesn't distinguish
 % between read/write and read-only variables.
 %   
@@ -37,7 +37,7 @@ function [arglist] = GetSoloFunctionArgs(varargin)
 % simply be a double, with value 34, not a SoloParamHandle, and
 % changing its value will affect no other functions.    
 %   
-% OPTIONAL PARAMS:
+% OptIONAL PARAMS:
 % ----------------
 %
 % func_name       The full name of the function that is asking for
@@ -69,40 +69,40 @@ function [arglist] = GetSoloFunctionArgs(varargin)
    else
       % Normal operation, will do variable assignments.
       get_arglist = 0;
-      pairs = { ...
+      pAIrs = { ...
         'func_name'       determine_fullfuncname   ; ...
         'func_owner'      determine_owner          ; ...
         'all_read_only'   'off'                    ; ...
-      }; parseargs(varargin, pairs);
+      }; parseargs(varargin, pAIrs);
    end;
    
-   global private_solofunction_list
-   % private_solofunction_list is a cell array with three columns. The
-   % first column contains owner ids. Each row is unique. For each row
-   % with an owner id, the second column contains a cell array that
+   global private_SoloFunction_list
+   % private_SoloFunction_list is a cell array with three columns. The
+   % first column contAIns owner ids. Each row is unique. For each row
+   % with an owner id, the second column contAIns a cell array that
    % corresponds to the set of function names that are registered for that
-   % owner. The third row contains the globals declared for that owner.
+   % owner. The third row contAIns the globals declared for that owner.
 
    % First find the list of functions registered to func_owner:
-   if isempty(private_solofunction_list), return; 
-   else mod = find(strcmp(func_owner, private_solofunction_list(:,1)));
+   if isempty(private_SoloFunction_list), return; 
+   else mod = find(strcmp(func_owner, private_SoloFunction_list(:,1)));
    end;
    if isempty(mod), return; end;
 
    % Get the global arguments for this func_owner
-   global_rw_args = private_solofunction_list{mod,3}{1};
-   global_ro_args = private_solofunction_list{mod,3}{2};
+   global_rw_args = private_SoloFunction_list{mod,3}{1};
+   global_ro_args = private_SoloFunction_list{mod,3}{2};
    
    % Now find the func_name within the list of functions:
-   funclist = private_solofunction_list{mod, 2};
+   funclist = private_SoloFunction_list{mod, 2};
    if isempty(funclist), return;
    else fun = find(strcmp(func_name, funclist(:,1)));
    end;
    
    % Each funclist is a cell array with three columns. The first column
-   % contains function names; each row is unique. For each row, the
-   % second column contains a cell column vector of read/write args;
-   % the third column contains a cell column vector of read-only args.
+   % contAIns function names; each row is unique. For each row, the
+   % second column contAIns a cell column vector of read/write args;
+   % the third column contAIns a cell column vector of read-only args.
    if ~isempty(fun), 
       rw_args = funclist{fun,2}; 
       ro_args = funclist{fun,3};

@@ -1,14 +1,14 @@
 % Startup file for hybrid Exper/Solo system.
 %
-% A typical opening command sequence would be
+% A typical opening command Sequence would be
 %
-%    >> mystartup; ModuleInit('control'); ModuleInit('rpbox');
+%    >> mystartup; ModuleInit('Control'); ModuleInit('RPbox');
 %
 % after which one would select a protocol from the 'protocols' menu in
-% the rpbox window.
-% Is something weird still happening? 
+% the RPbox window.
+% Is something weird sTill happening? 
 
-cd('C:\Users\User\Documents\GitHub\BControl_Primary\ExperPortHLabTrainingBoxes')
+cd('C:\Users\User\Documents\GitHub\BControl_Primary\ExperPortHLabTrAIningBoxes')
 
 % Exper's repository of all variables:
 global exper;
@@ -17,13 +17,13 @@ global exper;
 % what kind of sound machine, are to be run:
 %
 %  fake_rp_box = 0    -->   Use the TDT RM1 boxes
-%  fake_rp_box = 1    -->   Use FakeRP/@lunghao1 and FakeRP/@lunghao2
+%  fake_rp_box = 1    -->   Use FakeRP/@lunghAO1 and FakeRP/@lunghAO2
 %                           objects as virtual machines %-- FakeRP removed, DHO122906#1
 %  fake_rp_box = 2    -->   Use the RT Linux state machine
 %  fake_rp_box = 3    -->   Use the Modules/@SoftSMMarkII and
 %                           Modules/@softsound objects as virtual
 %                           machines. These are recommended over the
-%                           old @lunghao1 and @lunghao2
+%                           old @lunghAO1 and @lunghAO2
 %  fake_rp_box = 4    -->   Use the Modules/@softsm and
 %                           Modules/@softsound objects as virtual
 %                           machines. @softsm has no scheduled waves.
@@ -36,7 +36,7 @@ global fake_rp_box;
 % When using the virtual sound machine this variable determines whether
 % sounds are played or not. Sometimes sounds are not played with the
 % precise timing of the RT Linux server; turning them off permits
-% examining the timing of states in better detail.
+% examining the timing of states in better detAIl.
 % global softsound_play_sounds;
 % To NOT play sounds:
 % softsound_playsounds = 0;
@@ -53,7 +53,7 @@ global fake_rp_box;
 hostname = lower(hostname);
 hostname = hostname(~isspace(hostname));
 
-if ismember(hostname, {'kaikai1'}), %%{'kaikai1' 'hnb228-labpc5'}),
+if ismember(hostname, {'kAIkAI1'}), %%{'kAIkAI1' 'hnb228-labpc5'}),
     fake_rp_box = 3;
 elseif ismember(hostname, {'s7256' 'hnb228-labpc5' 'd5xr7xh1' 'labadmin-pc' 'oconnord-ww1' 'computer-labx' 'svobodalab-2b' 'svobodalab-2a' 'svobodalab-2i' 'svobodalab-2k'}),
     fake_rp_box = 2;
@@ -85,13 +85,13 @@ switch hostname
         motors_properties.port = 'COM4';
         valves_properties.rwater_valve_time = 0.15;
         valves_properties.lwater_valve_time = 0.15;
-        valves_properties.airpuff_time = 0;
-        valves_properties.airpuff_frac = 0.2; %puff on 20 % of trials
+        valves_properties.AIrpuff_time = 0;
+        valves_properties.AIrpuff_frac = 0.2; %puff on 20 % of trials
         valves_properties.reward_cue_time = 0.1;
 
     otherwise
         %Don't have default, in order to prevent breakout box crosstalk errors:
-        error('This computer is not approved to control RTLinux box.  Must add to list in mystartup.m.')
+        error('This computer is not approved to Control RTLinux box.  Must add to list in mystartup.m.')
 end
 
 % for now, rtlinux machines use 200kHz always
@@ -106,7 +106,7 @@ end
 % that if by any chance it crashes, it doesn't crash the rest of the
 % protocol. Typical use might be:
 %   if Solo_Try_Catch_flag,
-%      try, analysis; catch, warning('analysis failed!'); lasterr; end;
+%      try, analysis; catch, warning('analysis fAIled!'); lasterr; end;
 %   else analysis;
 %   end;
 %
@@ -145,7 +145,7 @@ addpath([pwd filesep 'UiClasses']);
 addpath([pwd filesep 'bin']);
 
 % Old Exper-related hack
-setpref('carlos', 'control_datapath', [pwd filesep 'data'])
+SetPref('carlos', 'Control_datapath', [pwd filesep 'data'])
 
 % dbstop if error
 
@@ -158,7 +158,7 @@ warning('off','MATLAB:dispatcher:InexactMatch');
 warning('off','MATLAB:warn_r14_stucture_assignment');
 
 % To start the system off, run these commands after mystartup.m:
-%    >> ModuleInit('control'); ModuleInit('rpbox');
+%    >> ModuleInit('Control'); ModuleInit('RPbox');
 %
 
 % % Names of protocols built using protocolobj

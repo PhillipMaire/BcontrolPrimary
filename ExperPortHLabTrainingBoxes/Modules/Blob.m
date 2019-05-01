@@ -1,26 +1,26 @@
-function varargout = blob(varargin)
+function varargout = Blob(varargin)
 % Opt
 % Optical imaging analysis
 %
-% ZF Mainen 07/01
+% ZF MAInen 07/01
 %
-% BLOB ANALYSIS
+% Blob ANALYSIS
 %
 % analysis functions
 % ------------------
-% blob('correl',sweeps1,sweeps2)
-% blob('dist_geom',sweeps1,sweeps2)
-% blob('cluster',sweeps1,sweeps2,...,sweepsn)
-% blob('winners',sweeps1,sweeps2...,sweepsN)	% plot blobs as filled circles with
+% Blob('correl',sweeps1,sweeps2)
+% Blob('dist_geom',sweeps1,sweeps2)
+% Blob('cluster',sweeps1,sweeps2,...,sweepsn)
+% Blob('winners',sweeps1,sweeps2...,sweepsN)	% plot Blobs as filled circles with
 %																	% colors assigned to the strongest
-%																	% odor (sweep) for each blob
-% blob('map',sweeps,hue,thresh)	 plot blobs as filled circles with
+%																	% odor (sweep) for each Blob
+% Blob('map',sweeps,hue,thresh)	 plot Blobs as filled circles with
 %														 color hue, only if < thresh
-% blob('imap',sweeps,range)	 plot blobs as filled circles with
+% Blob('imap',sweeps,range)	 plot Blobs as filled circles with
 %												 fill color reflecting intensity
 %												 range is [min max]
-% blob('tuning',sweeps1,sweeps2,...,sweepsN)		lines connecting sweeps
-% blob('matrix',sweeps1,sweeps2,...,sweepsN)
+% Blob('tuning',sweeps1,sweeps2,...,sweepsN)		lines connecting sweeps
+% Blob('matrix',sweeps1,sweeps2,...,sweepsN)
 
 
 global exper
@@ -31,13 +31,13 @@ else
 	action = lower(get(gcbo,'tag'));
 end
 
-%fig=findobj('tag','opt_ratio_fig');
+%fig=findobj('tag','Opt_ratio_fig');
 
 switch action
 	
 case {'init','reinit'}
 	
-	% blob is after optical
+	% Blob is after Optical
 	SetParam(me,'priority',7); 
 
 	fig = ModuleFigure(me,'visible','off');	
@@ -47,79 +47,79 @@ case {'init','reinit'}
 	vs = 20;
     n = 0;
     
-    uicontrol(fig,'style','pushbutton','string','Ratio(param)','callback',[me ';'],'tag','x_plot','pos',[h n*vs hs*2 vs]); n=n+1;
-    uicontrol(fig,'style','pushbutton','string','Correl(s1,s2)','callback',[me ';'],'tag','correl','pos',[h n*vs hs*2 vs]); n=n+1;
-      % group 1
-    uicontrol(fig,'style','text','string','group 1','horiz','left','pos',[h+hs+5 n*vs hs vs]); 
-    uicontrol(fig,'style','popupmenu','string',{'Press Group/update'},'value',1,'background','white',...
-        'tag','group_1','user','group','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
+    uiControl(fig,'style','pushbutton','string','Ratio(param)','callback',[me ';'],'tag','x_plot','pos',[h n*vs hs*2 vs]); n=n+1;
+    uiControl(fig,'style','pushbutton','string','Correl(s1,s2)','callback',[me ';'],'tag','correl','pos',[h n*vs hs*2 vs]); n=n+1;
+      % Group 1
+    uiControl(fig,'style','text','string','Group 1','horiz','left','pos',[h+hs+5 n*vs hs vs]); 
+    uiControl(fig,'style','popupmenu','string',{'Press Group/update'},'value',1,'background','white',...
+        'tag','Group_1','user','Group','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
   
-    % group 2
-    uicontrol(fig,'style','text','string','group 2','horiz','left','pos',[h+hs+5 n*vs hs vs]); 
-    uicontrol(fig,'style','popupmenu','string',{'Press Group/update'},'value',1,'background','white',...
-        'tag','group_2','user','group','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
+    % Group 2
+    uiControl(fig,'style','text','string','Group 2','horiz','left','pos',[h+hs+5 n*vs hs vs]); 
+    uiControl(fig,'style','popupmenu','string',{'Press Group/update'},'value',1,'background','white',...
+        'tag','Group_2','user','Group','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
   
     
-    uicontrol(fig,'style','text','string','Analysis functions','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
+    uiControl(fig,'style','text','string','Analysis functions','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
     
-    uicontrol(fig,'style','pushbutton','string','cluster','callback',[me ';'],'tag','cluster','pos',[h+hs n*vs hs vs]); 
+    uiControl(fig,'style','pushbutton','string','cluster','callback',[me ';'],'tag','cluster','pos',[h+hs n*vs hs vs]); 
   
-    uicontrol(fig,'style','pushbutton','string','matrix','callback',[me ';'],'tag','matrix','pos',[h n*vs hs vs]); n=n+1;
-    uicontrol(fig,'style','text','string','range','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
-    uicontrol(fig,'style','edit','string','0.003','background','white',...
+    uiControl(fig,'style','pushbutton','string','matrix','callback',[me ';'],'tag','matrix','pos',[h n*vs hs vs]); n=n+1;
+    uiControl(fig,'style','text','string','range','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
+    uiControl(fig,'style','edit','string','0.003','background','white',...
         'tag','range','horiz','right','callback',[me ';'],'pos',[h n*vs hs+15 vs]); n=n+1;
-    uicontrol(fig,'style','text','string','format','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
-    uicontrol(fig,'style','popupmenu','string',{'mean','mean,sd'},'value',1,'background','white',...
+    uiControl(fig,'style','text','string','format','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
+    uiControl(fig,'style','popupmenu','string',{'mean','mean,sd'},'value',1,'background','white',...
         'tag','format','callback',[me ';'],'pos',[h n*vs hs+15 vs]); n=n+1;
-    uicontrol(fig,'style','text','string','normalize','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
-    uicontrol(fig,'style','popupmenu','string',{'none','blob','group','blob_sel'},'value',1,'background','white',...
+    uiControl(fig,'style','text','string','normalize','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
+    uiControl(fig,'style','popupmenu','string',{'none','Blob','Group','Blob_sel'},'value',1,'background','white',...
         'tag','normalize','callback',[me ';'],'pos',[h n*vs hs+15 vs]); n=n+1;
     
 
-    uicontrol(fig,'style','text','string','Display','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
+    uiControl(fig,'style','text','string','Display','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
   
-    uicontrol(fig,'style','text','string','measure','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
-    uicontrol(fig,'style','popupmenu','string',{'ratio','ratio_time','abs_time'},'value',1,'background','white',...
+    uiControl(fig,'style','text','string','measure','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
+    uiControl(fig,'style','popupmenu','string',{'ratio','ratio_time','abs_time'},'value',1,'background','white',...
         'tag','measure','callback',[me ';'],'pos',[h n*vs hs+15 vs]); n=n+1;
   
-    uicontrol(fig,'style','text','string','Calculations','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
+    uiControl(fig,'style','text','string','Calculations','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
     
-    uicontrol(fig,'style','pushbutton','string','Extract now','callback',[me ';'],'tag','calc_ratios','pos',[h n*vs hs vs]); n=n+1;
+    uiControl(fig,'style','pushbutton','string','extract now','callback',[me ';'],'tag','calc_ratios','pos',[h n*vs hs vs]); n=n+1;
     
     InitParam(me,'active','ui','edit','value','','pos',[h n*vs hs vs]); n=n+1;    
    
-     uicontrol(fig,'style','text','string','source','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
-    uicontrol(fig,'style','popupmenu','string',{'image','timecourse'},'value',1,'background','white',...
+     uiControl(fig,'style','text','string','source','horiz','left','pos',[h+hs+15 n*vs hs vs]); 
+    uiControl(fig,'style','popupmenu','string',{'image','timecourse'},'value',1,'background','white',...
         'tag','source','callback',[me ';'],'pos',[h n*vs hs+15 vs]); n=n+1;
   
-     uicontrol(fig,'style','text','string','Extract values','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
+     uiControl(fig,'style','text','string','extract values','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1.5;
    
     
-    uicontrol(fig,'style','pushbutton','string','Clear all','callback',[me ';'],'tag','clear','pos',[h n*vs hs vs]);n=n+1;
+    uiControl(fig,'style','pushbutton','string','Clear all','callback',[me ';'],'tag','clear','pos',[h n*vs hs vs]);n=n+1;
     InitParam(me,'select','ui','popupmenu','list',{' '},'value',1,'pos',[h n*vs hs vs]); n=n+1;
  
-    	% message box
-	uicontrol('parent',fig,'tag','message','style','edit',...
+    	% Message box
+	uiControl('parent',fig,'tag','Message','style','edit',...
 		'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1;
 
     hf = uimenu(fig,'label','File');
 	uimenu(hf,'label','Open...','tag','open','callback',[me ';']);
 	uimenu(hf,'label','Save...','tag','save','callback',[me ';']);
 	uimenu(hf,'label','Export all...','tag','export_all','callback',[me ';'],'separator','on');
-	uimenu(hf,'label','Export groups...','tag','export_groups','callback',[me ';']);
+	uimenu(hf,'label','Export Groups...','tag','export_Groups','callback',[me ';']);
     
 	set(fig,'pos',[200 290-n*vs hs*2+8 n*vs],'visible','on');
     set(findobj('parent',fig,'style','text'),'background',get(fig,'color'));
     
-    if ~isfield(exper.blob,'roi')
-        exper.blob.roi = [];
-        exper.blob.result = [];
-        h=findobj('tag','opt_ratio_fig');
-        delete(findobj(h,'tag','blob','type','line'));
-        delete(findobj(h,'tag','blob','type','text'));
+    if ~isfield(exper.Blob,'roi')
+        exper.Blob.roi = [];
+        exper.Blob.result = [];
+        h=findobj('tag','Opt_ratio_fig');
+        delete(findobj(h,'tag','Blob','type','line'));
+        delete(findobj(h,'tag','Blob','type','text'));
     end
     
-    for n=1:length(exper.blob.roi)
+    for n=1:length(exper.Blob.roi)
         b{n} = num2str(n);
     end
     SetParam(me,'select','list',b,'value',1);
@@ -133,68 +133,68 @@ case 'open'
     else 
         filterspec = [path '\*.mat'];
     end
-    prompt = 'Load blobs from mat file...';
+    prompt = 'Load Blobs from mat file...';
 	[filename, pathname] = uigetfile(filterspec, prompt);
     if isequal(filename,0)|isequal(pathname,0)
-         message(me,'Open canceled');
+         Message(me,'Open canceled');
          return
     end
 	set(get(gcbo,'parent'),'user',pathname);
     s = load([pathname '\' filename]);
-    exper = setfield(exper,'blob',s.blob);
-    message(me,['Opened ' filename]);
+    exper = setfield(exper,'Blob',s.Blob);
+    Message(me,['Opened ' filename]);
     LoadParams(me);
     
     
 case 'save'
     path = get(get(gcbo,'parent'),'user');
-    filterspec = sprintf('%s_blob.mat',GetParam('control','expid'));
+    filterspec = sprintf('%s_Blob.mat',GetParam('Control','expid'));
     if ~isempty(path)
         filterspec = [path '\' filterspec];
     end
-    prompt = 'Save blobs to mat file...';
+    prompt = 'Save Blobs to mat file...';
 	[filename, pathname] = uiputfile(filterspec, prompt);
     if isequal(filename,0)|isequal(pathname,0)
-         message(me,'Save canceled');
+         Message(me,'Save canceled');
          return
     end
 	set(get(gcbo,'parent'),'user',pathname);
-    blob = exper.blob;
-    save([pathname '\' filename],'blob');
-    message(me,['Saved ' filename]);
+    Blob = exper.Blob;
+    save([pathname '\' filename],'Blob');
+    Message(me,['Saved ' filename]);
     
-case 'export_groups'
+case 'export_Groups'
     [trials, names] = Group('all');
     
-    [filename, pathname] = uiputfile('*.txt','Save blob data to ascii file...');
+    [filename, pathname] = uiputfile('*.txt','Save Blob data to ascii file...');
     if ~filename
         return
     end
     fid = fopen([pathname '\' filename],'w');
     if fid == -1
-        message(me,'Problem opening file for writing!','error');
+        Message(me,'Problem opening file for writing!','error');
         return
     end
         
-    [X, SX, Y, SY, ind] = get_blob_matrix;
+    [X, SX, Y, SY, ind] = get_Blob_matrix;
     
-    n_groups=size(X,1);
-    n_blobs=size(X,2);
+    n_Groups=size(X,1);
+    n_Blobs=size(X,2);
     n_times=size(X,3);
    
-    print_blob_header(fid,ind,'groups');
+    print_Blob_header(fid,ind,'Groups');
     
-    for n=1:n_groups
+    for n=1:n_Groups
         for j=1:n_times
-                fprintf(fid,'%s\t',names{n+1});   % n+1 = skip first group
+                fprintf(fid,'%s\t',names{n+1});   % n+1 = skip first Group
             if n_times > 1
-                fprintf(fid,'%d\t',(j-1)*exper.blob.stack);
+                fprintf(fid,'%d\t',(j-1)*exper.Blob.stack);
             end
-            for k=1:n_blobs
+            for k=1:n_Blobs
                 fprintf(fid,'%g\t',X(n,k,j));
             end      
             
-            for k=1:n_blobs
+            for k=1:n_Blobs
                 fprintf(fid,'%g\t',SX(n,k,j));
             end
             fprintf(fid,'\n');
@@ -202,24 +202,24 @@ case 'export_groups'
         if n_times > 1, fprintf(fid,'\n'); end
       end
     fclose(fid);
-    message(me,'');
+    Message(me,'');
     
     
 case 'export_all'
-    [filename, pathname] = uiputfile('*.txt','Save blob data to ascii file...');
+    [filename, pathname] = uiputfile('*.txt','Save Blob data to ascii file...');
     if ~filename
         return
     end
     fid = fopen([pathname '\' filename],'w');
     if fid == -1
-        message(me,'Could not open file for writing','error');
+        Message(me,'Could not open file for writing','error');
         return;
     end
     
     trials = str2num(Group('all_valid'));
-    [X, SX, Y, SY, ind] = get_blob_matrix(trials);
+    [X, SX, Y, SY, ind] = get_Blob_matrix(trials);
     
-    print_blob_header(fid,ind,'all');
+    print_Blob_header(fid,ind,'all');
     
     for n=1:size(X,1)
         for j=1:size(X,3)
@@ -231,9 +231,9 @@ case 'export_all'
                 name = Group('match',tr);
                 if isempty(name), name=' '; end
                 fprintf(fid,'%s\t',name);
-                time = GetParamTrial('control','exptime',tr);
+                time = GetParamTrial('Control','exptime',tr);
                 fprintf(fid,'%d\t',time);
-                if size(X,3) > 1, fprintf(fid,'%d\t',(j-1)*exper.blob.stack); end
+                if size(X,3) > 1, fprintf(fid,'%d\t',(j-1)*exper.Blob.stack); end
                 for k=1:size(X,2)
                     fprintf(fid,'%g\t',X(n,k,j));
                 end
@@ -248,38 +248,38 @@ case 'export_all'
 
 case 'draw'
    ax = varargin{2};
-   roi = exper.blob.roi;
+   roi = exper.Blob.roi;
    for n=1:length(roi)
-       x = exper.blob.roi(n).x;
-       y = exper.blob.roi(n).y;
+       x = exper.Blob.roi(n).x;
+       y = exper.Blob.roi(n).y;
        draw_circle(ax,n,x,y);
    end
     
 case 'clear'
-    if strcmp(questdlg('Clear all blobs?'),'Yes')
-        ax = findobj('tag','opt_axes');
-        delete(findobj(ax,'tag','blob'));
-        exper.blob.roi = [];
+    if strcmp(questdlg('Clear all Blobs?'),'Yes')
+        ax = findobj('tag','Opt_axes');
+        delete(findobj(ax,'tag','Blob'));
+        exper.Blob.roi = [];
         SetParam(me,'select','list',{''},'value',1);
     end    
     
     
 case 'select'
     
-%    fig = findobj('tag','opt_ratio_fig','user',1);
-    ax = findobj('tag','opt_axes');
+%    fig = findobj('tag','Opt_ratio_fig','user',1);
+    ax = findobj('tag','Opt_axes');
 % fig = gcbf;   
-    set(findobj(ax,'tag','blob','type','line'),'linewidth',1);
-    set(findobj(ax,'tag','blob','type','text'),'fontweight','normal');
+    set(findobj(ax,'tag','Blob','type','line'),'linewidth',1);
+    set(findobj(ax,'tag','Blob','type','text'),'fontweight','normal');
     select = str2num(GetParamList(me,'select'));
-    set(findobj(ax,'tag','blob','type','line','user',select),'linewidth',2);
-    set(findobj(ax,'tag','blob','type','text','user',select),'fontweight','bold');
+    set(findobj(ax,'tag','Blob','type','line','user',select),'linewidth',2);
+    set(findobj(ax,'tag','Blob','type','text','user',select),'fontweight','bold');
    
 
     
 case 'stale_ratios'
-    for n=1:length(exper.blob.roi)
-        exper.blob.roi(n).recalc = 1;
+    for n=1:length(exper.Blob.roi)
+        exper.Blob.roi(n).recalc = 1;
     end
     stale_ratios;
     
@@ -287,36 +287,36 @@ case 'stale_ratios'
 case {'sort_by_x','sort_by_x'}
     
    
-    b = length(exper.blob.roi);
+    b = length(exper.Blob.roi);
     
     for n=1:b
         switch action
         case 'sort_by_x'
-            v(n) = mean(exper.blob.roi(n).x);
+            v(n) = mean(exper.Blob.roi(n).x);
         case 'sort_by_y'
-            v(n) = mean(exper.blob.roi(n).x);
+            v(n) = mean(exper.Blob.roi(n).x);
         end
     end
     [val new_order] = sort(v);
     
     
-    temp_roi = exper.blob.roi;
+    temp_roi = exper.Blob.roi;
     for n=1:b
-        exper.blob.roi(n) = temp_roi(new_order(n));
+        exper.Blob.roi(n) = temp_roi(new_order(n));
     end
-  %  fig = findobj('tag','opt_ratio_fig');
+  %  fig = findobj('tag','Opt_ratio_fig');
     fig = gcbf;
-    blobs = findobj(fig,'tag','blob');
-    if isempty(blobs)
-        ax = findobj(gcbf,'tag','opt_axes');
+    Blobs = findobj(fig,'tag','Blob');
+    if isempty(Blobs)
+        ax = findobj(gcbf,'tag','Opt_axes');
         ax = ax(1);
     else
-        ax = get(blobs(1),'parent');
-        delete(blobs);
+        ax = get(Blobs(1),'parent');
+        delete(Blobs);
    end
     
-    for n=1:length(exper.blob.roi)
-        h = draw_circle(ax,n,exper.blob.roi(n).x,exper.blob.roi(n).y);    
+    for n=1:length(exper.Blob.roi)
+        h = draw_circle(ax,n,exper.Blob.roi(n).x,exper.Blob.roi(n).y);    
     end    
     
     
@@ -328,8 +328,8 @@ case {'sort_by_x','sort_by_x'}
 
 case 'buttonmotion'
   %  obj = get(gcbf,'currentobject');
-  %  if ~strcmp(get(obj,'tag'),'blob')
-    if ~strcmp(get(gco,'tag'),'blob') | ~strcmp(get(gco,'type'),'line')
+  %  if ~strcmp(get(obj,'tag'),'Blob')
+    if ~strcmp(get(gco,'tag'),'Blob') | ~strcmp(get(gco,'type'),'line')
         return;
     end
 
@@ -358,35 +358,35 @@ case 'buttonup'
     case 'open'
     otherwise
     end
-%    if strcmp(get(gco,'tag'),'blob')
-%        blob_stats(gco);
+%    if strcmp(get(gco,'tag'),'Blob')
+%        Blob_stats(gco);
 %    end
     
 case 'buttondown'
-%    fig = findobj('tag','opt_ratio_fig','user',1);
+%    fig = findobj('tag','Opt_ratio_fig','user',1);
     fig = gcbf;
     
     switch get(fig,'SelectionType');
 
     case 'normal'       % left button
         % select
-        if strcmp(get(gco,'tag'),'blob') & strcmp(get(gco,'type'),'line')
+        if strcmp(get(gco,'tag'),'Blob') & strcmp(get(gco,'type'),'line')
             b = get(gco,'user');
 %            SetParam(me,'select',num2str(b));
             SetParam(me,'select',b);
-            set(findobj(fig,'tag','blob','type','line'),'linewidth',1,'visible','on');
-            set(findobj(fig,'tag','blob','type','text'),'fontweight','normal');
-            set(findobj(fig,'tag','blob','type','line','user',b),'linewidth',2);
-            set(findobj(fig,'tag','blob','type','text','user',b),'fontweight','bold');
+            set(findobj(fig,'tag','Blob','type','line'),'linewidth',1,'visible','on');
+            set(findobj(fig,'tag','Blob','type','text'),'fontweight','normal');
+            set(findobj(fig,'tag','Blob','type','line','user',b),'linewidth',2);
+            set(findobj(fig,'tag','Blob','type','text','user',b),'fontweight','bold');
 
-            blob_stats(gco);
+            Blob_stats(gco);
 %            refresh(fig);
         end
     case 'extend'       % middle-button or left+right-buttofns or shift/left-button
     case 'alt'          % right-button or alt/left-button
     case 'open'         % double click
         % don't know the radius, so make it 10
-        ho = findobj(fig,'tag','blob','type','line');
+        ho = findobj(fig,'tag','Blob','type','line');
         ax = get(gcf,'currentaxes');
         
         if isempty(ho)
@@ -394,11 +394,11 @@ case 'buttondown'
         else
             new_circle(ax,get(ax,'currentpoint'),radius(ho(1)));
         end
-        b = length(exper.blob.roi);
-        set(findobj(fig,'tag','blob','type','line'),'linewidth',1);
-        set(findobj(fig,'tag','blob','type','text'),'fontweight','normal');
-        set(findobj(fig,'tag','blob','type','line','user',b),'linewidth',2);
-        set(findobj(fig,'tag','blob','type','text','user',b),'fontweight','bold');
+        b = length(exper.Blob.roi);
+        set(findobj(fig,'tag','Blob','type','line'),'linewidth',1);
+        set(findobj(fig,'tag','Blob','type','text'),'fontweight','normal');
+        set(findobj(fig,'tag','Blob','type','line','user',b),'linewidth',2);
+        set(findobj(fig,'tag','Blob','type','text','user',b),'fontweight','bold');
         for n=1:b
             bl{n} = num2str(n);
         end
@@ -413,11 +413,11 @@ case 'keypress'
     if isempty(key) 
         return;
     end
- %   fig = findobj('tag','opt_ratio_fig');
+ %   fig = findobj('tag','Opt_ratio_fig');
  fig = gcbf;
     
     b = str2num(GetParamList(me,'select'));    
-    h = findobj(fig,'tag','blob','type','line','user',b);
+    h = findobj(fig,'tag','Blob','type','line','user',b);
     x = get(h(1),'xdata');
     y = get(h(1),'ydata');
 
@@ -425,32 +425,32 @@ case 'keypress'
     case 30         % up arrow
         y = y + 1;
         set(h,'ydata',y);
-        blob_stats(h(1));
+        Blob_stats(h(1));
     case 29         % right arrow
         x = x + 1;
         set(h,'xdata',x);
-        blob_stats(h(1));
+        Blob_stats(h(1));
     case 28         % left arrow
         x = x - 1;
         set(h,'xdata',x);
-        blob_stats(h(1));
+        Blob_stats(h(1));
     case 31         % bottom arrow
         y = y - 1;
         set(h,'ydata',y);
-        blob_stats(h(1));
+        Blob_stats(h(1));
     case {45,95}  % make smaller
         [x, y] = move_circle(b,center(h(1)),max([radius(h(1))-1 1]));
         set(h,'xdata',x,'ydata',y)
-        blob_stats(h(1));
+        Blob_stats(h(1));
     case {43,61}  % make bigger
         [x, y] = move_circle(b,center(h(1)),radius(h(1))+1);
         set(h,'xdata',x,'ydata',y)
-        blob_stats(h(1));
+        Blob_stats(h(1));
     case 'x'        % delete
-        dh = findobj(gcbf,'tag','blob');
+        dh = findobj(gcbf,'tag','Blob');
         delete(dh);
-        exper.blob.roi = [exper.blob.roi(1:b-1) exper.blob.roi(b+1:end)];
-        mx = length(exper.blob.roi);
+        exper.Blob.roi = [exper.Blob.roi(1:b-1) exper.Blob.roi(b+1:end)];
+        mx = length(exper.Blob.roi);
         for n=1:mx
             bl{n} = num2str(n);
         end
@@ -459,7 +459,7 @@ case 'keypress'
         
         return;
     otherwise
-        message(me,key);        
+        Message(me,key);        
         return;
     end
     
@@ -470,26 +470,26 @@ case 'keypress'
 case 'calc_ratios'
     calc_ratios(varargin{2:end});
     
-case 'get_blob_matrix'
-    varargout{:} = get_blob_matrix(varargin{2:end});
+case 'get_Blob_matrix'
+    varargout{:} = get_Blob_matrix(varargin{2:end});
     
 case 'preload'
     
-%    h=findobj('tag','opt_ratio_fig');
+%    h=findobj('tag','Opt_ratio_fig');
 
-%    delete(findobj(h,'tag','blob','type','line'));
-    delete(findobj('tag','blob','type','line'));
-    delete(findobj('tag','blob','type','text'));
+%    delete(findobj(h,'tag','Blob','type','line'));
+    delete(findobj('tag','Blob','type','line'));
+    delete(findobj('tag','Blob','type','text'));
 
     
 case 'load'
-    if ~isfield(exper,'blob')
-        ModuleInit('blob');
+    if ~isfield(exper,'Blob')
+        ModuleInit('Blob');
     end
     
-    if ~isfield(exper.blob,'roi')
-        exper.blob.roi = [];
-        exper.blob.result = [];
+    if ~isfield(exper.Blob,'roi')
+        exper.Blob.roi = [];
+        exper.Blob.result = [];
     end
     
     if ~ExistParam(me,'active')
@@ -497,7 +497,7 @@ case 'load'
     end
 
     LoadParams(me);
-    update_groups;
+    update_Groups;
     
     
 
@@ -513,17 +513,17 @@ case 'close'
 
     
 case 'x_plot'
-    % we plot the value of each blob as a function of
+    % we plot the value of each Blob as a function of
     % any parameter specified by the user
     
-    module = GetParamList('group','module');
-    param = GetParamList('group','param');
+    module = GetParamList('Group','module');
+    param = GetParamList('Group','param');
     
-    trials = Group('get',get(findobj(gcbf,'tag','group_1'),'value'));
+    trials = Group('get',get(findobj(gcbf,'tag','Group_1'),'value'));
 
     numeric = 0;
     for n=1:length(trials)
-        SetParam('control','trial',trials(n));
+        SetParam('Control','trial',trials(n));
         CallModule(module,'trialreview');
         
         % xr = GetParamTrial(module,param,trials(n));
@@ -554,7 +554,7 @@ case 'x_plot'
     
     rois = GetParamList(me,'select');
     if isempty(rois)
-        rois = 1:length(exper.blob.roi);
+        rois = 1:length(exper.Blob.roi);
     else
         rois = str2num(rois);
     end
@@ -562,9 +562,9 @@ case 'x_plot'
     
     % calculate 
     for n=1:length(xs)
-        ys{n} = exper.blob.roi(1).ratio(trs{n});
+        ys{n} = exper.Blob.roi(1).ratio(trs{n});
         for k=rois
-            ys{n} = [ys{n} exper.blob.roi(k).ratio(trs{n})];
+            ys{n} = [ys{n} exper.Blob.roi(k).ratio(trs{n})];
         end
         ysm(n) = mean(ys{n});
     end
@@ -582,39 +582,39 @@ case 'x_plot'
     end
     xlabel(sprintf('%s %s',module,param));
     
-    exper.blob.result.x=xs;
-    exper.blob.result.y=ys;
+    exper.Blob.result.x=xs;
+    exper.Blob.result.y=ys;
     
     
     
     
 case 'correl'
  
-    s1 = str2num(Group('get',get(findobj(gcbf,'tag','group_1'),'value')));
-    s2 = str2num(Group('get',get(findobj(gcbf,'tag','group_2'),'value')));
+    s1 = str2num(Group('get',get(findobj(gcbf,'tag','Group_1'),'value')));
+    s2 = str2num(Group('get',get(findobj(gcbf,'tag','Group_2'),'value')));
 
-    rois = 1:length(exper.blob.roi);
+    rois = 1:length(exper.Blob.roi);
     
     x = [];
     y = [];
     for k=rois
-        x = [x mean(exper.blob.roi(k).ratio(s1))];
-        y = [y mean(exper.blob.roi(k).ratio(s2))];
+        x = [x mean(exper.Blob.roi(k).ratio(s1))];
+        y = [y mean(exper.Blob.roi(k).ratio(s2))];
     end
     figure;
     plot(x,y,'o');
-    exper.blob.result.x=x;
-    exper.blob.result.y=y;
+    exper.Blob.result.x=x;
+    exper.Blob.result.y=y;
 
     
 case 'matrix'
-   [X, SX, Y, SY, ind] = get_blob_matrix;
+   [X, SX, Y, SY, ind] = get_Blob_matrix;
    
    range = str2num(get(findobj(gcbf,'tag','range'),'string'));
        
    
-   nblob = size(X,2);
-   ngroups = size(X,1);   
+   nBlob = size(X,2);
+   nGroups = size(X,1);   
    
     fig = findobj('type','figure','tag','ratio_matrix');
     if isempty(fig)
@@ -626,16 +626,16 @@ case 'matrix'
    cmp=colormap;
    switch GetPopupmenuItem('format',gcbf)
    case 'mean'
-       for n=1:ngroups
-           for k=1:nblob
+       for n=1:nGroups
+           for k=1:nBlob
                [rx,ry] = circle(Y(n,k)/range*0.5);
                patch(rx+k,ry+n,[0 0 0]);
            end
        end       
        
    case 'mean,sd'
-       for n=1:ngroups
-           for k=1:nblob
+       for n=1:nGroups
+           for k=1:nBlob
                [rx,ry] = circle(Y(n,k)/range*0.5);
                patch(rx+k,ry+n,[0 0 0]);
                [srx,sry] = circle(SY(n,k)/range*0.5);
@@ -646,92 +646,92 @@ case 'matrix'
    otherwise
 
    end
-   set(gca,'XLim',[0 nblob+1],'Xtick',1:nblob,'XTickLabel',ind');
+   set(gca,'XLim',[0 nBlob+1],'Xtick',1:nBlob,'XTickLabel',ind');
    xlabel('Glomerulus');
-   [trials, group_names] = Group('all');
-   set(gca,'YLim',[0 ngroups+1],'Ytick',1:ngroups,'YTickLabel',group_names(2:end));
+   [trials, Group_names] = Group('all');
+   set(gca,'YLim',[0 nGroups+1],'Ytick',1:nGroups,'YTickLabel',Group_names(2:end));
    ylabel('Odor');
-   bgd_subtract = GetPopupmenuItem('bgd_subtract',findobj('type','figure','tag','opt'));
-   filter = GetPopupmenuItem('filter',findobj('type','figure','tag','opt'));
-   title(sprintf('filt: %s:%s Base:%d-%d Resp:%1.1f-%1.1f range=%1.4f',filter,bgd_subtract,Getparam('opt','base_del')/2,Getparam('opt','base_dur')/2,Getparam('opt','resp_del')/2,getparam('opt','resp_del')/2+getparam('opt','resp_dur')/2,range));
+   bgd_subtract = GetPopupmenuItem('bgd_subtract',findobj('type','figure','tag','Opt'));
+   filter = GetPopupmenuItem('filter',findobj('type','figure','tag','Opt'));
+   title(sprintf('filt: %s:%s Base:%d-%d Resp:%1.1f-%1.1f range=%1.4f',filter,bgd_subtract,GetParam('Opt','base_del')/2,GetParam('Opt','base_dur')/2,GetParam('Opt','resp_del')/2,GetParam('Opt','resp_del')/2+GetParam('Opt','resp_dur')/2,range));
    switch GetPopupmenuItem('normalize');
        %   case {'clip','clip+sd'}
    case 'clip'
        range = get(findobj(gcbf,'tag','range'),'string');
-       text(1,ngroups+2,sprintf('range = %s',range));
+       text(1,nGroups+2,sprintf('range = %s',range));
    case 'glom'
-       text(1,ngroups+2,sprintf('normalized by glomerulus'));
+       text(1,nGroups+2,sprintf('normalized by glomerulus'));
    case 'odor'
-       text(1,ngroups+2,sprintf('normalized by odor'));
+       text(1,nGroups+2,sprintf('normalized by odor'));
    case 'sel_glom'
-       text(1,ngroups+2,sprintf('normalized by glom %s',GetParamList(me,'select')));
+       text(1,nGroups+2,sprintf('normalized by glom %s',GetParamList(me,'select')));
    end
    
-   exper.blob.result.x=X;
-   exper.blob.result.y=Y;
+   exper.Blob.result.x=X;
+   exper.Blob.result.y=Y;
    
    
    
 case 'cluster'
-   [X, SX, Y, SY] = get_blob_matrix;
+   [X, SX, Y, SY] = get_Blob_matrix;
    
    D = pdist(Y);
-   Z = linkage(D,'ward'); 		% incremental sum of squares from adding groups
+   Z = linkage(D,'ward'); 		% incremental sum of squares from adding Groups
    dendrogram(Z);
    
    
-   [trials, groupnames] = Group('all');
+   [trials, Groupnames] = Group('all');
    order = str2num(get(gca,'XTickLabel'));
    for n=1:length(order)
-       ordered_names{n} = groupnames{order(n)+1};
+       ordered_names{n} = Groupnames{order(n)+1};
    end
    set(gca,'XTickLabel',ordered_names);
    xlabel('Odor');
    ylabel('Distance');
    
-   exper.blob.result.D=D;
-   exper.blob.result.Z=Z;
+   exper.Blob.result.D=D;
+   exper.Blob.result.Z=Z;
    
    
    
 %
-% blob('dist_geom',sweeps1,sweeps2)
+% Blob('dist_geom',sweeps1,sweeps2)
 %
 case 'dist_geom'
    sweeps1 = varargin{2};
    sweeps2 = varargin{3};
    x = [];
    y = [];
-   for k=1:length(exper.blob.roi)
-      x = [x mean(exper.blob.roi(k).ratio(sweeps1))];
-      y = [y mean(exper.blob.roi(k).ratio(sweeps2))];
+   for k=1:length(exper.Blob.roi)
+      x = [x mean(exper.Blob.roi(k).ratio(sweeps1))];
+      y = [y mean(exper.Blob.roi(k).ratio(sweeps2))];
    end
    x = x/max(abs(x));
    y = y/max(abs(y));
    dist = sqrt(sum((x - y) .^ 2));
    disp(['dist: ', num2str(dist)]);
-   exper.blob.result.x=x;
-   exper.blob.result.y=y;
-   exper.blob.result.dist = dist;
+   exper.Blob.result.x=x;
+   exper.Blob.result.y=y;
+   exper.Blob.result.dist = dist;
    
    
 
    
 %   
-% blob('winners',sweeps1,sweeps2...,sweepsN)	% plot blobs as filled circles with
+% Blob('winners',sweeps1,sweeps2...,sweepsN)	% plot Blobs as filled circles with
 %										        % colors assigned to the strongest
-%										        % odor (sweep) for each blob
+%										        % odor (sweep) for each Blob
 %
 case 'winners'
    for n=1:nargin-1
-	   for k=1:length(exper.blob.roi)
-	      X(n,k) = mean(exper.blob.roi(k).ratio(varargin{n+1}));
+	   for k=1:length(exper.Blob.roi)
+	      X(n,k) = mean(exper.Blob.roi(k).ratio(varargin{n+1}));
       end
    end
    % find the winners -- largest responses for each 
    [Y I] = min(X);   
-   exper.blob.result.I=I;
-   exper.blob.result.Y=Y;
+   exper.Blob.result.I=I;
+   exper.Blob.result.Y=Y;
    hsv = ones(length(I),3);
    hsv(:,1) = I'/max(I);
    hsv(:,2) = 1;
@@ -740,11 +740,11 @@ case 'winners'
 %   hsv(:,3) = 1.25-hsv(:,2)/2;
    hsv(:,3) = 1;
    rgb = hsv2rgb(hsv);
-   exper.blob.result.hsv = hsv;
-   exper.blob.result.rgb = rgb;
+   exper.Blob.result.hsv = hsv;
+   exper.Blob.result.rgb = rgb;
    
-   for k=1:length(exper.blob.roi)
-      tag = sprintf('blob %d',k);
+   for k=1:length(exper.Blob.roi)
+      tag = sprintf('Blob %d',k);
       h = findobj(fig,'tag',tag);
       
       x = get(h,'xdata');
@@ -753,13 +753,13 @@ case 'winners'
    end
    
 %   
-% blob('map',sweeps,hue,thresh)	 plot blobs as filled circles with
+% Blob('map',sweeps,hue,thresh)	 plot Blobs as filled circles with
 %														 color hue, only if < thresh
 %														
 case 'map'
       
-   for k=1:length(exper.blob.roi)
-		X(k) = mean(exper.blob.roi(k).ratio(varargin{2}));
+   for k=1:length(exper.Blob.roi)
+		X(k) = mean(exper.Blob.roi(k).ratio(varargin{2}));
    end
    hue = varargin{3};
    thresh = varargin{4};
@@ -767,9 +767,9 @@ case 'map'
    hsv = [hue 1 0.9];
    rgb = hsv2rgb(hsv);
    
-   for k=1:length(exper.blob.roi)
+   for k=1:length(exper.Blob.roi)
       if X(k) < thresh
-         tag = sprintf('blob %d',k);
+         tag = sprintf('Blob %d',k);
 	      h = findobj('tag',tag);
       
    	   x = get(h,'xdata');
@@ -777,28 +777,28 @@ case 'map'
          patch(x,y,rgb);
       end
    end
-   exper.blob.result.X=X;
+   exper.Blob.result.X=X;
    
 %   
-% blob('imap',sweeps,range)	 plot blobs as filled circles with
+% Blob('imap',sweeps,range)	 plot Blobs as filled circles with
 %												 fill color reflecting intensity
 %												 range is [min max]
 %														
 case 'imap'
    
-   optical('ratio',varargin{2});
-   blob('hide');
+   Optical('ratio',varargin{2});
+   Blob('hide');
       
-   for k=1:length(exper.blob.roi)
-		X(k) = mean(exper.blob.roi(k).ratio(varargin{2}));
+   for k=1:length(exper.Blob.roi)
+		X(k) = mean(exper.Blob.roi(k).ratio(varargin{2}));
    end
    range = varargin{3};
    
    cmp = jet;
    
-   for k=1:length(exper.blob.roi)
+   for k=1:length(exper.Blob.roi)
       if X(k) < range(2)
-         tag = sprintf('blob %d',k);
+         tag = sprintf('Blob %d',k);
 	      h = findobj('tag',tag);
       
    	   x = get(h,'xdata');
@@ -811,36 +811,36 @@ case 'imap'
          patch(x,y,cmp(c,:));
       end
    end
-   exper.blob.result.X=X;
+   exper.Blob.result.X=X;
 
 
 %
-% blob('tuning',sweeps1,sweeps2,...,sweepsN)		lines connecting sweeps
+% Blob('tuning',sweeps1,sweeps2,...,sweepsN)		lines connecting sweeps
 %
 case 'tuning'
    
-   nblob = length(exper.blob.roi);
+   nBlob = length(exper.Blob.roi);
    for n=1:nargin-1
-	   for k=1:nblob
-         X(n,k) = mean(exper.blob.roi(k).ratio(varargin{n+1}));
+	   for k=1:nBlob
+         X(n,k) = mean(exper.Blob.roi(k).ratio(varargin{n+1}));
       end
    end
    %   X = (1-(X-min(min(X)))/(max(max(X))-min(min(X))));
-   r = [GetParam('opt','lowrange') GetParam('opt','highrange')];
+   r = [GetParam('Opt','lowrange') GetParam('Opt','highrange')];
    Y = 1-((X-r(1))/(r(2)-r(1)));
    Y(find(Y > 1)) = 1;
    Y(find(Y < 0)) = 0;
 
-	for k=1:nblob
+	for k=1:nBlob
    	line(1:nargin-1,X(:,k));
    end
    
-   exper.blob.result.X=X;
-   exper.blob.result.Y=Y;
+   exper.Blob.result.X=X;
+   exper.Blob.result.Y=Y;
    
            
 otherwise	
-	message(me,'')
+	Message(me,'')
 end
 
 
@@ -861,18 +861,18 @@ function stale_ratios
 function [x,y] = new_circle(ax,pos,radius)
 global exper
     
-    b = length(exper.blob.roi) + 1;
+    b = length(exper.Blob.roi) + 1;
     [rx,ry] = circle(radius);
     x = pos(1,1) + rx;
     y = pos(1,2) + ry;
-	exper.blob.roi(b).x = x;
-	exper.blob.roi(b).y = y;
-	exper.blob.roi(b).ratio(1:length(exper.opt.trial)) = 0;
+	exper.Blob.roi(b).x = x;
+	exper.Blob.roi(b).y = y;
+	exper.Blob.roi(b).ratio(1:length(exper.Opt.trial)) = 0;
 
 	h = draw_circle(ax,b,x,y);
     
     SetParam(me,'select',num2str(b));
-    exper.blob.roi(b).recalc = 1;
+    exper.Blob.roi(b).recalc = 1;
     stale_ratios;
     
 function h = draw_circle(ax,b,x,y)
@@ -881,15 +881,15 @@ function h = draw_circle(ax,b,x,y)
     boff = 4;
     % figure out the color
     c = [0 1 0];
-    menu_c = get(findobj(fig,'tag','set_blob_color'),'user');
+    menu_c = get(findobj(fig,'tag','set_Blob_color'),'user');
     if ~isempty(menu_c)
         c = menu_c;
     end
         
-	h = line('xdata',x,'ydata',y,'parent',ax,'color',c,'linewidth',1,'linestyle','-','tag','blob','user',b);
+	h = line('xdata',x,'ydata',y,'parent',ax,'color',c,'linewidth',1,'linestyle','-','tag','Blob','user',b);
 
-    show_labels = get(findobj(fig,'tag','blob_labels'),'checked');
-    txt=text(x(1)+boff,y(1)+boff,num2str(b),'parent',ax,'tag','blob','user',b,'color',c,...
+    show_labels = get(findobj(fig,'tag','Blob_labels'),'checked');
+    txt=text(x(1)+boff,y(1)+boff,num2str(b),'parent',ax,'tag','Blob','user',b,'color',c,...
         'fontweight','normal','visible',show_labels);
     
 
@@ -901,11 +901,11 @@ global exper
     [rx,ry] = circle(r);
     x = pos(1,1) + rx;
     y = pos(1,2) + ry;
-	exper.blob.roi(b).x = x;
-	exper.blob.roi(b).y = y;
-	set(findobj('tag','blob','type','line','user',b),'xdata',x,'ydata',y);
-    set(findobj('tag','blob','type','text','user',b),'pos',[x(1)+boff y(1)+boff]);
-    exper.blob.roi(b).recalc = 1;
+	exper.Blob.roi(b).x = x;
+	exper.Blob.roi(b).y = y;
+	set(findobj('tag','Blob','type','line','user',b),'xdata',x,'ydata',y);
+    set(findobj('tag','Blob','type','text','user',b),'pos',[x(1)+boff y(1)+boff]);
+    exper.Blob.roi(b).recalc = 1;
     stale_ratios;
 
     
@@ -932,10 +932,10 @@ function pos = center(obj)
     pos(1,1) = (max(x)-min(x))/2 + min(x);
     pos(1,2) = (max(y)-min(y))/2 + min(y);
     
-function blob_stats(h)
+function Blob_stats(h)
 global exper
 
-    %tr = str2num(GetParam('opt','trials'));
+    %tr = str2num(GetParam('Opt','trials'));
     ax = get(h,'parent');
     user = get(ax,'user');
     tr = str2num(user.trials);
@@ -946,38 +946,38 @@ global exper
         y = get(h,'ydata');
         b = get(h,'user');
         [m, s] = calc_ratio(tr,x,y);
-        message(me,sprintf('%2d: %.3g+/-%.3g%%',b,m*100,s*100));
+        Message(me,sprintf('%2d: %.3g+/-%.3g%%',b,m*100,s*100));
     end
     
     
     
-function print_blob_header(fid,ind,type)
+function print_Blob_header(fid,ind,type)
 global exper
 
     N = length(ind);
 
-    fprintf(fid,'Exp ID: %s\n',GetParam('control','expid'));
+    fprintf(fid,'Exp ID: %s\n',GetParam('Control','expid'));
     fprintf(fid,'Measure: %s\n',GetPopupmenuItem('measure'));
-    switch GetPopupmenuItem('filter',findobj('type','figure','tag','opt'))
+    switch GetPopupmenuItem('filter',findobj('type','figure','tag','Opt'))
     case 'none'
         fprintf(fid,'Filter: none\n');
     case 'bandpass'
-        fprintf(fid,'Filter: bandpass (%d %d)\n',exper.blob.lowpass, exper.blob.highpass);
+        fprintf(fid,'Filter: bandpass (%d %d)\n',exper.Blob.lowpass, exper.Blob.highpass);
     case 'lowpass'
-        fprintf(fid,'Filter: lowpass %d\n',exper.blob.lowpass);
+        fprintf(fid,'Filter: lowpass %d\n',exper.Blob.lowpass);
     case 'highpass'
-        fprintf(fid,'Filter: highpass %d\n',exper.blob.highpass);
+        fprintf(fid,'Filter: highpass %d\n',exper.Blob.highpass);
     end
-    if isfield(exper.blob,'base_del')
-        fprintf(fid,'Base: del %d, dur %d frames\n',exper.blob.base_del,exper.blob.base_dur);
+    if isfield(exper.Blob,'base_del')
+        fprintf(fid,'Base: del %d, dur %d frames\n',exper.Blob.base_del,exper.Blob.base_dur);
         if strcmp(GetPopupmenuItem('measure'),'ratio')
-            fprintf(fid,'Resp: del %d, dur %d frames\n',exper.blob.resp_del,exper.blob.resp_dur);
+            fprintf(fid,'Resp: del %d, dur %d frames\n',exper.Blob.resp_del,exper.Blob.resp_dur);
         else
-            fprintf(fid,'Resp: each %d frames averaged\n',exper.blob.stack);
+            fprintf(fid,'Resp: each %d frames averaged\n',exper.Blob.stack);
         end 
     end
     
-    if strcmp(type,'groups')
+    if strcmp(type,'Groups')
         hstr = '\t';
     else
         hstr = '\t\t\t';
@@ -992,23 +992,23 @@ global exper
     end
     fprintf(fid,['\nx' hstr]);
     for k=ind
-        fprintf(fid,'%d\t',mean(exper.blob.roi(ind(k)).y));
+        fprintf(fid,'%d\t',mean(exper.Blob.roi(ind(k)).y));
     end
     fprintf(fid,['\ndx' hstr]);
     for k=ind
-        fprintf(fid,'%d\t',max(exper.blob.roi(ind(k)).y)-min(exper.blob.roi(ind(k)).y));
+        fprintf(fid,'%d\t',max(exper.Blob.roi(ind(k)).y)-min(exper.Blob.roi(ind(k)).y));
     end
     fprintf(fid,['\ny' hstr]);
     for k=ind
-        fprintf(fid,'%d\t',mean(exper.blob.roi(ind(k)).x));
+        fprintf(fid,'%d\t',mean(exper.Blob.roi(ind(k)).x));
     end
     fprintf(fid,['\ndy' hstr]);
     for k=ind
-        fprintf(fid,'%d\t',max(exper.blob.roi(ind(k)).y)-min(exper.blob.roi(ind(k)).y));
+        fprintf(fid,'%d\t',max(exper.Blob.roi(ind(k)).y)-min(exper.Blob.roi(ind(k)).y));
     end
     fprintf(fid,'\n');
     
-    if strcmp(type,'groups')
+    if strcmp(type,'Groups')
         fprintf(fid,'Group\t');
         if ~strcmp(GetPopupmenuItem('measure'),'ratio') 
             fprintf(fid,'Frame\t'); 
@@ -1037,73 +1037,73 @@ global exper
 
    % Start with the valid trials from Group, or all the trials if these are not specified
    % Then take out the invalid trials.    
- %  trials = str2num(getparam('group','valid'));
+ %  trials = str2num(GetParam('Group','valid'));
  %  if isempty(trials)
- %      trials = 1:length(exper.opt.trial);
+ %      trials = 1:length(exper.Opt.trial);
  %  end
 %   trials = Group('remove_invalid',trials);
    
 % this will return only the trials that are valid and
-% occur in some group
+% occur in some Group
     trials = str2num(Group('all_valid'));  
    
-   % decide which blobs we're using
+   % decide which Blobs we're using
    active = GetParam(me,'active');
    if ~isempty(active)
-       blob_ind = str2num(active);
+       Blob_ind = str2num(active);
    else 
-       blob_ind = 1:length(exper.blob.roi);
+       Blob_ind = 1:length(exper.Blob.roi);
    end
    
    % First, select a target image. We use the first trial selected
    % This is just used to get the size of the image when using ROIPOLY.
    
-   image = exper.opt.trial(trials(1)).rawratio.byteimage;
+   image = exper.Opt.trial(trials(1)).rawratio.byteimage;
    
-   for k=blob_ind
+   for k=Blob_ind
        
        % Here we create matrices from the regions of interest. 
        % Note, we must use flipud because the stupid convention for displaying in matlab.
        % Tthis issue recurs whenever measuring or displaying images).
        
-       roi{k} = flipud(roipoly(image,exper.blob.roi(k).y,exper.blob.roi(k).x));
+       roi{k} = flipud(roipoly(image,exper.Blob.roi(k).y,exper.Blob.roi(k).x));
    end
    
    
-   wh = waitbar(0,'Calculating blobs...');
+   wh = wAItbar(0,'Calculating Blobs...');
    
-   high = GetParam('opt','highpass');
-   low = GetParam('opt','lowpass');
+   high = GetParam('Opt','highpass');
+   low = GetParam('Opt','lowpass');
    
-   blob_clear = [];
+   Blob_clear = [];
     % if there is a change of filters, then we must clear the whole matrix
-   if ~isfield(exper.blob,'highpass') | high ~= exper.blob.highpass | low ~= exper.blob.lowpass
-       if strcmp(questdlg('Filter settings have changed. Clear all blob calculations?'),'Yes')
-           blob_clear = 1:length(exper.blob.roi);
+   if ~isfield(exper.Blob,'highpass') | high ~= exper.Blob.highpass | low ~= exper.Blob.lowpass
+       if strcmp(questdlg('Filter settings have changed. Clear all Blob calculations?'),'Yes')
+           Blob_clear = 1:length(exper.Blob.roi);
        end    
    end
-   % save the filter settings. They must be the same for all blobs.
-   exper.blob.highpass = high;
-   exper.blob.lowpass = low;
+   % save the filter settings. They must be the same for all Blobs.
+   exper.Blob.highpass = high;
+   exper.Blob.lowpass = low;
   
    
-   if ~isempty(blob_clear)
-       if ~strcmp(questdlg('Are you sure you want to erase old blob calculations?'),'Yes')
+   if ~isempty(Blob_clear)
+       if ~strcmp(questdlg('Are you sure you want to erase old Blob calculations?'),'Yes')
            return;
        end
-       for k=blob_clear
-           exper.blob.roi(k).raw = [];
-           exper.blob.roi(k).high = [];
-           exper.blob.roi(k).low = [];
-           exper.blob.stack = 0;
+       for k=Blob_clear
+           exper.Blob.roi(k).raw = [];
+           exper.Blob.roi(k).high = [];
+           exper.Blob.roi(k).low = [];
+           exper.Blob.stack = 0;
        end
    end
    
    % the source for the signal
    calc_timecourse = strcmp(GetPopupmenuItem('source',gcbf),'timecourse');
-   stack = opt('stack');
+   stack = Opt('stack');
    
-   [base,resp] = opt('windows');
+   [base,resp] = Opt('windows');
    
    n=0;
    % loop over trials
@@ -1113,28 +1113,28 @@ global exper
        
        if calc_timecourse
            % read from the appropriate .avi file (allowing user to select directory)
-           filename = opt('get_avi_filename',j);
+           filename = Opt('get_avi_filename',j);
            if isempty(filename)
                return
            end
            
-           nframes = max(aviread(filename))/stack;
-           exper.blob.stack = stack;
+           nframes = max(AviRead(filename))/stack;
+           exper.Blob.stack = stack;
        else
-           % get ratio image directly from saved opt structure
-           raw = opt('get_rawratio',j);          
+           % get ratio image directly from saved Opt structure
+           raw = Opt('get_rawratio',j);          
            nframes = 1;
-           exper.blob.stack = 0;
+           exper.Blob.stack = 0;
        end
-       exper.blob.nframes(j) = nframes;
+       exper.Blob.nframes(j) = nframes;
        
        % get background region of interest to calculate background values below
        % this only has to be done once
        if n==0
            if ~exist('raw')
-               raw = aviread(filename,1,'avg');
+               raw = AviRead(filename,1,'avg');
            end
-           bgd_roi = opt('get_bgd_roi',raw);
+           bgd_roi = Opt('get_bgd_roi',raw);
        end
        
        % loop over frames
@@ -1145,43 +1145,43 @@ global exper
        
        for f=1:nframes
        %   try
-              wh=waitbar((n*nframes+(f-1))/(length(trials)*nframes),wh);
+              wh=wAItbar((n*nframes+(f-1))/(length(trials)*nframes),wh);
               %   catch
            %   msgbox('User canceled. Please recalculate.')
-           %   message(me,'');
+           %   Message(me,'');
            %   return
            % end
         
             if calc_timecourse
-               message(me,sprintf('Trial %d frame %d',j,f));
+               Message(me,sprintf('Trial %d frame %d',j,f));
                
                 % read the right frames
                 range = (f-1)*stack + (1:stack); 
-                raw = aviread(filename,range,'avg');
+                raw = AviRead(filename,range,'avg');
            else
-               message(me,sprintf('Trial %d',j));
+               Message(me,sprintf('Trial %d',j));
            end
            drawnow
            
            % calculate background values
-           exper.blob.image_mean(j,f) = mean2(raw);
-           exper.blob.roi_mean(j,f) = mean2(raw(bgd_roi));
+           exper.Blob.image_mean(j,f) = mean2(raw);
+           exper.Blob.roi_mean(j,f) = mean2(raw(bgd_roi));
            
            high_image = gaussian2(high,raw);
            low_image = gaussian2(low,raw);
            
-           % loop over blobs
-           for k=blob_ind
-               exper.blob.roi(k).raw(j,f) = mean(raw(find(roi{k})));
+           % loop over Blobs
+           for k=Blob_ind
+               exper.Blob.roi(k).raw(j,f) = mean(raw(find(roi{k})));
                if high > 0
-                   exper.blob.roi(k).high(j,f) = mean(high_image(find(roi{k})));
+                   exper.Blob.roi(k).high(j,f) = mean(high_image(find(roi{k})));
                else
-                   exper.blob.roi(k).high(j,f) = 0;
+                   exper.Blob.roi(k).high(j,f) = 0;
                end
                if low > 0
-                   exper.blob.roi(k).low(j,f) = mean(low_image(find(roi{k})));
+                   exper.Blob.roi(k).low(j,f) = mean(low_image(find(roi{k})));
                else
-                   exper.blob.roi(k).low(j,f) = 0;
+                   exper.Blob.roi(k).low(j,f) = 0;
                end
            end
            
@@ -1193,47 +1193,47 @@ global exper
     % This code deals with uneven frame numbers in different trials, 
     % which may not happen often but can cause unwanted surprises if not dealt with
     
-    % loop over blobs
-    max_nframes = max(exper.blob.nframes);
-    for k=1:length(exper.blob.roi)
+    % loop over Blobs
+    max_nframes = max(exper.Blob.nframes);
+    for k=1:length(exper.Blob.roi)
         
         % this may not be necessary in general:
         % trim the matrices to the length of the longest image
-        exper.blob.roi(k).high = exper.blob.roi(k).high(:,1:max_nframes);
-        exper.blob.roi(k).low = exper.blob.roi(k).low(:,1:max_nframes);
-        exper.blob.roi(k).raw = exper.blob.roi(k).raw(:,1:max_nframes);
+        exper.Blob.roi(k).high = exper.Blob.roi(k).high(:,1:max_nframes);
+        exper.Blob.roi(k).low = exper.Blob.roi(k).low(:,1:max_nframes);
+        exper.Blob.roi(k).raw = exper.Blob.roi(k).raw(:,1:max_nframes);
 
         % loop over trials
         % get rid of fake 0's in the matrix due to differing trial lengths
         % replace with NaNs
-        for j=1:size(exper.blob.roi(k).raw,1)
-            nframes = exper.blob.nframes(j);
+        for j=1:size(exper.Blob.roi(k).raw,1)
+            nframes = exper.Blob.nframes(j);
             for i=(nframes+1):max_nframes
-                exper.blob.roi(k).high(j,i) = NaN;        
-                exper.blob.roi(k).low(j,i) = NaN;        
-                exper.blob.roi(k).raw(j,i) = NaN;        
+                exper.Blob.roi(k).high(j,i) = NaN;        
+                exper.Blob.roi(k).low(j,i) = NaN;        
+                exper.Blob.roi(k).raw(j,i) = NaN;        
             end
         end
     end
     
     close(wh);
-    message(me,'');
+    Message(me,'');
    
 
-function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtract,measure,normalize,base,resp)
-% Extract values from the blob calculation
-% [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtract,measure,normalize,base,resp)
+function [X, SX, Y, SY, Blobs] = get_Blob_matrix(Groups,Blobs,filter,bgd_subtract,measure,normalize,base,resp)
+% extract values from the Blob calculation
+% [X, SX, Y, SY, Blobs] = get_Blob_matrix(Groups,Blobs,filter,bgd_subtract,measure,normalize,base,resp)
 %
 % Input variables:
-% Note. All parameters are gotten from the blob and opt gui's if not passed.
-%   GROUPS is either
-%       A cell array of strings corresponding to trial indices for analysis groups.
+% Note. All parameters are gotten from the Blob and Opt gui's if not passed.
+%   GroupS is either
+%       A cell array of strings corresponding to trial indices for analysis Groups.
 %       E.g. {'1 2 3','4 5 6','8'}
-%       in this case, each groups is averaged to obtain a single value.
+%       in this case, each Groups is averaged to obtAIn a single value.
 %       OR
 %       A numeric array of trial numbers, in which case no averaging is done and no std are calculated.
-%   BLOBS is an array of blob indices.
-%       An empty array [] specifies all blobs.
+%   BlobS is an array of Blob indices.
+%       An empty array [] specifies all Blobs.
 %   FILTER is one of {'bandpass','highpass','lowpass','none'}, meaning
 %       'none': unfiltered ratio
 %       'bandpass': bandpass filtered, calculated from [lowpass - highpass]
@@ -1247,97 +1247,97 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
 %       'ratio': computed using ratio = resp / (base-resp)
 %       'ratio_time': as for ratio but with entire time course returned (arrays have an additional dimention)
 %       'abs_time': asolute values returned (arrays have an additional dimention)
-%   NORMALIZE is one of {'none','blob','group','blob_sel'}
+%   NORMALIZE is one of {'none','Blob','Group','Blob_sel'}
 %       'none': no normalization
-%       'blob': normalize each blob to the maximum for that blob across all groups
-%       'group': normalize each group to the maximum for all blobs within that group
-%       'blob_sel': normalize each group to the blob selected in the gui
+%       'Blob': normalize each Blob to the maximum for that Blob across all Groups
+%       'Group': normalize each Group to the maximum for all Blobs within that Group
+%       'Blob_sel': normalize each Group to the Blob selected in the gui
 %  BASE,RESP
 %       each is an array of frame numbers that specifies the frames to average when calculating base and response
 %
 % Output variables:
-%   X(groups,blobs) is mean values
-%   SX(groups,blobs) is stdev values
-%   Y(groups,blobs) is normalized mean values
-%   SY(groups,blobs) is normalized stdev values
-%   BLOB is the corresponding blob indices
+%   X(Groups,Blobs) is mean values
+%   SX(Groups,Blobs) is stdev values
+%   Y(Groups,Blobs) is normalized mean values
+%   SY(Groups,Blobs) is normalized stdev values
+%   Blob is the corresponding Blob indices
 %
 	
 	global exper
 	
-	% GROUPS
+	% GroupS
 	if nargin < 1
-        % get the groups
-        groups = Group('all'); 
-        groups = groups(2:end);
+        % get the Groups
+        Groups = Group('all'); 
+        Groups = Groups(2:end);
         
-        if isempty(groups)
-            message(me,'Please add groups!','error');
+        if isempty(Groups)
+            Message(me,'Please add Groups!','error');
             return;
         else
-            message(me,'')
+            Message(me,'')
         end
 	else
-        % if groups is passed as an array then convert to a cell array of
+        % if Groups is passed as an array then convert to a cell array of
         % single values
-        if ~iscell(groups)
-            for n=1:length(groups)
-                g{n} = num2str(groups(n)); 
+        if ~iscell(Groups)
+            for n=1:length(Groups)
+                g{n} = num2str(Groups(n)); 
             end
-            groups = g;
+            Groups = g;
         end
 	end
 	
 	
-	% BLOBS
+	% BlobS
 	if nargin < 2
         active = GetParam(me,'active');
         if ~isempty(active)
-            blobs = str2num(active);
+            Blobs = str2num(active);
         else 
-            blobs = 1:length(exper.blob.roi);
+            Blobs = 1:length(exper.Blob.roi);
         end
 	end
 	
-	timecourse_available = 0;
+	timecourse_avAIlable = 0;
 	
 	% Has the time course been calculated?
-	if isfield(exper.blob,'stack')
-        stack = exper.blob.stack;
+	if isfield(exper.Blob,'stack')
+        stack = exper.Blob.stack;
         if stack > 0
-            timecourse_available = 1;
+            timecourse_avAIlable = 1;
         end
     else
-        message(me,'Calculate first','error');
+        Message(me,'Calculate first','error');
         return
     end
 	
 	% FILTER SETTINGS must be checked
  
     if nargin < 3
-        filter = GetPopupmenuItem('filter',findobj('type','figure','tag','opt'));
+        filter = GetPopupmenuItem('filter',findobj('type','figure','tag','Opt'));
     end
 
-	if isfield(exper.blob,'highpass')
-        if exper.blob.highpass ~= GetParam('opt','highpass') | ...
-                exper.blob.lowpass ~=GetParam('opt','lowpass')
-            %warndlg(sprintf('Current blobs are filtered at(%d %d).\nTo change, you must recalculate.',...
-            %    exper.blob.lowpass,exper.blob.highpass),'Blob calculation warning','modal');
-            message(me,'Warning: blob filters changed');
+	if isfield(exper.Blob,'highpass')
+        if exper.Blob.highpass ~= GetParam('Opt','highpass') | ...
+                exper.Blob.lowpass ~=GetParam('Opt','lowpass')
+            %warndlg(sprintf('Current Blobs are filtered at(%d %d).\nTo change, you must recalculate.',...
+            %    exper.Blob.lowpass,exper.Blob.highpass),'Blob calculation warning','modal');
+            Message(me,'Warning: Blob filters changed');
         end
 	end
     
     % BACKGROUND SUBTRACTION
     if nargin < 4
-        bgd_subtract = GetPopupmenuItem('bgd_subtract',findobj('type','figure','tag','opt'));
+        bgd_subtract = GetPopupmenuItem('bgd_subtract',findobj('type','figure','tag','Opt'));
     end
     
     
 	% MEASURE
 	if nargin < 5, measure = GetPopupmenuItem('measure'); end
 	if strcmp(measure,'ratio_time') | strcmp(measure,'abs_time')
-        if ~timecourse_available
-            message(me,sprintf('%s requires timecourse',measure),'error');
+        if ~timecourse_avAIlable
+            Message(me,sprintf('%s requires timecourse',measure),'error');
            return;
        else
            timecourse = 1;
@@ -1358,29 +1358,29 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
    
    % BASE & RESP
    if nargin < 7
-       if timecourse_available
+       if timecourse_avAIlable
            % if so, then we can compute the ratio for any base and resp
-           % windows, so we can use the settings in opt.
-           base_del = GetParam('opt','base_del');
-           base_dur = GetParam('opt','base_dur');
+           % windows, so we can use the settings in Opt.
+           base_del = GetParam('Opt','base_del');
+           base_dur = GetParam('Opt','base_dur');
            
-           resp_del = GetParam('opt','resp_del');
-           resp_dur = GetParam('opt','resp_dur');
+           resp_del = GetParam('Opt','resp_del');
+           resp_dur = GetParam('Opt','resp_dur');
            
-           exper.blob.base_del = base_del;
-           exper.blob.base_dur = base_dur;
-           exper.blob.resp_del = resp_del;
-           exper.blob.resp_dur = resp_dur;
+           exper.Blob.base_del = base_del;
+           exper.Blob.base_dur = base_dur;
+           exper.Blob.resp_del = resp_del;
+           exper.Blob.resp_dur = resp_dur;
            
            % make sure the durations leave at least one frame
            if base_dur < stack
                warn_str = sprintf('Base duration set to minimum of %d.',stack);
-               warn_h = warndlg(warn_str,'Blob get_blob_matrix function warning');
+               warn_h = warndlg(warn_str,'Blob get_Blob_matrix function warning');
                base_dur = stack; 
            end
            if resp_dur < stack
                warn_str = sprintf('Response duration set to minimum of %d.',stack);
-               warn_h = warndlg(warn_str,'Blob get_blob_matrix function warning');
+               warn_h = warndlg(warn_str,'Blob get_Blob_matrix function warning');
                resp_dur = stack; 
            end
            
@@ -1397,16 +1397,16 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
    omitted_trials = [];
    om_c=0;
    
-   for n=1:length(groups)
-       if timecourse_available
-           check_trials = str2num(groups{n});
+   for n=1:length(Groups)
+       if timecourse_avAIlable
+           check_trials = str2num(Groups{n});
            
            % make sure all the trials are actually as long as the measurement windows
            c=0;
            trials = [];
            for ch=1:length(check_trials)
                tr = check_trials(ch);
-               nframes = exper.blob.nframes(tr);
+               nframes = exper.Blob.nframes(tr);
                if max(resp) <= nframes & max(base) <= nframes
                    c = c+1;
                    trials(c) = check_trials(ch);
@@ -1417,23 +1417,23 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
                        delete(warn_h);
                    end
                    warn_str = ['Omitted trials: ' sprintf('%d ',omitted_trials) 'due to base or resp windows outside valid frames!'];
-                   warn_h = warndlg(warn_str,'Blob get_blob_matrix function warning');
+                   warn_h = warndlg(warn_str,'Blob get_Blob_matrix function warning');
                end
            end
        else
-           trials = str2num(groups{n});
+           trials = str2num(Groups{n});
        end
        
        if isempty(trials)
            X(n,:,:) = NaN;
            SX(n,:,:) = NaN;
        else
-           % calculate the background measurements, which are the same for all blobs
+           % calculate the background measurements, which are the same for all Blobs
            switch bgd_subtract
            case 'image mean'
-               bgd_data = exper.blob.image_mean;
+               bgd_data = exper.Blob.image_mean;
            case 'roi mean'
-               bgd_data = exper.blob.roi_mean;
+               bgd_data = exper.Blob.roi_mean;
            end
            switch bgd_subtract
            case {'image mean', 'roi mean'}
@@ -1444,7 +1444,7 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
                            bgd(j,:) = bgd_data(trials(j),:) / denom(j) - 1;
                        end
                    else
-                       if timecourse_available
+                       if timecourse_avAIlable
                            bgd = mean(bgd_data(trials,resp),2) ./ mean(bgd_data(trials,base),2) - 1;
                        else
                            % in this case we are already dealing with the ratio!
@@ -1459,21 +1459,21 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
            
            
            ki = 1;
-           for k=blobs
+           for k=Blobs
                
                switch filter
                case 'none'
-                   data = exper.blob.roi(k).raw;
+                   data = exper.Blob.roi(k).raw;
                case 'bandpass'
-                   data_low = exper.blob.roi(k).low;
-                   data_high = exper.blob.roi(k).high;
+                   data_low = exper.Blob.roi(k).low;
+                   data_high = exper.Blob.roi(k).high;
                    % note, this is only used for the absolute measurement, since
                    % when computing the ratio, we do the subtraction AFTER the ratio
                    data = data_low - data_high;
                case 'highpass'
-                   data = exper.blob.roi(k).high;
+                   data = exper.Blob.roi(k).high;
                case 'lowpass'
-                   data = exper.blob.roi(k).low;
+                   data = exper.Blob.roi(k).low;
                end
                
                if ratio
@@ -1497,7 +1497,7 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
                            end
                        end
                    else
-                       if timecourse_available
+                       if timecourse_avAIlable
                            if strcmp(filter,'bandpass')
                                meas_high = mean(data_high(trials,resp),2) ./ mean(data_high(trials,base),2) - 1;
                                meas_low = mean(data_low(trials,resp),2) ./ mean(data_low(trials,base),2) - 1;
@@ -1542,29 +1542,29 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
    case 'none'
        Y = X;
        SY = SX; 
-   case 'blob'
+   case 'Blob'
        for n=1:size(X,2)
            % normalize by the largest signal
            norm = max(abs(X(:,n)));
            Y(:,n) = X(:,n)/norm;
            SY(:,n) = SX(:,n)/norm;
        end
-   case 'group'
+   case 'Group'
        for n=1:size(X,1)
-           if ~isempty(groups{n})
+           if ~isempty(Groups{n})
                % normalize by the largest signal
                norm = max(abs(X(n,:)));
                Y(n,:) = X(n,:)/norm;
                SY(n,:) = SX(n,:)/norm;
            end
        end
-   case 'blob_sel'
+   case 'Blob_sel'
        g = str2num(GetParamList(me,'select'));
        gi = find(g==ind);
        if ~isempty(gi)
            for n=1:size(X,1)
-               if ~isempty(groups{n})
-                   % normalize by a given blob
+               if ~isempty(Groups{n})
+                   % normalize by a given Blob
                    norm = abs(X(n,gi));
                    Y(n,:) = X(n,:)/norm;
                    SY(n,:) = SX(n,:)/norm;
@@ -1572,7 +1572,7 @@ function [X, SX, Y, SY, blobs] = get_blob_matrix(groups,blobs,filter,bgd_subtrac
            end
        end
    end  
-   message(me,'');
+   Message(me,'');
    
   
    
@@ -1580,13 +1580,13 @@ function [m, s] = calc_ratio(tr,x,y) % return mean and variance
 global exper
 % this function needs to be updated
 
-    image = exper.opt.trial(tr(1)).rawratio.byteimage;
+    image = exper.Opt.trial(tr(1)).rawratio.byteimage;
     roi = flipud(roipoly(image,y,x));
     k = 1;
     for j=tr
-        image = exper.opt.trial(j).rawratio.byteimage;
+        image = exper.Opt.trial(j).rawratio.byteimage;
         q = double(image(find(roi)));
-        r(k) = mean(q)/exper.opt.trial(j).rawratio.scale+exper.opt.trial(j).rawratio.floor;
+        r(k) = mean(q)/exper.Opt.trial(j).rawratio.scale+exper.Opt.trial(j).rawratio.floor;
         k=k+1;
     end
     m = mean(r);
@@ -1614,11 +1614,11 @@ global exper
     
     
     
-function update_groups
+function update_Groups
 global exper
 
-    SetParam(me,'s1','list',GetParam('group','group','list'),'value',1);
-    SetParam(me,'s2','list',GetParam('group','group','list'),'value',1);
+    SetParam(me,'s1','list',GetParam('Group','Group','list'),'value',1);
+    SetParam(me,'s2','list',GetParam('Group','Group','list'),'value',1);
    
     
 

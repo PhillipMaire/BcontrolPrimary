@@ -1,6 +1,6 @@
 function out = LoadParams(module)
 global exper
-% LOADPARAMS
+% LoadParams
 % Make UI's reflect current values of param structure.
 % Useful after loading a new exper.
 %
@@ -23,7 +23,7 @@ for i=1:length(fields)
     
     % find an already existing figure handle for this parameter
     h=findobj('parent',fig,'tag',param);
-    edit = strcmp(get(h,'callback'),'editparam');
+    edit = strcmp(get(h,'callback'),'EditParam');
     for n=1:length(h)
         if ~isempty(h(n)) & ~edit(n)
             %SetP(sfs,'h',h(n));

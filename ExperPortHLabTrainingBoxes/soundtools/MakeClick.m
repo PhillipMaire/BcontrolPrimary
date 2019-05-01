@@ -21,7 +21,7 @@
 %
 % None
 %
-% OPTIONAL PARAMETERS:
+% OptIONAL PARAMETERS:
 % --------------------
 %
 %  sigma, in milliseconds
@@ -36,10 +36,10 @@ function [click] = MakeClick(varargin)
    
    sigma = [];
    power = [];
-   pairs = { ...
+   pAIrs = { ...
      'sigma'       0.0001  ; ...
      'power'        1.2    ; ...
-  }; parseargs(varargin, pairs);
+  }; parseargs(varargin, pAIrs);
 
 srate = get_generic('sampling_rate');
 

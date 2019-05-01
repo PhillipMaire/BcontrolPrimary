@@ -1,4 +1,4 @@
-function [seq] = console_trial_sequence(saved)
+function [seq] = console_trial_Sequence(saved)
 
    ntrials   = saved.trials-1;
    side_list = saved.sidelist(1:ntrials);

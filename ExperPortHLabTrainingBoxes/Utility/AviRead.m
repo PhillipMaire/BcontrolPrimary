@@ -1,9 +1,9 @@
-function [output,rate] = aviread(filename, range, mode, o1, p1, o2, p2)
+function [output,rate] = AviRead(filename, range, mode, o1, p1, o2, p2)
 
 %-------------------------------------------------------------------------
-% result = AVIread(filename)
-% result = AVIread(filename,range)
-% result = AVIread(filename,range,mode,option,param,...) 
+% result = AviRead(filename)
+% result = AviRead(filename,range)
+% result = AviRead(filename,range,mode,Option,param,...) 
 %
 % Read sections of an AVI movie and return frames or operations on frames
 % such as averaging or timelines
@@ -13,64 +13,64 @@ function [output,rate] = aviread(filename, range, mode, o1, p1, o2, p2)
 % some header info because we are only interested in MIL output.
 %
 % Useage:
-% result = AVIread(filename)   
+% result = AviRead(filename)   
 %			  	prints header information from the AVI file in FILENAME
 %				and returns the frame range
 %				e.g., if there are 150 image, the result = 1:150
 %				returns -1 if no file is found
 %
-% result = AVIread(filename,range)
+% result = AviRead(filename,range)
 % 				reads a stack of images specified by the array RANGE
 % 				RANGE can be used to return a single frame or any given subset 
 %				(only the specified frames are read in, so the function is efficient). 
 %				A range value of 'all' reads in the whole movie.
 %				e.g.
-% 				result = AVIread(filename,frame)
-% 				result = AVIread(filename,[f_start:f_end])
-% 				result = AVIread(filename,[f1 f2 f3 f4])
-%				result = AVIread(filename,'all')
+% 				result = AviRead(filename,frame)
+% 				result = AviRead(filename,[f_start:f_end])
+% 				result = AviRead(filename,[f1 f2 f3 f4])
+%				result = AviRead(filename,'all')
 %				
 %
 % There are several different modes for this function:
 %
-% result = AVIread(filename,range,'read')
+% result = AviRead(filename,range,'read')
 % 				returns a 3D array with all specified frames (the default)
-% result = AVIread(filename,range,'avg')
+% result = AviRead(filename,range,'avg')
 %  			returns a 2D array produced by averaging specified frames together
-% result = AVIread(filename,range,'time')
+% result = AviRead(filename,range,'time')
 %				returns a 1D array produced by averaging spatially each frame\
-% result = AVIread(filename,range,'info')
+% result = AviRead(filename,range,'info')
 %				returns the various header information
 %
-% For each mode there are several optional parameters:
+% For each mode there are several Optional parameters:
 %
-% result = AVIread(filename,range,mode,'bin',z)
-% result = AVIread(filename,range,mode,'bin',[x y])
-% result = AVIread(filename,range,mode,'bin',[x y z])
-%				the optional parameter 'bin', averages blocks of pixels,
+% result = AviRead(filename,range,mode,'bin',z)
+% result = AviRead(filename,range,mode,'bin',[x y])
+% result = AviRead(filename,range,mode,'bin',[x y z])
+%				the Optional parameter 'bin', averages blocks of pixels,
 %				reducing the image size and/or the number of frames. 
 %				If the 'bin' parameter is a scalar, x, frames are averaged,
 %				while for a 2 element array, [x y], spatial binning on each
 %				frame is performed, and [x y z] is a combination of spatial
 %				and temporal binning. Note, when binning is used, the result
 %				is returned as type DOUBLE, to preserve precision
-%				('bin' is available in 'read', 'avg', and 'time' modes)
-% result = AVIread(filename,range,mode,'roi',bw)
-%				the optioinal parameter 'roi' species a region of interest, 
+%				('bin' is avAIlable in 'read', 'avg', and 'time' modes)
+% result = AviRead(filename,range,mode,'roi',bw)
+%				the Optioinal parameter 'roi' species a region of interest, 
 %				BW, which is a matrix with same size as the movie frame, with
 %				1's inside the ROI and 0's outside (as returned by the ROIPOLY 
 %				function and others in the Matlab Image Processing toolbox)
-%				('roi' is available in the 'time' mode)
+%				('roi' is avAIlable in the 'time' mode)
 %				
 % 
-% NOTE: supports only uncompressed plain avi(RIFF) files
+% NOTE: supports only uncompressed plAIn avi(RIFF) files
 %
-% Modified by Zach Mainen (using Matlab 5.3)
+% Modified by Zach MAInen (using Matlab 5.3)
 % zach@cshl.org
 % 1/25/2000
 %
 % Based on a function by 
-% (c) by Rainer Rawer (using Matlab 5.2)
+% (c) by RAIner Rawer (using Matlab 5.2)
 % rrawer@gmx.de
 % 10/09/1999 
 %-------------------------------------------------------------------------
@@ -81,14 +81,14 @@ function [output,rate] = aviread(filename, range, mode, o1, p1, o2, p2)
 
   if nargin == 0; 
      disp(['-------------------------------']);  
-     disp([' aviread v',version])
+     disp([' AviRead v',version])
      disp(['-------------------------------']);
-     disp([' usage: x = aviread(filename)'])
-     disp(['        x = aviread(filename, range)']);
-     disp(['        		where frames is a vector containing the frames to avg']);
-     disp(['        x = aviread(filename, range, mode)']);
+     disp([' usage: x = AviRead(filename)'])
+     disp(['        x = AviRead(filename, range)']);
+     disp(['        		where frames is a vector contAIning the frames to avg']);
+     disp(['        x = AviRead(filename, range, mode)']);
      disp(['            where mode is ''read'', ''avg'', ''time'' or ''info''']);
-     disp(['		  optional parameters are: ']);
+     disp(['		  Optional parameters are: ']);
      disp(['		      ''bin'', [x y z]']);
      disp(['		      ''roi'', bw']);
      % error(['### no parameters']); 
@@ -104,13 +104,13 @@ function [output,rate] = aviread(filename, range, mode, o1, p1, o2, p2)
   code = char(header(9:12));
   if ~strcmp(code,'AVI ') 	% check for 'AVI '
      		fclose(fid);
-         error(['### aviread: ', filename, ...
+         error(['### AviRead: ', filename, ...
                 ' is not a valid AVI file.']); 
   end        
   
   
 %-------------------------------------------------------------------------
-% Extracting AVI header information
+% extracting AVI header information
 %-------------------------------------------------------------------------
 
 h = 25;
@@ -183,7 +183,7 @@ if nargin == 1
    %display header information:
    range = [1:frames];
 % 	disp('---------------------------------------------------------');
-% 	disp(['aviread V',version,' by Z. Mainen `00']);
+% 	disp(['AviRead V',version,' by Z. MAInen `00']);
 %    disp('---------------------------------------------------------');
 %    disp(sprintf('   filename		: "%s"',filename));
 % 	disp(sprintf('   number frames	: %d',frames));
@@ -204,7 +204,7 @@ tempbin = bin;
 if nargin > 3 
  %  if ~mod(nargin,2)
  %		fclose(fid);
- %     error(['### aviread: parameter needs a value']);
+ %     error(['### AviRead: parameter needs a value']);
  %  end
    if o1=='bin' tempbin = p1; end
    if o1=='roi' bw = p1; end
@@ -229,11 +229,11 @@ end
 
 if bin(3) > 1 
    if sum(range) ~= sum(range(1):range(end))
-    	warning(['### aviread: range should probably be contiguous with z binning']);
+    	warning(['### AviRead: range should probably be contiguous with z binning']);
    end
    if mod(length(range),bin(3))
       fclose(fid);	
-      error(['### aviread: frames not divisible by bin(3)']);
+      error(['### AviRead: frames not divisible by bin(3)']);
    end
 end
 
@@ -241,7 +241,7 @@ end
 if sum(range < 1)+sum(range > frames)
    disp(sprintf('   number frames	: %d',frames)); 
 	fclose(fid);
-   error(['### aviread: ', filename, ...
+   error(['### AviRead: ', filename, ...
           ' requested range not valid']); 
 end    
 
@@ -259,7 +259,7 @@ switch mode
             xxx = xxx + double(reshape(fread8(filename,ptr,flength),columns,lines));
          otherwise
             fclose(fid);
-            error(['### aviread: currently supporting 8 and 16 bit pixel depth only']);
+            error(['### AviRead: currently supporting 8 and 16 bit pixel depth only']);
          end
       end
       if bin(1:2) ~= [1 1] 	% bin by factor of parameter
@@ -280,7 +280,7 @@ switch mode
             xx = double(reshape(fread8(filename,ptr,flenght),columns,lines));
          otherwise
             fclose(fid);
-            error(['### aviread: currently supporting 8 and 16 bit pixel depth only']);
+            error(['### AviRead: currently supporting 8 and 16 bit pixel depth only']);
          end
          
          if exist('bw')
@@ -308,7 +308,7 @@ switch mode
             xxx = int8(zeros(columns,lines,length(range)));
          otherwise
             fclose(fid);
-            error(['### aviread: currently supporting 8 and 16 bit pixel depth only']);
+            error(['### AviRead: currently supporting 8 and 16 bit pixel depth only']);
          end
      		for i=range	   
    			ptr = ptr_offset + (i-1)*fsize;
@@ -325,7 +325,7 @@ switch mode
                xxx(:,:,j) = reshape(fread8(filename,ptr,flength),columns,lines);
             otherwise
                fclose(fid);
-         	   error(['### aviread: currently supporting 8 and 16 bit pixel depth only']);
+         	   error(['### AviRead: currently supporting 8 and 16 bit pixel depth only']);
          	end
 				j=j+1;
    		end
@@ -349,7 +349,7 @@ switch mode
                   xx = reshape(fread8(filename,ptr,flength),columns,lines);
                otherwise
                   fclose(fid);
-         		   error(['### aviread: currently supporting 8 and 16 bit pixel depth only']);
+         		   error(['### AviRead: currently supporting 8 and 16 bit pixel depth only']);
          		end
 	
                if bin(1:2) ~= [1 1]

@@ -1,19 +1,19 @@
 function y = randsample(n, k, replace, w)
-%RANDSAMPLE Random sample, with or without replacement.
-%   Y = RANDSAMPLE(N,K) returns Y as a 1-by-K vector of values sampled
+%randsample Random sample, with or without replacement.
+%   Y = randsample(N,K) returns Y as a 1-by-K vector of values sampled
 %   uniformly at random, without replacement, from the integers 1:N.
 %
-%   Y = RANDSAMPLE(POPULATION,K) returns K values sampled uniformly at
+%   Y = randsample(POPULATION,K) returns K values sampled uniformly at
 %   random, without replacement, from the values in the vector POPULATION.
 %
-%   Y = RANDSAMPLE(...,REPLACE) returns a sample taken with replacement if
+%   Y = randsample(...,REPLACE) returns a sample taken with replacement if
 %   REPLACE is true, or without replacement if REPLACE is false (the default).
 %
-%   Y = RANDSAMPLE(...,true,W) returns a weighted sample, using positive
+%   Y = randsample(...,true,W) returns a weighted sample, using positive
 %   weights W, taken with replacement.  W is often a vector of probabilities.
 %   This function does not support weighted sampling without replacement.
 %
-%   Example:  Generate a random sequence of the characters ACGT, with
+%   Example:  Generate a random Sequence of the characters ACGT, with
 %   replacement, according to specified probabilities.
 %
 %      R = randsample('ACGT',48,true,[0.15 0.35 0.35 0.15])
@@ -103,7 +103,7 @@ case {false, 'false', 0}
               'Weighted sampling without replacement is not supported.');
     end
 otherwise
-    error('stats:randsample:BadReplaceValue',...
+    error('stats:randsample:BadReplacevalue',...
           'REPLACE must be either true or false.');
 end
 

@@ -9,19 +9,19 @@
 % 'Attenuation' is a scalar (0 dB is an amplitude 1 sinusoid.)
 % 'BaseFreq' in Hz
 % 'Duration' in milliseconds
-% A fifth optional parameter 'RiseFall' specifies the 10%-90%
+% A fifth Optional parameter 'RiseFall' specifies the 10%-90%
 % rise and fall times in milliseconds using a cos^2 edge.
 
 function Beep=MakeChord( SRate,  Attenuation, BaseFreq, NTones, Duration, varargin )
 
-FilterPath=[GetParam('rpbox','protocol_path') '\PPfilter.mat'];
+FilterPath=[GetParam('RPbox','protocol_path') '\PPfilter.mat'];
 if ( size(dir(FilterPath),1) == 1 )
     PP=load(FilterPath);
     PP=PP.PP;
-    % message(me,'Generating Calibrated Tones');
+    % Message(me,'Generating Calibrated Tones');
 else
     PP=[];
-    % message(me,'Generating Non-calibrated Tones');
+    % Message(me,'Generating Non-calibrated Tones');
 end
 
 % Create a time vector.
@@ -49,7 +49,7 @@ if ( nargin >= 5 )
 	RiseFall=varargin{1};
 	Edge=MakeEdge( SRate, RiseFall );
 	LEdge=length(Edge);
-	% Put a cos^2 gate on the leading and trailing edges.
+	% Put a cos^2 gate on the leading and trAIling edges.
 	Beep(1:LEdge)=Beep(1:LEdge) .* fliplr(Edge);
 	Beep((end-LEdge+1):end)=Beep((end-LEdge+1):end) .* Edge;
 end

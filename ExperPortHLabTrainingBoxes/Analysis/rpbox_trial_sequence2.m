@@ -1,4 +1,4 @@
-function [sseq] = rpbox_trial_sequence2(saved)
+function [sseq] = RPbox_trial_Sequence2(saved)
 
    eventnames; statenames;
    
@@ -16,9 +16,9 @@ function [sseq] = rpbox_trial_sequence2(saved)
        myguys = u(i)+1:u(i+1); id = (1:length(myguys))';
        trialstart = rtimes(myguys(1));
        
-       z0 = min(find(rstates(myguys)==WaitForCPoke));  % First time we are set up and ready to go
+       z0 = min(find(rstates(myguys)==WAItForCPoke));  % First time we are set up and ready to go
        if nargin > 1, minid = z0; else minid = 1; end; 
-       z1 = find(id >= minid  &  rstates(myguys)<WaitForSPoke  &  revents(myguys)==Cin);   % all the center pokes before rew/error
+       z1 = find(id >= minid  &  rstates(myguys)<WAItForSPoke  &  revents(myguys)==Cin);   % all the center pokes before rew/error
        impatientcpoketime = []; impatientcpokedur = [];
        if length(z1)>1, % last one will be the valid one, don't treat that
            z1 = z1(1:end-1); impatientcpoketime = zeros(1, length(z1)); impatientcpokedur = zeros(1, length(z1));
@@ -28,7 +28,7 @@ function [sseq] = rpbox_trial_sequence2(saved)
            end;
        end;
        
-       z1 = max(find(rstates(myguys)==WaitForCPoke  &  revents(myguys)==Cin)); % last center in
+       z1 = max(find(rstates(myguys)==WAItForCPoke  &  revents(myguys)==Cin)); % last center in
        z2 = min(find(id > z1  &  revents(myguys)==Cou));                       % corresponding poke out
        validcpoketime = rtimes(myguys(z1)); validcpokedur = rtimes(myguys(z2)) - rtimes(myguys(z1));
        

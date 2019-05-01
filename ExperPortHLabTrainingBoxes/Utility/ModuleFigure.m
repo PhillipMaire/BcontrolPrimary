@@ -1,5 +1,5 @@
 function h = ModuleFigure(module,varargin)
-% H = MODULEFIGURE(MODULE,VARARGIN)
+% H = ModuleFigure(MODULE,VARARGIN)
 % All modules make this as their base figure.
 
 global exper
@@ -21,8 +21,8 @@ set(h,'numbertitle','off','name',module,'tag',module,...
 
 hP = uipanel;
 set(hP, 'Units', 'normalized', 'Position', [0 0 1 1]);
-set(hP, 'Tag', 'ContainerPanel');
-set(h, 'ResizeFcn', ['myhP = findobj(gcf, ''Tag'', ''ContainerPanel''); ' ...
+set(hP, 'Tag', 'ContAInerPanel');
+set(h, 'ResizeFcn', ['myhP = findobj(gcf, ''Tag'', ''ContAInerPanel''); ' ...
     'set(myhP, ''Units'', ''pixels''); set(myhP, ''Units'', ''normalized'')']);
 
 

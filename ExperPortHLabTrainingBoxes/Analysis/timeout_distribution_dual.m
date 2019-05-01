@@ -23,7 +23,7 @@ for k = 1:rows(p)
     for f = 1:rows(fnames), eval(['to{k}.' fnames{f} ' = 0;']); end;
 
     if rows(p{k}.pre_chord) ~= rows(sound_evs{k}.pre_sound)
-        error('Rows in the ''pre_chord'' state do not match rows of individual pre_sound events');
+        error('rows in the ''pre_chord'' state do not match rows of individual pre_sound events');
     end;
     for m = 1:rows(p{k}.pre_chord) % look to see if timed out during this stage
         conditions(1,1:3) = {'out', '>=',  p{k}.pre_chord(m,1)};    % cout during the event
@@ -42,7 +42,7 @@ for k = 1:rows(p)
             if ~ismember(m, ignore_me)
                 evt = eval(['sound_evs{k}.' fnames{f}]);
                 if rows(p{k}.chord) ~= rows(evt)
-                    error('Rows in the ''chord'' state do not match rows of individual events within chord state');
+                    error('rows in the ''chord'' state do not match rows of individual events within chord state');
                 end;
 
                 conditions(1,1:3) = {'out', '>=' , evt(m,1) };  % cout during the event

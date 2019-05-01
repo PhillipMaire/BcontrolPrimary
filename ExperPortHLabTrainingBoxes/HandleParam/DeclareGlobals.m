@@ -8,11 +8,11 @@
 
 function [] = DeclareGlobals(obj, varargin)
    
-   pairs = { ...
+   pAIrs = { ...
      'rw_args'       cell(0,2)          ; ...
      'ro_args'       cell(0,2)          ; ...
      'owner'         ['@' class(obj)]   ; ...
-   }; parseargs(varargin, pairs);
+   }; parseargs(varargin, pAIrs);
    
    if ~iscell(rw_args), rw_args = {rw_args}; end;
    if ~iscell(ro_args), ro_args = {ro_args}; end;
@@ -42,11 +42,11 @@ function [] = DeclareGlobals(obj, varargin)
       end;
    end;
 
-   global private_solofunction_list;
+   global private_SoloFunction_list;
    
    [mod, funclist, globals] = find_modules_funclist(owner);
    globals{1} = [globals{1} ; rw_args];
    globals{2} = [globals{2} ; ro_args];
 
-   private_solofunction_list{mod,3} = globals;
+   private_SoloFunction_list{mod,3} = globals;
    

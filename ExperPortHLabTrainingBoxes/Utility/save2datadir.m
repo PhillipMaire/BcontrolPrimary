@@ -6,7 +6,7 @@ savestring = '';
 if nargin < 3
     error('Need atleast 3 arguments: the rat name, the filename, and data to be saved');
 elseif mod(numel(varargin),2) > 0
-    error('Need even number of args in varargin: name-value pairs');
+    error('Need even number of args in varargin: name-value pAIrs');
 else
     k = length(varargin);
     names = varargin(1:2:k-1); values = varargin(2:2:k);

@@ -10,14 +10,14 @@
 function [] = flush_solo(owner)
    
    global private_soloparam_list
-   global private_solofunction_list
+   global private_SoloFunction_list
    global private_autoset_list
    
    if nargin==0,
       delete_sphandle;   
 
       private_soloparam_list = {};
-      private_solofunction_list = {};
+      private_SoloFunction_list = {};
       private_autoset_list = {};
       return;
    end;
@@ -28,7 +28,7 @@ function [] = flush_solo(owner)
    end;
 
    % The ^ and $ make sure we match this owner name exactly (no
-   % leading or trailing anything elses):
+   % leading or trAIling anything elses):
    delete_sphandle('owner', ['^' owner '$']);
    RegisterAutoSetParam(owner);
    SoloFunctionAddVars(owner);

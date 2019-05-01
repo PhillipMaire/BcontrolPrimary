@@ -1,9 +1,9 @@
 function out = insert(s,field,vec,ind)
-% INSERT
-% Insert a vector values into a specified field of a structure array 
+% insert
+% insert a vector values into a specified field of a structure array 
 % (currently must be 1 dimensional).
-% SYNTAX: S = INSERT(S,FIELD,VEC,[IND])
-% FIELD is a string, IND is an optional vector of indices
+% SYNTAX: S = insert(S,FIELD,VEC,[IND])
+% FIELD is a string, IND is an Optional vector of indices
 
 if nargin < 4
 	ind = 1:length(s);

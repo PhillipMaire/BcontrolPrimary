@@ -9,19 +9,19 @@
 
 function [] = SoloFunctionRemoveVar(sph)   
    
-   global private_solofunction_list
+   global private_SoloFunction_list
 
    % Check that we have at least two columns: ownername, funclist. 
    % Otherwise there is nothing to do.
-   if cols(private_solofunction_list)<2 | rows(private_solofunction_list)<1,
+   if cols(private_SoloFunction_list)<2 | rows(private_SoloFunction_list)<1,
       return; 
    end;
 
-   % Which modules to keep because they are still non-empty:
-   keepmods = ones(rows(private_solofunction_list),1);
-   for i=1:rows(private_solofunction_list),
-      funclist = private_solofunction_list{i,2};
-      % Which functions to keep because they are still non-empty:
+   % Which modules to keep because they are sTill non-empty:
+   keepmods = ones(rows(private_SoloFunction_list),1);
+   for i=1:rows(private_SoloFunction_list),
+      funclist = private_SoloFunction_list{i,2};
+      % Which functions to keep because they are sTill non-empty:
       keepfuns = ones(rows(funclist),1);
 
       % For each function, remove sph from rw and r-o.
@@ -40,8 +40,8 @@ function [] = SoloFunctionRemoveVar(sph)
       funclist = funclist(find(keepfuns),:);
 
       % Now go through globals for this owner:
-      if cols(private_solofunction_list)>=3,
-         globals = private_solofunction_list{i,3};
+      if cols(private_SoloFunction_list)>=3,
+         globals = private_SoloFunction_list{i,3};
          if ~isempty(globals),
             globals{1} = remove_from(globals{1}, sph);
             globals{2} = remove_from(globals{2}, sph);
@@ -52,19 +52,19 @@ function [] = SoloFunctionRemoveVar(sph)
       
       % If nothing left for the owner, we'll want to kill the owner entry
       if isempty(funclist) &&  ...
-           (cols(private_solofunction_list)<=2 || empty_globals),
+           (cols(private_SoloFunction_list)<=2 || empty_globals),
          keepmods(i) = 0;
       else
-         % Owner still meaningful, keep updated lists:
-         private_solofunction_list{i,2} = funclist;
-         if cols(private_solofunction_list)>=3,
-            private_solofunction_list{i,3} = globals;
+         % Owner sTill meaningful, keep updated lists:
+         private_SoloFunction_list{i,2} = funclist;
+         if cols(private_SoloFunction_list)>=3,
+            private_SoloFunction_list{i,3} = globals;
          end;
       end;
    end;
 
    % Keep only those owners that have some entries:
-   private_solofunction_list = private_solofunction_list(find(keepmods),:);
+   private_SoloFunction_list = private_SoloFunction_list(find(keepmods),:);
 
    
 % -----

@@ -1,7 +1,7 @@
-function pos = setpos(myh,varargin)
-% POS = SETPOS(MYH,[H],LOC)
+function pos = SetPos(myh,varargin)
+% POS = SetPos(MYH,[H],LOC)
 % place button next to another object
-% H is the handle of a specified object, optional
+% H is the handle of a specified object, Optional
 % LOC is one of 'north', 'south', 'east' or 'west'
 
 myh = myh(1);

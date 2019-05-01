@@ -1,7 +1,7 @@
 function [] = EventReporter(last_n_trials)
 
 global exper;
-events = exper.rpbox.param.trial_events.value;
+events = exper.RPbox.param.trial_events.value;
 
 trials = events(:,1); 
 last_trial  = trials(end);

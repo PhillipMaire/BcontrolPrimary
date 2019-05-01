@@ -9,11 +9,11 @@ global exper
 	for i=1:length(fields)
         sfs = sprintf('%s.%s',sf,fields{i});
         % updated only the ones that are saved
-        save = getp(sfs,'save');
+        save = GetP(sfs,'save');
         if save
-            trial_vals = getp(sfs,'trial');
+            trial_vals = GetP(sfs,'trial');
             val = trial_vals{trial};
-            format = getp(sfs,'format');
+            format = GetP(sfs,'format');
             if ~isempty(format)
                 switch format
                 case 'clock'

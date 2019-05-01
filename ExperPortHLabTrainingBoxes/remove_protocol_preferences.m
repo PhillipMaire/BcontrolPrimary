@@ -1,6 +1,6 @@
 function [] = remove_protocol_preferences(protname)
 
-    prefs  = getpref('carlos');
+    prefs  = GetPref('carlos');
     fnames = fieldnames(prefs);
     
     I = strmatch(protname, fnames);

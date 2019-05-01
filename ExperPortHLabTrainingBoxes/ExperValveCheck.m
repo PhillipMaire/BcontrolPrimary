@@ -5,24 +5,24 @@ global exper
 
 daqreset;
 
-ModuleInit('control');
-if ~isempty(GetParam('control','user'))
+ModuleInit('Control');
+if ~isempty(GetParam('Control','user'))
 
-        ModuleInit('ai');
+        ModuleInit('AI');
         % need to add at least one channel to AI 
         AI('board_open','nidaq',1);
         AI('add_chan',6,'');
 
-        ModuleInit('ao');
-        ModuleInit('valvecheck');
-        ModuleInit('sequence');
-        ModuleInit('group');
+        ModuleInit('AO');
+        ModuleInit('ValveCheck');
+        ModuleInit('Sequence');
+        ModuleInit('Group');
         Control('restore_layout');
  
 
-        setparam('control','trialdur',10);
-        setparam('control','iti',15);
-        setparam('control','advance',1);
+        SetParam('Control','trialdur',10);
+        SetParam('Control','iti',15);
+        SetParam('Control','advance',1);
 
         Control('reset');
         

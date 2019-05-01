@@ -15,7 +15,7 @@ function [cpokestats] = compile_cpoke_stats(evs, RTS, cpokestats)
       return;
    end;
    
-   % ---- ok, doing single trial, go into main body
+   % ---- ok, doing single trial, go into mAIn body
 
    % --- If not given to us already, compile list of known states
    fnames = fieldnames(RTS);

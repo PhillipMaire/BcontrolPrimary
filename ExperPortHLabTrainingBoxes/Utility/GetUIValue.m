@@ -1,7 +1,7 @@
 function val = GetUIValue(module,name,varargin)
-% VAL = GETUIVALUE(MODULE,NAME,[VARARGIN])
+% VAL = GetUIValue(MODULE,NAME,[VARARGIN])
 % Get values from various ui fields according to the tag NAME
-% and optional fields passed in the extra arguments.
+% and Optional fields passed in the extra arguments.
 % Returns only the value from the first UI found.
 
 module = lower(module);

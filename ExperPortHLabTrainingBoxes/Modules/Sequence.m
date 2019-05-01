@@ -4,49 +4,49 @@ function out = Sequence(varargin)
 % A general module for setting parameters in other modules
 % by an arbitrary schedule.
 %
-% The schedule is specified by a sequence file. In this file,
-% each line consists of a group name followed by one or more pairs of 
+% The schedule is specified by a Sequence file. In this file,
+% each line consists of a Group name followed by one or more pAIrs of 
 % parameter, value settings. A parameter is specified in the format
 % module.param. 
 % 
 % Sequence File Format:
 %
 % init       : module.param=value,  module.param=value
-% group1name : module.param=value,  ..., module.param=value
+% Group1name : module.param=value,  ..., module.param=value
 %  .
 %  .
 %  .
-% groupKname : module.param=value  module.param=value
+% GroupKname : module.param=value  module.param=value
 % 
-% Each line must begin with a string specifying the group name
+% Each line must begin with a string specifying the Group name
 % followed by a colon ':' and then 0 to n instances of 
 % module.param=value separated by commas ','
 % where "module.param" specifies an exper module and parameter name
 % and value gives the setting to be applied. 
-% Different groups can specify values for the same or different parameters.
-% All settings for a given group should be kept on the same line.
+% Different Groups can specify values for the same or different parameters.
+% All settings for a given Group should be kept on the same line.
 %
-% Values
-% Values may be strings, doubles or arrays (with perhaps some limitations
+% values
+% values may be strings, doubles or arrays (with perhaps some limitations
 % to be discovered(!) E.g. avoid using the format character colon ':'. 
 %
 % Comments
 % Comment style is as Matlab (%).
 %
-% "Init" group
-% The first group must be 'init'. The init group is not executed or included except upon loading of
-% file or selection of the init group.
+% "Init" Group
+% The first Group must be 'init'. The init Group is not executed or included except upon loading of
+% file or selection of the init Group.
 %
 %
-% UIcontrols specify whether the schedule is advanced (to the next entry) 
+% UIControls specify whether the schedule is advanced (to the next entry) 
 % on each trial and whether the order is randomized (and rerandomized) every
 % iteration. 
 %
-% As for other modules, the trial-by-trial sequence is saved and can be
+% As for other modules, the trial-by-trial Sequence is saved and can be
 % accessed after the experiment by GetParamTrial.
 %
 %
-% Z. Mainen, CSHL 6/02
+% Z. MAInen, CSHL 6/02
 %
 
 global exper
@@ -73,22 +73,22 @@ case {'init','reinit'}
     
     InitParam(me,'rand','ui','checkbox','value',1,'pos',[h+hs*2/3 n*vs hs/3 vs]); n=n+1;
     InitParam(me,'advance','ui','checkbox','value',1,'list','','pos',[h+hs*2/3 n*vs hs/3 vs]);
-    uicontrol(fig,'tag','update','string','Update','style','togglebutton','value',1,...
+    uiControl(fig,'tag','update','string','Update','style','togglebutton','value',1,...
         'callback',[me ';'],'background','green','pos',[h n*vs hs/3 vs]); n=n+1;
     
-    uicontrol(fig,'tag','settings','style','edit',...
+    uiControl(fig,'tag','settings','style','edit',...
         'enable','off','max',4,'horiz','left','pos',[h n*vs hs vs*3]); n=n+3;
     
-    InitParam(me,'group','ui','popupmenu','list',' ','settings',' ','index',' ','save',1,'value',1,'pos',[h n*vs hs vs]); n=n+1;
+    InitParam(me,'Group','ui','popupmenu','list',' ','settings',' ','index',' ','save',1,'value',1,'pos',[h n*vs hs vs]); n=n+1;
     
-    uicontrol(fig,'tag','open','style','pushbutton','string','<load sequence>',...
+    uiControl(fig,'tag','open','style','pushbutton','string','<load Sequence>',...
         'callback',[me ';'],'horiz','left','pos',[h n*vs hs*2/3 vs]); 
-    uicontrol(fig,'tag','edit','style','pushbutton','string','Edit','callback',[me ';'],'pos',[h+hs*2/3 n*vs hs/3 vs]); n=n+1;
+    uiControl(fig,'tag','edit','style','pushbutton','string','Edit','callback',[me ';'],'pos',[h+hs*2/3 n*vs hs/3 vs]); n=n+1;
     
     
     
-    % message box
-    uicontrol('parent',fig,'tag','message','style','edit',...
+    % Message box
+    uiControl('parent',fig,'tag','Message','style','edit',...
         'enable','inact','horiz','left','pos',[h n*vs hs vs]); n=n+1;
     
     
@@ -108,62 +108,62 @@ case 'trialend'
 
     SaveParamsTrial(me);
 
-    trial = GetParam('control','trial');
-    group = GetParamList(me,'group');
+    trial = GetParam('Control','trial');
+    Group = GetParamList(me,'Group');
 
-    if existparam('group') 
-        Group('add',trial,group);
+    if ExistParam('Group') 
+        Group('add',trial,Group);
     end
 
     
     % advance
     if GetParam(me,'advance')
-	    next_group = GetParam(me,'group','value')+1;
+	    next_Group = GetParam(me,'Group','value')+1;
 	else
-		next_group = GetParam(me,'group','value');
+		next_Group = GetParam(me,'Group','value');
 	end
-	group_len = length(GetParam(me,'group','list'));
+	Group_len = length(GetParam(me,'Group','list'));
 	
-	% are we done with the sequence?
-	if next_group > group_len
+	% are we done with the Sequence?
+	if next_Group > Group_len
         % note, we go back to 2 because the 1st is the init settings
-		SetParam(me,'group','value',2);
+		SetParam(me,'Group','value',2);
 		if GetParam(me,'rand')
-			randomize_groups;
+			randomize_Groups;
 		end
 	else
-		SetParam(me,'group','value',next_group);
+		SetParam(me,'Group','value',next_Group);
 	end	
 
-    % Here's where we apply the group settings to the other modules:
-    if getui(me,'update','value')
-        apply_group_settings;
+    % Here's where we apply the Group settings to the other modules:
+    if GetUI(me,'update','value')
+        apply_Group_settings;
     end
     
 case 'reset'
     % initialize
-    SetParam(me,'group','value',1); 
-    apply_group_settings;
+    SetParam(me,'Group','value',1); 
+    apply_Group_settings;
 
-    % go to first in sequence
-    SetParam(me,'group','value',2); 
-    apply_group_settings;
+    % go to first in Sequence
+    SetParam(me,'Group','value',2); 
+    apply_Group_settings;
   
 
     
-case 'group'
-%    varargout{1} = GetParamList(me,'group');
+case 'Group'
+%    varargout{1} = GetParamList(me,'Group');
     
-    apply_group_settings;
+    apply_Group_settings;
  
     
 % handle UI parameter callbacks
 
 case 'rand'
     if GetParam(me,'rand')
-        randomize_groups;
+        randomize_Groups;
     else
-        sort_groups;
+        sort_Groups;
     end
     
 case 'update'
@@ -186,7 +186,7 @@ case {'open','file_open'}
         if ~isempty(path)
             filterspec = [path '\' filterspec];
         end
-        prompt = 'Open sequence file...';
+        prompt = 'Open Sequence file...';
         [filename, pathname] = uigetfile(filterspec, prompt);
         if isequal(filename,0)|isequal(pathname,0)
             return
@@ -200,7 +200,7 @@ case {'open','file_open'}
     
     parse = textread(pathfile,'%s','delimiter',':','commentstyle','matlab');
     
-    % Read and parse the sequence file
+    % Read and parse the Sequence file
 
     k = 1;
     for n=1:2:length(parse)
@@ -211,25 +211,25 @@ case {'open','file_open'}
     
     % make sure the first line is 'init'
     if ~strcmp(lower(name{1}),'init')
-        message(me,'"init" group must be first','error');
+        Message(me,'"init" Group must be first','error');
         return;
     else
-        message(me,sprintf('%d groups read from %s',k-1,filename));
+        Message(me,sprintf('%d Groups read from %s',k-1,filename));
     end
 
-    if check_group_settings(settings)
-        SetParam(me,'group','list',name,'settings',settings,'index',1:k-1,'value',1);
-        check = get(findobj(findobj('tag','sequence','type','figure'),'tag','settings'),'string');
-        apply_group_settings;
+    if check_Group_settings(settings)
+        SetParam(me,'Group','list',name,'settings',settings,'index',1:k-1,'value',1);
+        check = get(findobj(findobj('tag','Sequence','type','figure'),'tag','settings'),'string');
+        apply_Group_settings;
         
-        set(findobj(findobj('tag','sequence','type','figure'),'tag','settings'),'string',check);
+        set(findobj(findobj('tag','Sequence','type','figure'),'tag','settings'),'string',check);
     
         % now set the filename
         set(findobj(gcbf,'tag','open'),'string',filename,'user',pathfile);
     end
 
 case 'edit'
-    pathfile = getui(me,'open','user');
+    pathfile = GetUI(me,'open','user');
     if ~isempty(pathfile)
         edit(pathfile);
     end
@@ -248,11 +248,11 @@ function out = callback
 	out = [lower(mfilename) ';'];
     
     
-function randomize_groups
+function randomize_Groups
 	% generate a random order
-	gr_ind = GetParam(me,'group','index');
-    gr_list = GetParam(me,'group','list');
-    gr_settings = GetParam(me,'group','settings');
+	gr_ind = GetParam(me,'Group','index');
+    gr_list = GetParam(me,'Group','list');
+    gr_settings = GetParam(me,'Group','settings');
 	q = rand(1,length(gr_ind)-1);
 	[val order] = sort(q);
     order = [1 order+1];
@@ -261,29 +261,29 @@ function randomize_groups
         new_gr_list{n} = gr_list{order(n)};
         new_gr_settings{n} = gr_settings{order(n)};
 	end
-	SetParam(me,'group','list',new_gr_list,'index',new_gr_ind,'settings',new_gr_settings);
+	SetParam(me,'Group','list',new_gr_list,'index',new_gr_ind,'settings',new_gr_settings);
 
     
-function sort_groups
+function sort_Groups
 
-	gr_ind = GetParam(me,'group','index');
-    gr_list = GetParam(me,'group','list');
-    gr_settings = GetParam(me,'group','settings');
+	gr_ind = GetParam(me,'Group','index');
+    gr_list = GetParam(me,'Group','list');
+    gr_settings = GetParam(me,'Group','settings');
     q=sort(gr_ind);
     for n=1:length(q)
         new_gr_ind(n) = gr_ind(q(n));	
         new_gr_list{n} = gr_list{q(n)};
         new_gr_settings{n} = gr_settings{q(n)};
     end
-	SetParam(me,'group','list',new_gr_list,'index',new_gr_ind,'settings',new_gr_settings);
+	SetParam(me,'Group','list',new_gr_list,'index',new_gr_ind,'settings',new_gr_settings);
 
     
 
 
-function apply_group_settings
+function apply_Group_settings
 global exper
 
-    str = GetParamList(me,'group','settings');
+    str = GetParamList(me,'Group','settings');
     
     mpv = deblank(strread(str,'%s','delimiter','#,='));
     k = 1;
@@ -296,15 +296,15 @@ global exper
             val = str2num(val);
         end
         SetParam(module,param,val);
-        if ExistParam('orca')
+        if ExistParam('Orca')
 		    Orca('set_info',k,val);
 	    end 
         k = k+1;
     end
-    set(findobj(findobj('tag','sequence','type','figure'),'tag','settings'),'string',str);
+    set(findobj(findobj('tag','Sequence','type','figure'),'tag','settings'),'string',str);
 
     
-function ok = check_group_settings(settings)
+function ok = check_Group_settings(settings)
 global exper
 
     check = [];
@@ -332,6 +332,6 @@ global exper
     else
         ok = 0;
     end
-    set(findobj(findobj('tag','sequence','type','figure'),'tag','settings'),'string',check);
+    set(findobj(findobj('tag','Sequence','type','figure'),'tag','settings'),'string',check);
     
         

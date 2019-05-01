@@ -1,7 +1,7 @@
 function varargout = ValveFlow(varargin)
 % ValveFlow
-% A basic utility for flow controllers and valves using analog out
-% ZF Mainen 6/02
+% A basic utility for flow Controllers and valves using analog out
+% ZF MAInen 6/02
 %
 % Revisions
 % 7-08-02 ZFM: Removed 'samplerate' parameter to avoid the possibility of
@@ -24,9 +24,9 @@ switch action
 	
 case {'init','reinit'}
 
-	SetParam(me,'priority',8);      % note: priority must be lower than orca
+	SetParam(me,'priority',8);      % note: priority must be lower than Orca
     if strcmp(action,'init')
-        ModuleNeeds(me,{'ao'});
+        ModuleNeeds(me,{'AO'});
     end
 
 	fig = ModuleFigure(me,'visible','off');	 
@@ -45,7 +45,7 @@ case {'init','reinit'}
 
 %    InitParam(me,'total_flow','ui','edit','value',1000,'pos',[h n*vs hs vs]); n=n+1;
 	
-	uicontrol(fig,'string','Update','tag','update','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
+	uiControl(fig,'string','Update','tag','update','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
     
     InitParam(me,'calibration','ui','checkbox','value',0,'pos',[h n*vs hs vs]); n=n+1;
 	InitParam(me,'odor_B_flow','board',1,'chan',2,'units_range',[0 100],'out_range',[0 5],'ui','edit','value',50,'save',1,'pos',[h n*vs hs vs]); n=n+1;
@@ -54,34 +54,34 @@ case {'init','reinit'}
 
     % chan allows an arbitrary mapping from value number to DA channel 
     % blank is a channel that is open when valves are nominally 'off'
-    uicontrol(fig,'string','Valves on','tag','valves_on','style','togglebutton','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
+    uiControl(fig,'string','Valves on','tag','valves_on','style','togglebutton','callback',[me ';'],'pos',[h n*vs hs vs]); n=n+1;
     InitParam(me,'odor_A_valves','board',2,'chan',1:4,'blank',4,'ui','edit','value',1,'save',1,'pos',[h n*vs hs vs]); n=n+1;
     InitParam(me,'odor_B_valves','board',2,'chan',5:7,'blank',7,'ui','edit','value',5,'save',1,'pos',[h n*vs hs vs]); n=n+1;
     
-    uicontrol('parent',fig,'string','Reset','tag','reset','style','pushbutton',...
+    uiControl('parent',fig,'string','Reset','tag','reset','style','pushbutton',...
 		'callback',[me ';'],'foregroundcolor',[.9 0 0],'pos',[h n*vs hs vs]); n=n+1;
 	   	
-	% message box
-	uicontrol('parent',fig,'tag','message','style','edit',...
+	% Message box
+	uiControl('parent',fig,'tag','Message','style','edit',...
 		'enable','inact','horiz','left','pos',[h n*vs hs*2 vs]); n=n+1;
 	
 	set(fig,'pos',[142 746-n*vs hs+80 n*vs],'visible','on');
 	
     if strcmp(action,'init')
-        init_ao;
-        [on_value,off_value] = setup_ao;
-        putdata_ao(on_value,off_value);
+        init_AO;
+        [on_value,off_value] = setup_AO;
+        putdata_AO(on_value,off_value);
     end
-    putsample_ao(off_value);
+    putsample_AO(off_value);
 	
 case 'slice'
 	
 case 'trialready'	
 
 case 'trialend'
-	[on_value,off_value] = setup_ao;
-    putdata_ao(on_value,off_value);
-    putsample_ao(off_value);
+	[on_value,off_value] = setup_AO;
+    putdata_AO(on_value,off_value);
+    putsample_AO(off_value);
     
     
 case 'close'
@@ -93,32 +93,32 @@ case 'close'
 
 case 'reset'
     
-    if isfield(exper.ao,'daq')
-        delete(exper.ao.daq);
-        exper.ao = rmfield(exper.ao,'daq');
+    if isfield(exper.AO,'daq')
+        delete(exper.AO.daq);
+        exper.AO = rmfield(exper.AO,'daq');
     end
     
-    init_ao;
-    [on_value,off_value] = setup_ao;
-    putdata_ao(on_value,off_value);
+    init_AO;
+    [on_value,off_value] = setup_AO;
+    putdata_AO(on_value,off_value);
  
 
 
 case {'update','delay','duration','reset'}
     
-    [on_value,off_value] = setup_ao;
-    putsample_ao(off_value);
-    putdata_ao(on_value,off_value);
+    [on_value,off_value] = setup_AO;
+    putsample_AO(off_value);
+    putdata_AO(on_value,off_value);
     set(findobj(gcbo,'tag','valves_on'),'value',0,'background',get(gcbf,'color'));
     
 
 case 'valves_on'
-    [on_value,off_value] = setup_ao;
+    [on_value,off_value] = setup_AO;
     if get(gcbo,'value')
-        putsample_ao(on_value);
+        putsample_AO(on_value);
         set(gcbo,'background','green');
     else
-        putsample_ao(off_value);
+        putsample_AO(off_value);
         set(gcbo,'background',get(gcbf,'color'));
     end
 
@@ -133,7 +133,7 @@ function out = me
 	out = lower(mfilename);
     
     
-function init_ao
+function init_AO
 	
     % Open the NIDAQ boards
     boards = { 'nidaq1-AO','nidaq2-AO'};
@@ -145,7 +145,7 @@ function init_ao
        
 
         
-function [on_value,off_value] = setup_ao
+function [on_value,off_value] = setup_AO
 
     % Set up output vectors
     
@@ -185,7 +185,7 @@ function [on_value,off_value] = setup_ao
         off_value{board}(blank_chan) = 5;  % 5 means 'on'
     end
 
-    %FLOW CONTROLLERS 
+    %FLOW ControlLERS 
     
     flow = {'odor_a_flow','odor_b_flow','total_flow'};
     
@@ -215,23 +215,23 @@ function [on_value,off_value] = setup_ao
     
 %     disp(off_value{3})
     
-function putsample_ao(value)
-       % send command to ao immediately
+function putsample_AO(value)
+       % send command to AO immediately
 
         boards = { 'nidaq1-AO','nidaq2-AO'};
         for i=1:length(boards)
-            ao('putsample',i,value{i}');
+            AO('putsample',i,value{i}');
         end
 
         
-function putdata_ao(on_value,off_value)
+function putdata_AO(on_value,off_value)
     % Set up the vector data for the boards
 
     % First figure out the number of samples and the period when the
     % valves will be on
     
-    sample_rate = GetParam('ao','samplerate');
-    samples = GetParam('control','trialdur') * sample_rate;
+    sample_rate = GetParam('AO','samplerate');
+    samples = GetParam('Control','trialdur') * sample_rate;
     v0 = GetParam(me,'delay') * sample_rate;
     v1 = (GetParam(me,'delay')+GetParam(me,'duration')) *  sample_rate;
 
@@ -243,15 +243,15 @@ function putdata_ao(on_value,off_value)
         chan_vector = repmat(off_value{i}',samples,1);
         chan_vector(v0:v1,:) = repmat(on_value{i}',v1-v0+1,1);
         
-        ao('setdata',i,chan_vector);
+        AO('setdata',i,chan_vector);
     end   
         
-    ao('putdata');
+    AO('putdata');
     
     
 function f = calib_flow(flows)
 
-% function to calibrate flow controler
+% function to calibrate flow Controler
 
 % parameters for calibration ('set flow' and 'actual flow') measured on 7/22/2002
 set_flow_A = [0 0.5 1 2 4 8 10 15 20 40 60 80 90];

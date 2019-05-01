@@ -12,16 +12,16 @@
 % If called with only one parameter, it expects this to be a
 % func_owner, and it CLEARS all the entries for that funcowner
 %
-% If called with the optional key-value pair, 'add_or_delete', 'add',
+% If called with the Optional key-value pAIr, 'add_or_delete', 'add',
 % it expects to have a total of three args, the first of which is an
 % sph to be deleted from the lists.
 %
 
 function [] = SoloFunction(funcname, varargin)
 
-   global private_solofunction_list
-   if isempty(private_solofunction_list), 
-      private_solofunction_list = {};
+   global private_SoloFunction_list
+   if isempty(private_SoloFunction_list), 
+      private_SoloFunction_list = {};
    end;
 
    % Did we get just one string param? Then it is an owner, and all its
@@ -30,19 +30,19 @@ function [] = SoloFunction(funcname, varargin)
       func_owner = funcname;
       mod = find_modules_funclist(func_owner);
       if ~isempty(mod),
-         keeps = ones(rows(private_solofunction_list),1); keeps(mod) = 0;
-         private_solofunction_list = private_solofunction_list(find(keeps),:);
+         keeps = ones(rows(private_SoloFunction_list),1); keeps(mod) = 0;
+         private_SoloFunction_list = private_SoloFunction_list(find(keeps),:);
       end;
       return;
    end;
    
-   pairs = { ...
+   pAIrs = { ...
        'rw_args'           {}                     ;  ...
        'ro_args'           {}                     ;  ...
        'func_owner'        determine_owner        ;  ...
        'caller_funcname'   determine_fullfuncname ;  ...
        'add_or_delete'     'add'                  ;  ...
-   }; parseargs(varargin, pairs);
+   }; parseargs(varargin, pAIrs);
     
    
    if strcmp(add_or_delete, 'delete'),
@@ -109,7 +109,7 @@ function [] = SoloFunction(funcname, varargin)
           {funcname add_new_args(old_rw_args, rw_args) ...
            add_new_args(old_ro_args, ro_args)};
    end;
-   private_solofunction_list{mod,2} = funclist;
+   private_SoloFunction_list{mod,2} = funclist;
    
 
 % -----

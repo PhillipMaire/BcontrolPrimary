@@ -1,5 +1,5 @@
 function out = stripcell(c)
-% OUT = STRIPCELL(C)
+% OUT = stripcell(C)
 % Get rid of singleton cell dimensions.
 % Isn't working except for case of 1x1 input.
 

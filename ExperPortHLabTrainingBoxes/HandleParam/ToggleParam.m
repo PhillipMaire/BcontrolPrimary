@@ -6,15 +6,15 @@
 %
 % Any non-zero value becomes a value of 1.  
 %
-% OPTIONAL ARGS (needs more documentation!)
+% OptIONAL ARGS (needs more documentation!)
 %    
 
 function [ed] = ToggleParam(obj, parname, parval, x, y, varargin)
 
    % First get the label value:
-   pairs = { ...
+   pAIrs = { ...
        'label',              parname                    ; ...
-       }; parse_knownargs(varargin, pairs);
+       }; parse_knownargs(varargin, pAIrs);
 
    if ischar(obj) && strcmp(obj, 'base'), param_owner = 'base';
    elseif isobject(obj),                  param_owner = ['@' class(obj)];
@@ -22,7 +22,7 @@ function [ed] = ToggleParam(obj, parname, parval, x, y, varargin)
    end;
    
    % Now parse other args, including OnString and OffString
-   pairs = { ...
+   pAIrs = { ...
        'param_owner',        param_owner            ; ...
        'param_funcowner',    determine_fullfuncname     ; ...
        'position',           gui_position(x, y)         ; ...
@@ -32,7 +32,7 @@ function [ed] = ToggleParam(obj, parname, parval, x, y, varargin)
        'OnFontWeight'        'bold'                     ; ...
        'OffFontWeight'       'bold'                     ; ...
        'label'               label                      ; ...
-       }; parseargs(varargin, pairs);
+       }; parseargs(varargin, pAIrs);
 
 
    if parval, parval = 1; else parval = 0; end;

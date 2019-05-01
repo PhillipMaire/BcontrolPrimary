@@ -7,7 +7,7 @@ function [stm, endstate] = ...
 % case of reinitialisation, prefaces the penalty state with a
 % 'BadBoySound'.
 %
-% Details:
+% DetAIls:
 % Pads with zeros up to startstate; then puts in a BadBoySound (if
 % 'on'), followed by Len secs of white noise (Len must be a multiple of
 % wnln). On poke, goes to pokestate; at end, goes to donestate. wnln is

@@ -1,11 +1,11 @@
 function exportfig(varargin)
-%EXPORTFIG  Export a figure to Encapsulated Postscript.
-%   EXPORTFIG(H, FILENAME) writes the figure H to FILENAME.  H is
+%exportfig  Export a figure to Encapsulated Postscript.
+%   exportfig(H, FILENAME) writes the figure H to FILENAME.  H is
 %   a figure handle and FILENAME is a string that specifies the
 %   name of the output file.
 %
-%   EXPORTFIG(...,PARAM1,VAL1,PARAM2,VAL2,...) specifies
-%   parameters that control various characteristics of the output
+%   exportfig(...,PARAM1,VAL1,PARAM2,VAL2,...) specifies
+%   parameters that Control various characteristics of the output
 %   file.
 %
 %   Format Paramter:
@@ -38,7 +38,7 @@ function exportfig(varargin)
 %         'gray'  specifies that all objects are exported in grayscale
 %         'cmyk'  specifies that all objects are exported in color
 %                 using the CMYK color space
-%     'Renderer'  one of the strings 'painters', 'zbuffer', 'opengl'
+%     'Renderer'  one of the strings 'pAInters', 'zbuffer', 'opengl'
 %         specifies the renderer to use
 %     'Resolution'   a positive scalar
 %         specifies the resolution in dots-per-inch.
@@ -49,7 +49,7 @@ function exportfig(varargin)
 %     'FontMode'     one of the strings 'scaled', 'fixed'
 %     'FontSize'     a positive scalar
 %          in 'scaled' mode multiplies with the font size of each
-%          text object to obtain the exported font size
+%          text object to obtAIn the exported font size
 %          in 'fixed' mode specifies the font size of all text
 %          objects in points
 %     'FontEncoding' one of the strings 'latin1', 'adobe'
@@ -102,12 +102,12 @@ filename = varargin{2};
 if ~ischar(filename)
   error('Second argument must be a string.');
 end
-paramPairs = varargin(3:end);
+paramPAIrs = varargin(3:end);
 
-% Do some validity checking on param-value pairs
-if (rem(length(paramPairs),2) ~= 0)
+% Do some validity checking on param-value pAIrs
+if (rem(length(paramPAIrs),2) ~= 0)
   error(['Invalid input syntax. Optional parameters and values' ...
-	 ' must be in pairs.']);
+	 ' must be in pAIrs.']);
 end
 
 format = 'eps';
@@ -123,14 +123,14 @@ fontencoding = 'latin1';
 renderer = [];
 resolution = [];
 
-% Process param-value pairs
+% Process param-value pAIrs
 args = {};
-for k = 1:2:length(paramPairs)
-  param = lower(paramPairs{k});
+for k = 1:2:length(paramPAIrs)
+  param = lower(paramPAIrs{k});
   if (~ischar(param))
     error('Optional parameter names must be strings');
   end
-  value = paramPairs{k+1};
+  value = paramPAIrs{k+1};
   
   switch (param)
    case 'format'
@@ -186,8 +186,8 @@ for k = 1:2:length(paramPairs)
     end
    case 'renderer'
     renderer = lower(value);
-    if (~strcmp(renderer,{'painters','zbuffer','opengl'}))
-      error('Renderer must be ''painters'', ''zbuffer'' or ''opengl''.');
+    if (~strcmp(renderer,{'pAInters','zbuffer','opengl'}))
+      error('Renderer must be ''pAInters'', ''zbuffer'' or ''opengl''.');
     end
    case 'resolution'
     resolution = LocalToNum(value);
@@ -195,7 +195,7 @@ for k = 1:2:length(paramPairs)
       error('Resolution must be a numeric scalar >= 0');
     end
    otherwise
-    error(['Unrecognized option ' param '.']);
+    error(['Unrecognized Option ' param '.']);
   end
 end
 
@@ -387,16 +387,16 @@ if showPreview
 	  'Visible', 'off');
   set(ax, 'Units', 'pixels');
   axesPos = get(ax,'Position');
-  figPos = get(f,'Position');
+  FigPos = get(f,'Position');
   rootSize = get(0,'ScreenSize');
-  figPos(3:4) = axesPos(3:4);
-  if figPos(1) + figPos(3) > rootSize(3)
-    figPos(1) = rootSize(3) - figPos(3) - 50;
+  FigPos(3:4) = axesPos(3:4);
+  if FigPos(1) + FigPos(3) > rootSize(3)
+    FigPos(1) = rootSize(3) - FigPos(3) - 50;
   end
-  if figPos(2) + figPos(4) > rootSize(4)
-    figPos(2) = rootSize(4) - figPos(4) - 50;
+  if FigPos(2) + FigPos(4) > rootSize(4)
+    FigPos(2) = rootSize(4) - FigPos(4) - 50;
   end
-  set(f, 'Position',figPos, ...
+  set(f, 'Position',FigPos, ...
 	 'Visible', 'on');
 end
 
@@ -415,11 +415,11 @@ if (~isempty(cellArray)) & (~iscell(cellArray))
   cellArray = {cellArray};
 end
 
-function newArray = LocalScale(inArray, scale, minValue)
+function newArray = LocalScale(inArray, scale, minvalue)
 n = length(inArray);
 newArray = cell(n,1);
 for k=1:n
-  newArray{k} = max(minValue,scale*inArray{k}(1));
+  newArray{k} = max(minvalue,scale*inArray{k}(1));
 end
 
 function newArray = LocalMapToGray(inArray);

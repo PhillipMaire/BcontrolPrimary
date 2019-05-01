@@ -14,34 +14,34 @@ addpath([pwd '\soundtools']);
 
 daqreset;
 
-ModuleInit('control');
-SetParam('control','slicerate','value',4,'range',[0 5]);
-SetParam('control','trialdur',10);
-SetParam('control','iti',0);
-SetParam('control','advance',1);
+ModuleInit('Control');
+SetParam('Control','slicerate','value',4,'range',[0 5]);
+SetParam('Control','trialdur',10);
+SetParam('Control','iti',0);
+SetParam('Control','advance',1);
 
-% ModuleInit('ai');
-% ai('board_open','nidaq',1);
-% set(exper.ai.daq,'InputType','NonReferencedSingleEnded')
-% ai('samplerate',1000);
+% ModuleInit('AI');
+% AI('board_open','nidaq',1);
+% set(exper.AI.daq,'InputType','NonReferencedSingleEnded')
+% AI('samplerate',1000);
 % 
-% ai('add_chan',0,'nosepoke');
-% % SetParam('ai','hwtrigger',1);AI('hwtrigger');
-% SetParam('ai','save',0);
+% AI('add_chan',0,'nosepoke');
+% % SetParam('AI','hwtrigger',1);AI('hwtrigger');
+% SetParam('AI','save',0);
 % AI('save');
 % Explicitly set sampling rate.
 
-% ModuleInit('dio');
+% ModuleInit('Dio');
 
-ModuleInit('rpbox');
+ModuleInit('RPbox');
 % ModuleInit('pathdisplay');
 Control('restore_layout');
 Control('reset');
-% turn off control auto-save
+% turn off Control auto-save
 set(findobj('tag','autosave'),'Checked','off');
 
-% ModuleInit('ao');
+% ModuleInit('AO');
 % AO('board_open','nidaq',1);
-% set(exper.ai.daq,'Transfermode','Interrupts')
-% ModuleInit('fakerat');
+% set(exper.AI.daq,'Transfermode','Interrupts')
+% ModuleInit('FakeRat');
 % ModuleInit('operant');

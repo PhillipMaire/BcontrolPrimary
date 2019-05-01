@@ -1,9 +1,9 @@
 function out = GetParamsTrial(module,trial)
 global exper
-% GETPARAMSTRIAL
+% GetParamsTrial
 % Retrieve *saved* values from all PARAMS of an exper MODULE.
 % 
-% GETPARAMSTRIAL(MODULE,TRIAL)
+% GetParamsTrial(MODULE,TRIAL)
 %
 % ZF MAINEN, CSHL, 8/01
 %
@@ -11,7 +11,7 @@ global exper
 module = lower(module);
 
 if nargin<2
-    trial= GetParam('control','trial');
+    trial= GetParam('Control','trial');
 end
 
 sf = sprintf('exper.%s.param',module);
@@ -22,8 +22,8 @@ fields = fieldnames(s);
 for i=1:length(fields)
 	sfs = sprintf('%s.%s',sf,fields{i});
 	% retrieve only the ones that were saved
-	if getp(sfs,'save')
-		trial_vals = getp(sfs,'trial');
-		setp(sfs,'value',trial_vals{trial});
+	if GetP(sfs,'save')
+		trial_vals = GetP(sfs,'trial');
+		SetP(sfs,'value',trial_vals{trial});
 	end
 end

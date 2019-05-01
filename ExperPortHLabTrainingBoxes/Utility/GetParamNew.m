@@ -1,13 +1,13 @@
 function out = GetParam(module,param,field)
-% GETPARAM
+% GetParam
 % Retrieve PARAM values from an exper MODULE.
 % 
-% OUT = GETPARAM(MODULE,PARAM)
+% OUT = GetParam(MODULE,PARAM)
 % 		Return the 'value' field (the default)
 % 		(except for lists, where the default is the string of the current
 % 		list selection.
 %
-% OUT = GETPARAM(MODULE,PARAM,FIELD)
+% OUT = GetParam(MODULE,PARAM,FIELD)
 %		Return the FIELD field.
 %
 % MODULE and PARAM are strings.

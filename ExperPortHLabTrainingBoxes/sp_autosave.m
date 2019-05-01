@@ -1,7 +1,7 @@
 % [] = sp_autosave(ratname, varargin)
 %
 % Loosely moeled on save_solouiparamvalues; this will 
-%  1) obtain or create a session_id stored in global autosave_session_id
+%  1) obtAIn or create a session_id stored in global autosave_session_id
 %  2) use user-specified animal name to, if needbe make a directory
 %  3) in that directory, it will
 %     a) create a file {animalid}_{sessionid}.mat, saving ALL trials to it
@@ -11,14 +11,14 @@
 
 function [] = sp_autosave(ratname, varargin)
 
-pairs = { ...
+pAIrs = { ...
     'child_protocol', [] ; ...
     'asv', 0; ...
     'interactive'      1 ; ...
     'commit'           0 ; ...
     'remove_asvs'      1 ; ...
     };
-parse_knownargs(varargin, pairs);
+parse_knownargs(varargin, pAIrs);
 
 if isempty(child_protocol),
     owner = determine_owner;

@@ -1,11 +1,11 @@
 %set_saveable   [] = set_saveable(handlelist, saveval)  
 %
-% Sets the saveable parameter for each handle in a cell containing a
+% Sets the saveable parameter for each handle in a cell contAIning a
 % list of handles 
 %
 % PARAMS:
 %
-% -handlelist   a cell containing SoloParamHandles
+% -handlelist   a cell contAIning SoloParamHandles
 %
 % -saveable     a scalar or a matrix with same number of elems as
 %               handlelist. If scalar, all members of handlelist get

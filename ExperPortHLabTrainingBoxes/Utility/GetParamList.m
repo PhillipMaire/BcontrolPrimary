@@ -1,10 +1,10 @@
 function out = GetParamList(module,param,field)
-% GETPARAMLIST
+% GetParamList
 % Retrieve PARAM values from an exper MODULE.
 % 
-% OUT = GETPARAMLIST(MODULE,PARAM,FIELD)
+% OUT = GetParamList(MODULE,PARAM,FIELD)
 %   Assume that the field is a list and return the item
-%   corresponding to the current VALUE field.
+%   corresponding to the current value field.
 %
 % ZF MAINEN, CSHL, 8/01
 %

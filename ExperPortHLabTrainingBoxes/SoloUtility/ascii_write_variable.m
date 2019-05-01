@@ -1,7 +1,7 @@
 % [] = ascii_write_variable(fp, var)
 %
 % Given a variable, writes it out in ascii-readable form to the
-% filestream fp (see fopen.m for help on filestreams). An optional
+% filestream fp (see fopen.m for help on filestreams). An Optional
 % third argument is the name of the variable.
 %
 % var can be a numeric variable, or can be a structure or a cell. This

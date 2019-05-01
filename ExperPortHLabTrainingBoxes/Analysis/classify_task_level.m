@@ -13,10 +13,10 @@ go_loc = 'ChordSection_GO_Loc';
 tone_loc = 'ChordSection_Tone_Loc';
 
 if ~isfield(saved_history, go_loc)
-    error(['GO Localisation (' go_loc ') is simply not available for this dataset']);
+    error(['GO Localisation (' go_loc ') is simply not avAIlable for this dataset']);
 end;
 if ~isfield(saved_history, tone_loc)
-	error(['Tone Localisation (' tone_loc ') is simply not available for this dataset']);   
+	error(['Tone Localisation (' tone_loc ') is simply not avAIlable for this dataset']);   
 end;
 
 go = getfield(saved_history, go_loc);

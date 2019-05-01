@@ -1,15 +1,15 @@
 %selectize.m   [t] = selectize(pstruct, selectstr, [tstruct])
 %
 % Selects trials in pstruct (the output of parse_trial.m) based on
-% evaluating a Matlab string. An optional third argument, tstruct can
-% contain extra information about each trial.
+% evaluating a Matlab string. An Optional third argument, tstruct can
+% contAIn extra information about each trial.
 %
 % For each trial in pstruct, all of the fieldnames in pstruct are
-% instantiated as variables (e.g., pstruct.wait_for_apoke gets
-% instantiates as variable "wait_for_apoke") and their length gets
+% instantiated as variables (e.g., pstruct.wAIt_for_apoke gets
+% instantiates as variable "wAIt_for_apoke") and their length gets
 % instantiated as the same variable with an "n_" in front of it
-% (variable "n_wait_for_apoke" will hold the value of
-% "length(pstruct.wait_for_apoke)"). In that context, selectstr is
+% (variable "n_wAIt_for_apoke" will hold the value of
+% "length(pstruct.wAIt_for_apoke)"). In that context, selectstr is
 % evaluated. 
 % 
 % If the result of the evaluation is true, t will be 1. If there is an

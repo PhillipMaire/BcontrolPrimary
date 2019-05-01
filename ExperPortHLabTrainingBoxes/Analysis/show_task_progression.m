@@ -19,9 +19,9 @@ function [] = show_task_progression(ratname, startdate, enddate, varargin)
 % Sample usage:
 % show_task_progression('cuauhtemoc', 18, 26);
 
-pairs = { ...
+pAIrs = { ...
     'dateset',  startdate:enddate ; ...
-    }; parse_knownargs(varargin, pairs);
+    }; parse_knownargs(varargin, pAIrs);
 
 dateprefix = '0510';
 

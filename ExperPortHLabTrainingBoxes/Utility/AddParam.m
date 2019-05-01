@@ -1,6 +1,6 @@
 function AddParam(module,name,value,tr)
-% ADDPARAM(MODULE,NAME,VALUE,[TRIAL])
-% Add VALUE to the value of the parameter
+% AddParam(MODULE,NAME,value,[TRIAL])
+% Add value to the value of the parameter
 global exper
 
 %if nargin < 4 tr = GetTrial; end

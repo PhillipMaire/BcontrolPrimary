@@ -1,6 +1,6 @@
 function [f_method] = get_method_fieldnames(saved, method)
-% When given the contents of a protocol's datafile (e.g. "saved" or "saved_history"), 
-% returns all available fieldnames for the specified method
+% When given the Contents of a protocol's datafile (e.g. "saved" or "saved_history"), 
+% returns all avAIlable fieldnames for the specified method
 
 f = fieldnames(saved);
 

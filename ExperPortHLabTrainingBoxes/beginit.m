@@ -1,1 +1,1 @@
-mystartup; ModuleInit('control'); ModuleInit('rpbox');
+mystartup; ModuleInit('Control'); ModuleInit('RPbox');

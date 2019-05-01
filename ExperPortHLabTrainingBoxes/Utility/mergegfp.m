@@ -2,11 +2,11 @@ function out = mergegfp(gfpimage,cutoff,range)
 global exper
 
 % syntax:   mergegfp(gfpimage,cutoff,range)
-% MERGEGFP takes in a gfp image scales it using CUTOFF (0-1) and 
-% overlays it on the default experimental image (exper.opt.ratio)
+% mergegfp takes in a gfp image scales it using CUTOFF (0-1) and 
+% overlays it on the default experimental image (exper.Opt.ratio)
 % which is scaled by RANGE
 
-if nargin < 2, error ('Please enter Intrinsic, GFP and Threshold (optional) as arguements'); end
+if nargin < 2, error ('Please enter Intrinsic, GFP and Threshold (Optional) as arguements'); end
 
 if nargin < 3
     msk = makemask(gfpimage);
@@ -14,7 +14,7 @@ else
     msk = makemask(gfpimage, cutoff);
 end
 
-intimage=exper.opt.ratio;
+intimage=exper.Opt.ratio;
 
 intimage(find(intimage > range)) = range;
 intimage(find(intimage < -range)) = -range;

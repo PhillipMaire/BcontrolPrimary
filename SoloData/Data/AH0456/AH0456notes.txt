@@ -1,0 +1,1 @@
+160628-trained on rig 2 instead. copied bdata over.

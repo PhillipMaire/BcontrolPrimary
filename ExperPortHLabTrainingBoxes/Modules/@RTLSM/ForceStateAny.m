@@ -1,0 +1,1 @@
+% Force an immediate jump to state stateNumfunction [sm] = ForceStateAny(sm, stateNum)     sm = ForceState(sm, stateNum);     return;        

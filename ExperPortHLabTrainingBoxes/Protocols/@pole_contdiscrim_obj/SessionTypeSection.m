@@ -4,7 +4,7 @@
 %
 % PARAMETERS:
 % -----------
-%
+%test
 % obj      Default object argument.
 %
 % action   One of:

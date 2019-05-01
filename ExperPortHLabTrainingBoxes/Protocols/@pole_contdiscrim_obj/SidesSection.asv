@@ -1,5 +1,5 @@
 % [x, y] = SidesSection(obj, action, x, y)
-%
+% 
 % Section that takes care of choosing the next correct side and keeping
 % track of a plot of sides and hit/miss history.
 %
@@ -43,7 +43,7 @@ function [x, y] = SidesSection(obj, action, x, y)
    GetSoloFunctionArgs;
    
    switch action
-    
+
     case 'init',   % ------------ CASE INIT ----------------
       % Save the figure and the position in the figure where we are
       % going to start adding GUI elements:
@@ -55,6 +55,26 @@ function [x, y] = SidesSection(obj, action, x, y)
       % Give read-only access to AnalysisSection.m:
       SoloFunctionAddVars('AnalysisSection', 'ro_args', 'previous_sides');
       
+        % ........................
+
+      %max nogoprobability used for autotrainer slide   
+        NumeditParam(obj, 'Auto_train_max_prob', 0.7, x, y, 'label', ...
+          'ATFA_MaxNoGOProb');     
+       next_row(y);
+      %min nogoprobability used for autotrainer slide   
+        NumeditParam(obj, 'Auto_train_min_prob', 0.5, x, y, 'label', ...
+          'ATFA_MinNoGOProb'); 
+      
+      next_row(y);
+      %sliding window for nogoprob set by false alarm rate
+      NumeditParam(obj, 'Auto_train_slide', 30, x, y, 'label', ...
+          'AutoTrainWinSize'); 
+      next_row(y);
+      
+      % Autotrainer mode
+      MenuParam(obj, 'AutoTrainMode', {'Off','FA_PercSetProb' }, 'Off', x, y,...
+          'TooltipString','false alarm rate = no go prob, for below win. min prob set below by min prob.');
+      next_row(y);
       
       % 'Auto trainer' max # of FAs
       NumeditParam(obj, 'autotrain_max_fas', 0, x, y, 'label', ...
@@ -98,27 +118,109 @@ function [x, y] = SidesSection(obj, action, x, y)
       SidesSection(obj, 'choose_next_side');
       SidesSection(obj, 'update_plot');
       
+  case 'choose_next_side', % --------- CASE CHOOSE_NEXT_SIDE -----
+      % 108/l : nogo ; 114/r: go
+        %%%%%%%%%%%%%%%%-PSM edit below 
+      switch lower(value(AutoTrainMode))
+            % -- NO AUTOTRAINER -- just use maxSame and leftPortProb
+            case 'off'
+                pickAtRandom = 1;
+
+                % -- Alternate: simple autotrainer where, after
+                % AutoTrainMinCorrect licks are made, the autotrainer switches to
+                %  the other side ; default is right
+                
+            case 'fa_percsetprob'
+                
+                %only implements after a certain amount of trials
+                %using a sliding window setting set the no go probability
+                %tofalse alarm  %do i want the trigger to be the number of trials or the
+                %number of no-go trials??????
+                
+                %autotrainer sliding window
+                %Auto_train_slide(:) = 5; %set this to a value on GUI
+                
+                %insert a param for max and min prob to switch to
+                numTrials=numel(previous_sides(:));
+                if numTrials>Auto_train_slide(:) %enough total trials
+                    
+                    noGoInd=find(previous_sides(:)==108); 
+                    numNoGoTrials = numel(noGoInd);
+                if  numNoGoTrials>Auto_train_slide(:) %enough nogotrials?
+                    %last numel(Auto_train_slide(:)) nogo trial indices
+                    noGoWinInd = noGoInd(numNoGoTrials-Auto_train_slide(:)+1:numNoGoTrials);
+                    %all NoGo hit history within the window 
+                    noGoWinHH=hit_history(noGoWinInd);
+                    %percent correct for window for NoGos
+                    noGoPercCorr= sum(noGoWinHH)/(Auto_train_slide(:));
+                    
+                    falseAlarmRate=1-noGoPercCorr;
+                    
+                     if falseAlarmRate >= NoGoProb(:) && falseAlarmRate <= Auto_train_max_prob
+                        NoGoProb.value=falseAlarmRate;
+                        display(' ')
+                        display(' ')
+                        display('NO GO PROB SET BY AUTOTRAINER')
+                        display('MIN NO PROB SET USING GUI')
+                        display('CURRENT NOGO PROB SET TO...')
+                        display(num2str(NoGoProb(:)))
+                    elseif falseAlarmRate < NoGoProb(:)
+                        NoGoProb.value=Auto_train_min_prob(:);
+                        display(' ')
+                        display(' ')
+                        display('NO GO PROB SET BY GUI')
+                        display('FALSE ALARM RATE < NOGOPROB IN GUI')
+                        display('CURRENT NOGO PROB SET TO...')
+                        display(num2str(NoGoProb(:)))
+                    elseif falseAlarmRate > NoGoProb(:)
+                        NoGoProb.value=Auto_train_max_prob(:);
+                        display(' ')
+                        display(' ')
+                        display('NO GO PROB SET BY GUI')
+                        display('FALSE ALARM RATE > NOGOPROB IN GUI')
+                        display('CURRENT NOGO PROB SET TO...')
+                        display(num2str(NoGoProb(:)))
+                    end
+                
+ 
+                end   
+                end
+        end
       
       
-    case 'choose_next_side', % --------- CASE CHOOSE_NEXT_SIDE -----
-      % Is autotrainer on? if so, that means only miss allowed
       
-      % If MaxSame doesn't apply yet, choose at random
-      if strcmp(value(MaxSame), 'Inf') | MaxSame > n_started_trials,
-         if rand(1)<=NoGoProb, next_side = 'l'; else next_side = 'r'; end;
-      else 
-         % MaxSame applies, check for its rules:
-         % If there's been a string of MaxSame guys all the same, force change:
-         if all(previous_sides(n_started_trials-MaxSame+1:n_started_trials) == ...
-                previous_sides(n_started_trials))
-            if previous_sides(n_started_trials)=='l', next_side = 'r';
-            else                                      next_side = 'l';
-            end;
-         else
-            % Haven't reached MaxSame limits yet, choose at random:
-            if rand(1)<=NoGoProb, next_side = 'l'; else next_side = 'r'; end;
-         end;
-      end;
+      %%%%%%%%%%%%%%%%-PSM edit above 
+      
+      
+      
+      %need to set this correctly so that the suto trainer works with the
+      %drop down for both scenerios-psm
+      
+      
+      
+        
+      % Is autotrainer on? if so, that means only nogo allowed
+      if (value(autotraining) == 1) 
+          next_side = 'l';
+          disp('AUTOTRAINER ON -- only nogos.');
+      else
+          % If MaxSame doesn't apply yet, choose at random
+          if strcmp(value(MaxSame), 'Inf') | MaxSame > n_started_trials,
+             if rand(1)<=NoGoProb, next_side = 'l'; else next_side = 'r'; end;
+          else 
+             % MaxSame applies, check for its rules:
+             % If there's been a string of MaxSame guys all the same, force change:
+             if all(previous_sides(n_started_trials-MaxSame+1:n_started_trials) == ...
+                    previous_sides(n_started_trials))
+                if previous_sides(n_started_trials)=='l', next_side = 'r';
+                else                                      next_side = 'l';
+                end;
+             else
+                % Haven't reached MaxSame limits yet, choose at random:
+                if rand(1)<=NoGoProb, next_side = 'l'; else next_side = 'r'; end;
+             end;
+          end;
+      end
       
 
     %  session_type = SessionTypeSection(obj,'get_session_type'); 
@@ -177,29 +279,41 @@ function [x, y] = SidesSection(obj, action, x, y)
       
       % increment counters
       psides = value(previous_sides);
-      if (length(psides) >0 & length(hit_history) > 0)
-          if(psides(end) == 108) % CR or FA
+    
+      if (length(psides) >1 & length(hit_history) > 0)
+          if(psides(end-1) == 'l') % CR or FA
             if (hit_history(end) == 1) % CR
 
                 if (value(num_consecutive_fas) > 0)
                     num_consecutive_fas.value = 0;
                 end
                 num_consecutive_crs.value = value(num_consecutive_crs)+1;
-                disp(['CR counting ... consecutive: ' num2str(value(num_consecutive_crs))]);
             else % FA
                 if (value(num_consecutive_crs) > 0)
                     num_consecutive_crs.value = 0;
                 end
                 num_consecutive_fas.value = value(num_consecutive_fas)+1;
-                disp(['FA counting ... consecutive: ' num2str(value(num_consecutive_fas))]);
             end
           end
       end
+      
+      disp(['consecutive FA: ' num2str(value(num_consecutive_fas)) ' CR: '  num2str(value(num_consecutive_crs))]);
 
       % implement punisher?
-      if(value(autotrain_max_fas) > 0 && ...
+      if(value(autotraining) == 0 & value(autotrain_max_fas) > 0 && ...
          value(autotrain_max_fas) <= value(num_consecutive_fas))    
+        autotraining.value = 1;
+        num_consecutive_crs.value = 0;
+        disp('STARTING AUTOTRAINER');
+      end
       
+      % disable autotrainer?
+      if (value(autotraining) == 1)
+          if (value(num_consecutive_crs) >= value(autotrain_min_crs))
+              autotraining.value = 0;
+              num_consecutive_fas.value = 0;
+              disp('STOPPING AUTOTRAINER');
+          end
       end
       
       % ---- end autotrainer
@@ -224,5 +338,4 @@ function [x, y] = SidesSection(obj, action, x, y)
       figure(currfig);      
    end;
    
-   
-      
+    

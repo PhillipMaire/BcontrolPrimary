@@ -4,8 +4,8 @@ function move_absolute_sequence(z, seq, varargin)
 % position. 
 %
 % 12/06, DHO
-%
-
+%move_absolute_sequence(motors,{half_point,next_pole_position},value(motor_num));
+%move_absolute(motors,position,value(lateral_motor_num));
 % warning off MATLAB:instrcb:invalidcallback
 
 if ~isa(seq,'cell')

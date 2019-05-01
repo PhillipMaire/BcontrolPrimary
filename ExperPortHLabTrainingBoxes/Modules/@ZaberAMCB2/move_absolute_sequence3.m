@@ -20,8 +20,9 @@ end
 
 
 seq(end+1)=seq(end);
-seq(end-1)=num2cell(round(((seq{end}-seq{1})*(randBetween(.25, .5, 'both'))+seq{1})));
-seq(1)    =num2cell(round(((seq{end}-seq{1})*(randBetween(.1, .2, 'both'))+seq{1})));
+seq(end-1)=num2cell(round(((seq{end}-seq{1})*(randBetween(.25, .5, 'both'))+seq{1})));%sets middle move pole offset
+seq(1)    =num2cell(round(((seq{end}-seq{1})*(randBetween(.15, .3, 'both'))+seq{1})));%sets center pole
+%position offset 
 
 lat_seq(end+1)=lat_seq(end);
 lat_seq(end-1)=num2cell(round(((lat_seq{end}-lat_seq{1})*(randBetween(.25, .5, 'both'))+lat_seq{1})));
@@ -48,8 +49,8 @@ jitter_mode = 1; % set to 0 to disable
 if (jitter_mode == 1)
      jitter=127;
       lat_jitter=127;
-    disp(['move_absolute_sequence.m::jitter mode ON ; jittering by ' num2str(jitter) ' microsteps']); 
-    disp(['move_absolute_sequence.m::jitter mode ON ; jittering laterally by ' num2str(lat_jitter) ' microsteps']);
+    disp(['move_absolute_sequence3.m::jitter mode ON ; jittering by ' num2str(jitter) ' microsteps']); 
+    disp(['move_absolute_sequence3.m::jitter mode ON ; jittering laterally by ' num2str(lat_jitter) ' microsteps']);
 end
 
 for k=1:length(seq)

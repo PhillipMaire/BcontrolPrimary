@@ -1,5 +1,5 @@
 % [x, y] = SidesSection(obj, action, x, y)
-%
+% 
 % Section that takes care of choosing the next correct side and keeping
 % track of a plot of sides and hit/miss history.
 %
@@ -43,7 +43,7 @@ function [x, y] = SidesSection(obj, action, x, y)
    GetSoloFunctionArgs;
    
    switch action
-    
+
     case 'init',   % ------------ CASE INIT ----------------
       % Save the figure and the position in the figure where we are
       % going to start adding GUI elements:
@@ -55,6 +55,26 @@ function [x, y] = SidesSection(obj, action, x, y)
       % Give read-only access to AnalysisSection.m:
       SoloFunctionAddVars('AnalysisSection', 'ro_args', 'previous_sides');
       
+        % ........................
+
+      %max nogoprobability used for autotrainer slide   
+        NumeditParam(obj, 'Auto_train_max_prob', 0.7, x, y, 'label', ...
+          'ATFA_MaxNoGOProb');     
+       next_row(y);
+      %min nogoprobability used for autotrainer slide   
+        NumeditParam(obj, 'Auto_train_min_prob', 0.5, x, y, 'label', ...
+          'ATFA_MinNoGOProb'); 
+      
+      next_row(y);
+      %sliding window for nogoprob set by false alarm rate
+      NumeditParam(obj, 'Auto_train_slide', 30, x, y, 'label', ...
+          'AutoTrainWinSize'); 
+      next_row(y);
+      
+      % Autotrainer mode
+      MenuParam(obj, 'AutoTrainMode', {'Off','FA_PercSetProb' }, 'Off', x, y,...
+          'TooltipString','false alarm rate = no go prob, for below win. min prob set below by min prob.');
+      next_row(y);
       
       % 'Auto trainer' max # of FAs
       NumeditParam(obj, 'autotrain_max_fas', 0, x, y, 'label', ...
@@ -98,10 +118,56 @@ function [x, y] = SidesSection(obj, action, x, y)
       SidesSection(obj, 'choose_next_side');
       SidesSection(obj, 'update_plot');
       
-      
-      
-    case 'choose_next_side', % --------- CASE CHOOSE_NEXT_SIDE -----
+  case 'choose_next_side', % --------- CASE CHOOSE_NEXT_SIDE -----
       % 108/l : nogo ; 114/r: go
+        %%%%%%%%%%%%%%%%-PSM edit below 
+      switch lower(value(AutoTrainMode))
+            % -- NO AUTOTRAINER -- just use maxSame and leftPortProb
+            case 'off'
+                pickAtRandom = 1;
+
+                % -- Alternate: simple autotrainer where, after
+                % AutoTrainMinCorrect licks are made, the autotrainer switches to
+                %  the other side ; default is right
+                
+           case 'fa_percsetprob'
+
+             %given user selected window size take the most recent nogo
+             %trials and get a percent. so window of 100 it will look at
+             %the 100 most recent nogo trials. lets say that the FA rate
+             %was 25%. and you set min nogoprob to .5 and max to .7. the
+             %autoset nogo prob would be ...
+             % (25% * (.7-.5))+.5 = .55
+
+
+                numTrials=numel(previous_sides(:));
+                noGoInd=find(previous_sides(:)==108);
+                numNoGoTrials = numel(noGoInd);
+                if  numNoGoTrials>Auto_train_slide(:) %enough nogotrials?
+                    numtoSubtract = Auto_train_slide(:);
+                else
+                    numtoSubtract = numNoGoTrials;
+                end
+                 noGoWinInd = noGoInd(numNoGoTrials-numtoSubtract+1:numNoGoTrials);
+                %all NoGo hit history within the window
+                noGoWinHH=hit_history(noGoWinInd);
+                %percent correct for window for NoGos
+                noGoPercCorr= sum(noGoWinHH)/(numtoSubtract);
+
+                falseAlarmRate=1-noGoPercCorr;
+                toAddToMinNogoProb = falseAlarmRate.*(Auto_train_max_prob(:) - Auto_train_min_prob(:));
+                NoGoProb.value=Auto_train_min_prob(:)+toAddToMinNogoProb;
+                
+        end
+        %%%%%%%%%%%%%%%%-PSM edit above
+      
+      
+      
+      %need to set this correctly so that the suto trainer works with the
+      %drop down for both scenerios-psm
+      
+      
+      
         
       % Is autotrainer on? if so, that means only nogo allowed
       if (value(autotraining) == 1) 
@@ -242,5 +308,4 @@ function [x, y] = SidesSection(obj, action, x, y)
       figure(currfig);      
    end;
    
-   
-      
+    

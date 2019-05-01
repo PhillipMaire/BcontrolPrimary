@@ -17,7 +17,9 @@ end
 switch action
     
     case 'init'
+        
         message('control','Initializing RPBox');
+        disp('rpbox initialized'); %Added by AS 6/9/14
         fig = ModuleFigure(me,'visible','off');	
         
         hs = 100;
@@ -95,11 +97,14 @@ switch action
             localProcessingState35 = GetParam(me, 'ProcessingState35');
             localFoundState35Flag  = 0; 
 
-            % If pole is in reach and we are to move it, g4it
-            if (State == 41)
-              disp('TOUCH IT !!!');
-        protocols=GetParam('SavingSection','MouseName','value')
-            end
+            % If pole is in reach and we are to move it, do it
+ %           if (State == 41)
+        %% HOW DO I ACCESS THIS?? UGH!
+  %              disp('TOUCH IT !!!');
+  %            SavingSection
+ %exper.pole_detect_sp.param.object.value % ITS HERE
+ %protocols=GetParam('SavingSection','MouseName','value')
+ %           end
             
             SetParam(me,'State',State);
             SetParam(me,'Clock',Clock);
@@ -700,6 +705,7 @@ SetParam(me,'Protocols','value',1,'list',wpn);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 function InitRP
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
 %	Initialize RP and load the finite state machine
 %   If an RP object already exists; make sure it's done playing & def writing

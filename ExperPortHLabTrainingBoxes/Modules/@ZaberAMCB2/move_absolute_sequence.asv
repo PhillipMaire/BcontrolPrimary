@@ -4,8 +4,8 @@ function move_absolute_sequence(z, seq, varargin)
 % position. 
 %
 % 12/06, DHO
-%
-
+%move_absolute_sequence(motors,{half_point,next_pole_position},value(motor_num));
+%move_absolute(motors,position,value(lateral_motor_num));
 % warning off MATLAB:instrcb:invalidcallback
 
 if ~isa(seq,'cell')
@@ -27,7 +27,7 @@ end
 
 if z.sobj.BytesAvailable > 0
 %     fread(z.sobj,z.sobj.BytesAvailable,'uint8');  % clear input buffer
-    fscanf(z.sobj,
+    fscanf(z.sobj,'%s',z.sobj.BytesAvailable);
 end
 
 for k=1:length(seq)
@@ -57,7 +57,7 @@ for k=1:length(seq)
             renumber_all(z.sobj);
             % If timeout error, clear buffer and try again:
             if z.sobj.BytesAvailable > 0
-                fread(z.sobj,z.sobj.BytesAvailable,'uint8');  
+                 fscanf(z.sobj,'%s',z.sobj.BytesAvailable);
             end
             motor_status = get_status(z,unit);
         end

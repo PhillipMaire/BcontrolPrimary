@@ -53,7 +53,7 @@ switch action
    pvid = 2^2; % Pneumatic (Festo) valve ID.
    etid = 2^4; % EPHUS (electrophysiology) trigger ID.
    slid = 2^5; % Signal line for signaling trial numbers and fiducial marks.
-   cmid = 2^7; % AOS hi speed camera trigger ID. 
+   cmid = 2^0; % AOS hi speed camera trigger ID. 
    
    wvtm = WaterValveTime; % Defined in ValvesSection.m.  
    
@@ -89,14 +89,15 @@ switch action
       case 'Water-Valve-Calibration'
              % On beam break (eg, by hand), trigger ndrops water deliveries
              % with delay second delays.
-             ndrops = 100; delay = 1;
+             ndrops = 100; delay = .1;
              openvalve = [b+1 b+1 b+2 wvtm wvid 0]; 
              closevalve = [b+1 b+1 b+2 delay 0 0];
              onecycle = [openvalve; closevalve];
              m = repmat(onecycle, ndrops, 1);    
              x = [repmat((0:(2*ndrops-1))',1,3) zeros(2*ndrops,3)];
              m = m+x; m = [b+1 b 35 999 0 0; m];
-             m(end,3) = 35; stm = [stm; m];
+             m(end,3) = 35; 
+             stm = [stm; m];
              
        case 'Licking'
            onlk1 = RealTimeStates.reward(1);
